@@ -1,0 +1,28 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <div class="page">
+        <h1>Categories</h1>
+        <hr>
+        <div class="row">
+        {% for category in categories %}
+        <div class="col-lg-4 col-md-4 col-sm-6">
+            <div class="card border-light mb-3" style="max-width: 20rem;">
+                {# <div class="card-header">Header</div> #}
+                <div class="card-body">
+                    <h4 class="card-title">{{ category['name'] }}
+                    {% if category['fa'] is defined %}
+                    <i class="fa fa-{{category['fa']}}"></i>
+                    {% endif %}
+                    </h4>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <small class="pull-right color-secondary">{{ category['cnt'] }} {{ category['cnt'] == 1 ? 'item' : 'items' }}</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+        <hr>
+        <p class="color-secondary text-right">Last updated: Just now</p>
+    </div>
+{% endblock %}

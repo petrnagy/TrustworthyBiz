@@ -1,0 +1,43 @@
+/*
+ * This file is part of the trustworthy.biz project (http://trustworthy.biz/)
+ * Copyright (c) 2018 Petr Nagy (http://www.petrnagy.cz/)
+ * See readme.txt for more information
+ */
+
+.color-primary { color: #2C3E50; }
+.color-secondary { color: #95a5a6; }
+.color-success { color: #18BC9C; }
+.color-danger { color: #E74C3C; }
+.color-warning { color: #F39C12; }
+.color-info { color: #3498DB; }
+.color-light { color: #ecf0f1; }
+.color-dark { color: #7b8a8b; }
+
+.bg-primary { background-color: #2C3E50; }
+.bg-secondary { background-color: #95a5a6; }
+.bg-success { background-color: #18BC9C; }
+.bg-danger { background-color: #E74C3C; }
+.bg-warning { background-color: #F39C12; }
+.bg-info { background-color: #3498DB; }
+.bg-light { background-color: #ecf0f1; }
+.bg-dark { background-color: #7b8a8b; }
+
+.underline-primary { border-bottom: 1px dotted  #2C3E50; }
+.underline-secondary { border-bottom: 1px dotted  #95a5a6; }
+.underline-success { border-bottom: 1px dotted  #18BC9C; }
+.underline-danger { border-bottom: 1px dotted  #E74C3C; }
+.underline-warning { border-bottom: 1px dotted  #F39C12; }
+.underline-info { border-bottom: 1px dotted  #3498DB; }
+.underline-light { border-bottom: 1px dotted  #ecf0f1; }
+.underline-dark { border-bottom: 1px dotted  #7b8a8b; }
+
+#index { margin-top: 15vh; margin-bottom: 15vh; }
+#index h1 { font-size: 2.5rem; margin-bottom: 1.5rem; }
+#index form { margin-top: 2rem; }
+#main-nav-categories-dropdown a i { width: 15px; text-align: center; }
+#main-nav .help-item { margin-left: 10px; }
+#main-nav .help-item a:not(:hover):not(:active):not(:focus) { color: #7b8a8b !important; }
+.page { margin-top: 5vh; margin-bottom: 15vh; }
+.page h1 { margin-bottom: 1.5rem; }
+footer { padding-top: 20px; }
+pre.break { white-space: normal; word-break: break-all; }

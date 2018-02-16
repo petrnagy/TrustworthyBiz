@@ -1,0 +1,11 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <div class="page">
+        <h1>{{ page['title'] }}</h1>
+        <hr>
+        {{ page['text'] }}
+        <hr>
+        <p class="color-secondary text-right">Last updated: {{ page['updated_at'].format('d M, Y') }}</p>
+    </div>
+{% endblock %}

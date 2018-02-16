@@ -1,0 +1,17 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <div class="page">
+        <h1>Whoops</h1>
+        <p>
+            Ok, so this is bad. An error occured while working on your request. Please try again later.<br />
+            If you tried later and nothing happened, please <script>print_email('petr', 'trustworthy.biz', 'let me know');</script>!
+        </p>
+        <p><b>{{ code }}</b></p>
+        <hr>
+        <p>Some useful information:</p>
+        <pre class="break color-secondary">
+        {{ blob }}
+        </pre>
+    </div>
+{% endblock %}

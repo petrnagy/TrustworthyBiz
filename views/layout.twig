@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include 'partial/_header.twig' %}
+        {% include 'partial/_menu.twig' %}
+    </head>
+    <body>
+        {% include 'partial/_header_scripts.twig' %}
+        <div class="container">
+            {% block content %}
+                
+            {% endblock %}
+        </div>
+        {% include 'partial/_footer.twig' %}
+        {% include 'partial/_footer_scripts.twig' %}
+    </body>
+</html>         
