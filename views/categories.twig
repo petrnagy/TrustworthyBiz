@@ -9,20 +9,27 @@
         <div class="col-lg-4 col-md-4 col-sm-6">
             <div class="card border-light mb-3" style="max-width: 20rem;">
                 {# <div class="card-header">Header</div> #}
-                <div class="card-body">
-                    <h4 class="card-title">{{ category['name'] }}
-                    {% if category['fa'] is defined %}
-                    <i class="fa fa-{{category['fa']}}"></i>
+                <a href="{{ category['url'] }}" class="color-black no-decoration">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ category['name'] }}
+                        {% if category['fa'] is defined %}
+                        <i class="fa fa-{{category['fa']}}"></i>
+                        {% endif %}
+                        </h4>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <div class="text-right">
+                            <span class="badge badge-primary">{{ category['cnt'] }} {{ category['cnt'] == 1 ? 'item' : 'items' }}</span>
+                        </div>
+                    </div>
+                    {% if category['img'] is defined %}
+                        <div class="category-bg" style="background: url('{{ category['img'] }}'); background-size: cover;"></div>
                     {% endif %}
-                    </h4>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <small class="pull-right color-secondary">{{ category['cnt'] }} {{ category['cnt'] == 1 ? 'item' : 'items' }}</small>
-                </div>
+                </a>
             </div>
         </div>
         {% endfor %}
         </div>
         <hr>
-        <p class="color-secondary text-right">Last updated: Just now</p>
+        <p class="color-secondary text-center">Missing something? <script>print_email('petr', 'trustworthy.biz', 'Let me know!')</script></p>
     </div>
 {% endblock %}

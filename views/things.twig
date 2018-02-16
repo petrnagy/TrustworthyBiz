@@ -4,28 +4,58 @@
     <div class="page">
         <h1>Things
         {% if category is defined %}
-        in {{ category['name'] }}
+        <span class="color-secondary">in {{ category['name'] }} <i class="fa fa-{{ category['fa'] }}"></i></span>
+        {% else %}
+        <span class="color-secondary">in all categories</span>
         {% endif %}
         </h1>
         <hr>
         <div class="row">
+            <form class="col-lg-6 col-md-6">
+                <div class="form-group">
+                    <label for="category-select">Pick a category</label>
+                    <select class="form-control" id="category-select">
+                        <option value="/things">All categories</option>
+                        {% for oneCategory in categories %}
+                            <option {{ category is defined and category['id'] == oneCategory['id'] ? 'selected="selected"' : '' }} value="{{ oneCategory['url'] }}">{{ oneCategory['name'] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+            <form class="col-lg-6 col-md-6">
+                <div class="form-group">
+                    <label for="sorting-select">Sort things by</label>
+                    <select class="form-control" id="sorting-select">
+                        {% for sortOption in sorting %}
+                        <option {{ sort is defined and sort == sortOption[0] ? 'selected="selected"' : '' }} value="{{ clear_me }}?sort={{sortOption[0]}}">{{ sortOption[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="row">
         {% for thing in things %}
-        <div class="col-lg-4 col-md-4 col-sm-6">
-            <div class="card border-light mb-3" style="max-width: 20rem;">
-                {# <div class="card-header">Header</div> #}
-                <div class="card-body">
-                    <h4 class="card-title">{{ thing['name'] }}
-                    {% if thing['img'] is defined %}
-                    <img src="{{thing['img']}}">
-                    {% endif %}
-                    </h4>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div class="card border-light mb-3" style="max-width: 20rem;">
+                    {# <div class="card-header">Header</div> #}
+                    <a href="{{ thing['url'] }}" class="color-black no-decoration">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ thing['name'] }}
+                            {% if thing['img'] is defined %}
+                            <img src="{{thing['img']}}">
+                            {% endif %}
+                            </h4>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                        {% if thing['img'] is defined %}
+                            <div class="card-bg" style="background: url('{{ thing['img'] }}'); background-size: cover;"></div>
+                        {% endif %}
+                    </a>
                 </div>
             </div>
-        </div>
         {% endfor %}
         </div>
         <hr>
-        <p class="color-secondary text-right">Last updated: Just now</p>
+        <p class="color-secondary text-center">Missing some<span class="color-info">thing</span>? <a href="/thing/new">Submit it</a> - everyone can.</p>
     </div>
 {% endblock %}

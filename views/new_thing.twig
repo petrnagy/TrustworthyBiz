@@ -1,0 +1,31 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <div class="page">
+        <h1>New thing</h1>
+        <hr>
+        
+        <form>
+            {# <fieldset> #}
+            <div class="row">
+                <div class="form-group col-lg-6">
+                    <label for="name">Name</label>
+                    <input autofocus required type="text" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Required">
+                    <small id="nameHelp" class="form-text text-muted">(<span class="red">*</span>) Enter the official full name, without any additions or modifications</small>
+                </div>
+                <div class="form-group col-lg-6">
+                    <label for="categories-input">Categories</label>
+                    <input required type="text" class="form-control" id="categories-input" aria-describedby="categoriesHelp" placeholder="Required" value="" data-json="{{ jsonCategories }}">
+                    <small id="categoriesHelp" class="form-text text-muted">(<span class="red">*</span>) Enter the official full name, without any additions or modifications</small>
+                </div>
+            </div>
+            {# </fieldset> #}
+        </form>
+        
+        <hr>
+        <p class="color-secondary text-center">
+            Please avoid using any bad words. <br />
+            It may take up few minutes before your submission is published.
+        </p>
+    </div>
+{% endblock %}
