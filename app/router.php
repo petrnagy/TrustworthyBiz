@@ -94,15 +94,6 @@ $app->get('/thing/new', function () use ($app) {
     return new Response($html, 200);
 });
 
-// Edit thing form
-$app->get('/thing/edit/{id}', function () use ($app) {
-    $params = initialize_params($app);
-
-    
-    $html = $app['twig']->render('edit_thing.twig', $params);
-    return new Response($html, 200);
-})->assert('id', '\d+');
-
 // Creates new thing
 $app->post('/thing/new', function () use ($app) {
     $params = initialize_params($app);
@@ -111,6 +102,15 @@ $app->post('/thing/new', function () use ($app) {
     $html = $app['twig']->render('edit_thing.twig', $params);
     return new Response($html, 200);
 });
+
+// Edit thing form
+$app->get('/thing/edit/{id}', function () use ($app) {
+    $params = initialize_params($app);
+
+    
+    $html = $app['twig']->render('edit_thing.twig', $params);
+    return new Response($html, 200);
+})->assert('id', '\d+');
 
 // Updates existing thing
 $app->put('/thing/update/{id}', function () use ($app) {
@@ -129,6 +129,37 @@ $app->patch('/thing/patch/{id}', function () use ($app) {
     $html = $app['twig']->render('edit_thing.twig', $params);
     return new Response($html, 200);
 })->assert('id', '\d+');
+
+// Uploads logo to /web/uploads/logo
+$app->post('/upload/logo/', function () use ($app) {
+    $params = initialize_params($app);
+    $code = 200;
+    $json = (object) [ 'result' => 'ok', 'error' => null ];
+
+    $file = isset($_FILES['file']) ? $_FILES['file'] : null;
+    if ( $file ) {
+        try {
+            $tn = generate_thumbnail($file);
+            if ( ! $tn ) {
+                $code = 500;
+                $json = (object) [ 'result' => 'error', 'error' => 'Something went wrong' ];    
+            } // end if
+            
+        } catch (InvalidArgumentException $ex) {
+            $code = 400;
+            $json = (object) [ 'result' => 'error', 'error' => $ex->getMessage() ];
+        } catch (Exception $ex) {
+            $code = 500;
+            $json = (object) [ 'result' => 'error', 'error' => 'Server error' ];
+        } // end try-catch
+    } else {
+        $code = 400;
+        $json = (object) [ 'result' => 'error', 'error' => 'No file was uploaded' ];
+    } // end if
+
+    
+    return new JsonResponse($json, $code);
+});
 
 $app->error(function (\Exception $e) use ($app) {
     if ( $app['debug'] ) {

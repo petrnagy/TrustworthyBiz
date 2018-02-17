@@ -32,6 +32,9 @@
 .underline-light { border-bottom: 1px dotted  #ecf0f1; }
 .underline-dark { border-bottom: 1px dotted  #7b8a8b; }
 
+.uploader { text-align: center; height: 36px; line-height: 30px; border: 2px dashed lightgray; border-radius: 4px; cursor: pointer; color: lightgray; font-weight: 500; }
+.uploader:hover { background-color: #2C3E50; }
+
 .red { color: red; }
 a.no-decoration { text-decoration: none; }
 #index { margin-top: 15vh; margin-bottom: 15vh; }

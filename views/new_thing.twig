@@ -8,15 +8,30 @@
         <form>
             {# <fieldset> #}
             <div class="row">
-                <div class="form-group col-lg-6">
+                <div class="form-group col-lg-6 col-md-6">
                     <label for="name">Name</label>
-                    <input autofocus required type="text" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Required">
+                    <input autofocus required type="text" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Evernote, Spotify, Revolut, Nomad List, ...">
                     <small id="nameHelp" class="form-text text-muted">(<span class="red">*</span>) Enter the official full name, without any additions or modifications</small>
                 </div>
-                <div class="form-group col-lg-6">
+                <div class="form-group col-lg-6 col-md-6">
                     <label for="categories-input">Categories</label>
-                    <input required type="text" class="form-control" id="categories-input" aria-describedby="categoriesHelp" placeholder="Required" value="" data-json="{{ jsonCategories }}">
-                    <small id="categoriesHelp" class="form-text text-muted">(<span class="red">*</span>) Enter the official full name, without any additions or modifications</small>
+                    <input required type="text" class="form-control" id="categories-input" aria-describedby="categoriesHelp" placeholder="Pick one" value="" data-json="{{ jsonCategories }}">
+                    <small id="categoriesHelp" class="form-text text-muted">(<span class="red">*</span>) Pick at least one category</small>
+                </div>
+                <div class="form-group col-lg-6 col-md-6">
+                    <label for="summary">Summary</label>
+                    <input type="text" class="form-control" id="summary" aria-describedby="summaryHelp" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+                    <small id="summaryHelp" class="form-text text-muted">Describe the product in few words or use official claim</small>
+                </div>
+                <div class="form-group col-lg-6 col-md-6">
+                    <label for="logo">Drag and drop product logo</label>
+                    <div class="uploader" id="new-thing-uploader">Drag image or click to upload</div>
+                    <small id="logoHelp" class="form-text text-muted">You can upload <i>.jpg</i>, <i>.png</i>, <i>.gif</i> or <i>.bmp</i> images</small>
+                </div>
+                
+                <div class="form-group col-lg-12">
+                    <label for="exampleTextarea">Example textarea</label>
+                    <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
                 </div>
             </div>
             {# </fieldset> #}

@@ -36,4 +36,19 @@ function start() {
             create: false,
         });
     } // end if
+
+    if ( $('.uploader').length ) {
+        $('.uploader').each(function(){
+            var selector = 'div#' + $(this).attr('id');
+            var myDropzone = new Dropzone(selector, {
+                url: "/upload/logo/",
+                uploadMultiple: false,
+                maxFiles: 1,
+                method: 'POST',
+                maxFilesize: 10,
+                paramName: 'logo',
+            });
+        });
+    } // end if
+    
 } // end function

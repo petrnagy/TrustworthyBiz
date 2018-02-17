@@ -119,6 +119,43 @@ function slugify($text) {
     return $text;
 } // end function
 
+function generate_thumbnail($uploadedFile) {
+    global $app, $__DIR_ROOT;
+    static $size = 600, $tnSize = 300;
+    $doubleSize = 2*$size;
+    $doubleTnSize = 2*$tnSize;
+
+    $hash = md5(microtime().rand(-1000, 1000));
+    $ext = substr($uploadedFile['name'], strrpos($uploadedFile['name'], '.') + 1);
+    if ( ! in_array($ext, ['jpg', 'jpeg', 'gif', 'png', 'bmp']) ) {
+        throw new InvalidArgumentException('Only these extensions are allowed: jpg, jpeg, gif, png, bmp');
+    } // end if
+
+    $file = "/tmp/{$hash}.$ext";
+    if ( ! move_uploaded_file($uploadedFile['tmp_name'], $file) ) {
+        throw new Exception('Could not move file to temporary location');
+    } // end if
+
+    $tn = "{$__DIR_ROOT}/web/upload/logo/[tn]{$hash}_{$tnSize}x{$tnSize}.{$ext}";
+    $img = "{$__DIR_ROOT}/web/upload/logo/[logo]{$hash}_{$size}x{$size}.{$ext}";
+    
+    $imgSize = getimagesize($file);
+    $longerSide = ( $imgSize[0] > $imgSize[1] ? $imgSize[0] : $imgSize[1] );
+    if ( $longerSide < $size ) {
+        $size = $longerSide;
+    } // end if
+    $scale = (int) $tnSize / 4;
+
+    $commands = [];
+    $commands[] = "convert -define jpeg:size={$doubleTnSize}x{$doubleTnSize} '{$file}' -thumbnail {$tnSize}x{$tnSize}^ -gravity center -extent {$tnSize}x{$tnSize} -scale {$scale}x{$scale} -scale {$tnSize}x{$tnSize} '{$tn}'";
+    $commands[] = "convert -define jpeg:size={$doubleSize}x{$doubleSize} '{$file}' -scale {$size}x{$size} '{$img}'";
+    foreach ($commands as $command) {
+        exec($command);
+    } // end foreach
+    
+    return ( filesize($tn) ? $tn : false );
+} // end method
+
 function nvl( & $var, $default = false) {
     if ( isset($var) ) {
         return $var;
