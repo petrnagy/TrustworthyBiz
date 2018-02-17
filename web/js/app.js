@@ -37,9 +37,10 @@ function start() {
         });
     } // end if
 
-    if ( $('.uploader').length ) {
-        $('.uploader').each(function(){
-            var selector = 'div#' + $(this).attr('id');
+    if ( $('.uploader-area').length ) {
+        $('.uploader-area').each(function(){
+            var $this = $(this);
+            var selector = 'div#' + $this.attr('id');
             var myDropzone = new Dropzone(selector, {
                 url: "/upload/logo/",
                 uploadMultiple: false,
@@ -47,6 +48,41 @@ function start() {
                 method: 'POST',
                 maxFilesize: 10,
                 paramName: 'logo',
+                thumbnailWidth: 100,
+                thumbnailHeight: 100,
+                thumbnailMethod: 'contain',
+                clickable: true,
+                acceptedFiles: '.jpg,.jpeg,.png,.bmp,.gif',
+                autoProcessQueue: false,
+                init: function(){
+                    // getQueuedFiles
+                    var prevFile;
+                    this.on('addedfile', function() {
+                        this.files = [];
+                        if (typeof prevFile !== "undefined") {
+                            this.removeFile(prevFile);
+                        } // end if
+                        $this.find('.dz-preview').not(':last').remove();
+                    });
+                    this.on('success', function(file, response) {
+                        prevFile = file;
+                        if ( 'ok' == response.result ) {
+                            // Ok
+                        } // end if
+                    });
+                    this.on('dragenter', function(){
+                        $this.find('.uploader').addClass('hovering');
+                    }).on('drop', function(){
+                        $this.find('.uploader').removeClass('hovering');
+                    }).on('dragend', function(){
+                        $this.find('.uploader').removeClass('hovering');
+                    }).on('dragleave', function(){
+                        $this.find('.uploader').removeClass('hovering');
+                    });
+                }
+            });
+            $this.find('.uploader').click(function(){
+                $this.trigger('click');
             });
         });
     } // end if

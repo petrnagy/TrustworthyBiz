@@ -136,7 +136,8 @@ $app->post('/upload/logo/', function () use ($app) {
     $code = 200;
     $json = (object) [ 'result' => 'ok', 'error' => null ];
 
-    $file = isset($_FILES['file']) ? $_FILES['file'] : null;
+    $file = isset($_FILES['logo']) ? $_FILES['logo'] : null;
+
     if ( $file ) {
         try {
             $tn = generate_thumbnail($file);
@@ -144,7 +145,7 @@ $app->post('/upload/logo/', function () use ($app) {
                 $code = 500;
                 $json = (object) [ 'result' => 'error', 'error' => 'Something went wrong' ];    
             } // end if
-            
+
         } catch (InvalidArgumentException $ex) {
             $code = 400;
             $json = (object) [ 'result' => 'error', 'error' => $ex->getMessage() ];
@@ -157,7 +158,6 @@ $app->post('/upload/logo/', function () use ($app) {
         $json = (object) [ 'result' => 'error', 'error' => 'No file was uploaded' ];
     } // end if
 
-    
     return new JsonResponse($json, $code);
 });
 

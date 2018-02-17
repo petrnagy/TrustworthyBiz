@@ -33,7 +33,13 @@
 .underline-dark { border-bottom: 1px dotted  #7b8a8b; }
 
 .uploader { text-align: center; height: 36px; line-height: 30px; border: 2px dashed lightgray; border-radius: 4px; cursor: pointer; color: lightgray; font-weight: 500; }
-.uploader:hover { background-color: #2C3E50; }
+.uploader:hover, .uploader.hovering { background-color: #2C3E50; }
+.uploader-area .dz-preview { position: relative; top: 25px; }
+.uploader-area .dz-image { position: absolute; float: left; width: 100px; height: 100px; overflow: hidden; border: 1px dotted gray; }
+.uploader-area .dz-image img { max-width: 100px; max-height: 100px; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto; }
+.uploader-area .dz-details { position: absolute; left: 100px; height: 100px; padding-top: 30px; color: #a5a5a5; display: inline-block; margin-left: 15px; max-width: 300px; overflow: hidden; }
+.uploader-area .dz-error-message { position: absolute; color: #E74C3C; right: 14px; }
+.uploader-area .dz-progress, .uploader-area .dz-success-mark, .uploader-area .dz-error-mark { display: none; }
 
 .red { color: red; }
 a.no-decoration { text-decoration: none; }
