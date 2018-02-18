@@ -7,7 +7,7 @@
         <div class="row">
         {% for category in categories %}
         <div class="col-lg-4 col-md-4 col-sm-6">
-            <div class="card border-light mb-3" style="max-width: 20rem;">
+            <div class="card border-light mb-3">
                 {# <div class="card-header">Header</div> #}
                 <a href="{{ category['url'] }}" class="color-black no-decoration">
                     <div class="card-body">
@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     {% if category['img'] is defined %}
-                        <div class="category-bg" style="background: url('{{ category['img'] }}'); background-size: cover;"></div>
+                        <div class="card-bg" style="background: url('{{ category['img'] }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;"></div>
                     {% endif %}
                 </a>
             </div>

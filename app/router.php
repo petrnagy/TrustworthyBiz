@@ -72,10 +72,10 @@ $app->get('/things/{slug}/{id}', function ($slug, $id) use ($app) {
 })->assert('id', '\d+');
 
 // Thing detail
-$app->get('/thing/{slug}/{id}', function () use ($app) {
+$app->get('/thing/{slug}/{id}', function ($slug, $id) use ($app) {
     $params = initialize_params($app);
 
-    
+    $params['thing'] = get_thing($id);
     $html = $app['twig']->render('thing.twig', $params);
     return new Response($html, 200);
 })->assert('id', '\d+');
@@ -94,13 +94,37 @@ $app->get('/thing/new', function () use ($app) {
     return new Response($html, 200);
 });
 
+// New thing form
+$app->get('/thing/similar', function () use ($app) {
+    $params = initialize_params($app);
+
+    $request = $app['request_stack']->getCurrentRequest();
+    $name = $request->get('name');
+
+    $json = [];
+    foreach (similar_things($name) as $thing) {
+        $json[] = (object) [ 'name' => $thing['name'], 'url' => $thing['url'], 'tn' => $thing['tn'] ];
+    } // end foreach
+    
+    return new JsonResponse($json, 200);
+});
+
 // Creates new thing
 $app->post('/thing/new', function () use ($app) {
     $params = initialize_params($app);
 
+    $request = $app['request_stack']->getCurrentRequest();
+    $new = $request->get('new');
+    $errors = validate_thing($new);
+    if ( count($errors) ) {
+        return new JsonResponse(['errors' => $errors], 200);
+    } // end if
     
-    $html = $app['twig']->render('edit_thing.twig', $params);
-    return new Response($html, 200);
+    if ( $thing = new_thing($new) ) {
+        return new JsonResponse(['errors' => [], 'url' => $thing['url']], 200);
+    } else {
+        return new JsonResponse(['errors' => ['Please try again later']], 500);
+    } // end if-else
 });
 
 // Edit thing form
@@ -140,12 +164,13 @@ $app->post('/upload/logo/', function () use ($app) {
 
     if ( $file ) {
         try {
-            $tn = generate_thumbnail($file);
-            if ( ! $tn ) {
+            $images = generate_thumbnail($file);
+            if ( $images ) {
+                $json = (object) [ 'result' => 'ok', 'error' => null, 'images' => $images ];
+            } else {
                 $code = 500;
                 $json = (object) [ 'result' => 'error', 'error' => 'Something went wrong' ];    
             } // end if
-
         } catch (InvalidArgumentException $ex) {
             $code = 400;
             $json = (object) [ 'result' => 'error', 'error' => $ex->getMessage() ];

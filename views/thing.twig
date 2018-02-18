@@ -1,0 +1,38 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <div class="page thing {{ thing['approved_at'] is defined ? 'approved' : 'not-approved' }}">
+        <h1><img src="{{ thing['img'] }}" class="" alt="{{ thing['name'] }}">{{ thing['name'] }}</h1>
+        
+        {% if thing['summary'] is defined %}
+        <p class="color-secondary">{{ thing['summary'] }}</p>
+        {% endif %}        
+        <hr>
+        <div class="thing-description-wrapper">
+            <p class="thing-description">
+            {{ thing['description']|nl2br }}
+            </p>
+        </div>
+        <div class="text-center">
+            <button onclick="toggle_description(this); return false;" class="btn btn-sm btn-secondary">Full description <i class="fa fa-angle-double-down"></i></button>
+        </div>
+        <hr>
+        <p class="color-secondary text-center">
+            Please avoid using any bad words. <br />
+            It may take up few minutes before your submission is published.
+        </p>
+    </div>
+    {% if thing['approved_at'] is not defined %}
+        <div id="not-approved">
+            <div class="content">
+                <h2>Waiting for approval</h2>
+                <p>
+                    This thing was added quite recently. <br />
+                    To avoid any duplicate or vulgar content, it needs to be checked first. <br />
+                    This should not take more than few minutes. <br /><br />
+                    If you have any questions, please <script>print_email('petr', 'trustworthy.biz', 'let me know')</script>.
+                </p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

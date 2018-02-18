@@ -80,12 +80,12 @@ function get_category($id) {
 function get_things($category_id = null) {
     global $app;
 
-    $stmt = $app['sql']->select('thing.id')->from('thing')->where('thing.deleted_at IS NULL');
+    $stmt = $app['sql']->select('thing.id')->from('thing')->where('thing.deleted_at IS NULL')->and('approved_at IS NOT NULL');
     if ( $category_id ) {
         $stmt->and('thing_mn_category.category_id = %i', $category_id);
         $stmt->innerJoin('thing_mn_category')->on('thing_mn_category.thing_id = thing.id');
     } // end if
-    $stmt->orderBy('thing.score DESC, thing.edits DESC');
+    $stmt->orderBy('thing.score DESC');
     $ids = $stmt->fetchPairs();
 
     $things = [];
@@ -101,7 +101,110 @@ function get_thing($id) {
 
     $row = $app['sql']->select('thing.*')->from('thing')->where('thing.id = %i', $id)->fetch();
     $row['url'] = make_url('thing', $id);
+    $row['categories'] = [];
+    $thingCategoriesIds = $app['sql']->select('category_id')->from('thing_mn_category')->where('thing_id = %i', $id)->fetchPairs();
+    foreach ($thingCategoriesIds as $categoryId) {
+        if ( $category = get_category($categoryId) ) {
+            $categories[] = $category;
+        } // end if
+    } // end foreach
     return $row;
+} // end function
+
+function similar_things($name) {
+    global $app;
+    $ids = $app['sql']->select('id')->from('thing')->where('deleted_at IS NULL')->and('name LIKE %~like~', $name)->fetchPairs();
+    $things = [];
+    foreach ($ids as $id) {
+        if ( $thing = get_thing($id) ) {
+            $things[] = $thing;
+        } // end if
+    } // end foreach
+    return $things;
+} // end function
+
+function validate_thing($data) {
+    global $__DIR_ROOT;
+
+    $errors = [];
+    if ( mb_strlen(trim(nvl($data['name']))) < 3 ) {
+        $errors[] = 'Name must have at least 3 characters.';
+    } // end if
+    if ( mb_strlen(trim(nvl($data['summary']))) < 10 ) {
+        $errors[] = 'Summary must have at least 10 characters.';
+    } // end if
+    $categories = false;
+    foreach (explode(';', nvl($data['categories'])) as $id) {
+        if ( get_category($id) ) {
+            $categories = true;
+            break;
+        } // end if
+    } // end foreach
+    if ( ! $categories ) {
+        $errors[] = 'At least one category must be selected.';
+    } // end if
+    if ( empty($data['tn']) || empty($data['img']) || ! file_exists($__DIR_ROOT . "/web{$data['tn']}") || ! file_exists($__DIR_ROOT . "/web{$data['img']}") ) {
+        $errors[] = 'The logo must be uploaded as well.';
+    } // end if
+    return $errors;
+} // end function
+
+function sanitize_thing($data) {
+    $data['name'] = mb_substr(sanitize_string($data['name']), 0, 50);
+    $data['summary'] = mb_substr(sanitize_string($data['summary']), 0, 100);
+    $data['description'] = sanitize_string($data['description']);
+    
+    $data['tn'] = str_replace('..', '', $data['tn']);
+    $data['img'] = str_replace('..', '', $data['img']);
+    if ( 0 !== strpos($data['tn'], '/upload') ) {
+        $data['tn'] = null;
+    } // end if
+    if ( 0 !== strpos($data['img'], '/upload') ) {
+        $data['img'] = null;
+    } // end if
+
+    $ids = [];
+    foreach (explode(';', $data['categories']) as $id) {
+        if ( get_category($id) ) {
+            $ids[] = $id;
+        } // end if
+    } // end foreach
+    $data['categories'] = $ids;
+
+    return $data;
+} // end function
+
+function new_thing($data) {
+    global $app;
+
+    $data = sanitize_thing($data);
+    $app['sql']->insert('thing', [
+        'name'          => $data['name'],
+        'summary'       => $data['summary'],
+        'description'   => $data['description'],
+        'tn'            => $data['tn'],
+        'img'           => $data['img'],
+        'created_at'    => new DateTime,
+        'approved_at'   => null,
+    ])->execute();
+    
+    $id = $app['sql']->getInsertId();
+
+    foreach ($data['categories'] as $categoryId) {
+        $app['sql']->insert('thing_mn_category', [
+            'category_id'   => $categoryId,
+            'thing_id'      => $id
+        ])->execute();
+    } // end foreach
+    
+    return get_thing($id);
+} // end function
+
+function sanitize_string($item) {
+    $item = strip_tags($item);
+    $item = preg_replace('~(?<open><|&lt;|U\+003C|&#60;)(?<tag>\ *?script\ *?)(?<close>>|U\+003E|&#62;|&gt;).*~uis', '', $item);
+    $item = trim($item);
+    return $item;
 } // end function
 
 function slugify($text) {
@@ -136,8 +239,12 @@ function generate_thumbnail($uploadedFile) {
         throw new Exception('Could not move file to temporary location');
     } // end if
 
-    $tn = "{$__DIR_ROOT}/web/upload/logo/[tn]{$hash}_{$tnSize}x{$tnSize}.{$ext}";
-    $img = "{$__DIR_ROOT}/web/upload/logo/[logo]{$hash}_{$size}x{$size}.{$ext}";
+    $tnName = "[tn]{$hash}_{$tnSize}x{$tnSize}.{$ext}";
+    $imgName = "[logo]{$hash}_{$size}x{$size}.{$ext}";
+    $tn = "{$__DIR_ROOT}/web/upload/logo/{$tnName}";
+    $img = "{$__DIR_ROOT}/web/upload/logo/{$imgName}";
+    $tnUrl = "/upload/logo/{$tnName}";
+    $imgUrl = "/upload/logo/{$imgName}";
     
     $imgSize = getimagesize($file);
     $longerSide = ( $imgSize[0] > $imgSize[1] ? $imgSize[0] : $imgSize[1] );
@@ -153,7 +260,7 @@ function generate_thumbnail($uploadedFile) {
         exec($command);
     } // end foreach
     
-    return ( filesize($tn) ? $tn : false );
+    return ( filesize($tn) && filesize($img) ? [ 'tn' => $tnUrl, 'img' => $imgUrl ] : false );
 } // end method
 
 function nvl( & $var, $default = false) {

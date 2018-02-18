@@ -36,19 +36,21 @@
         <div class="row">
         {% for thing in things %}
             <div class="col-lg-4 col-md-4 col-sm-6">
-                <div class="card border-light mb-3" style="max-width: 20rem;">
+                <div class="card border-light mb-3">
                     {# <div class="card-header">Header</div> #}
                     <a href="{{ thing['url'] }}" class="color-black no-decoration">
                         <div class="card-body">
                             <h4 class="card-title">{{ thing['name'] }}
-                            {% if thing['img'] is defined %}
-                            <img src="{{thing['img']}}">
+                            {% if thing['tn'] is defined %}
+                            <img class="thing-tn" src="{{thing['tn']}}" alt="{{ thing['name'] }}">
                             {% endif %}
                             </h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <p class="card-text">
+                                {{ thing['summary'] is defined ? thing['summary'] : null }}
+                            </p>
                         </div>
                         {% if thing['img'] is defined %}
-                            <div class="card-bg" style="background: url('{{ thing['img'] }}'); background-size: cover;"></div>
+                            <div class="card-bg thing-bg" style="background: url('{{ thing['img'] }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;"></div>
                         {% endif %}
                     </a>
                 </div>
