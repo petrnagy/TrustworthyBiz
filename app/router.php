@@ -89,6 +89,11 @@ $app->get('/thing/new', function () use ($app) {
         $json[] = (object) [ 'text' => $category['name'], 'value' => $category['id'] ];
     } // end foreach
     $params['jsonCategories'] = json_encode($json);
+    $json = [];
+    foreach (get_types() as $type) {
+        $json[] = (object) [ 'text' => $type['name'], 'value' => $type['id'] ];
+    } // end foreach
+    $params['jsonTypes'] = json_encode($json);
     
     $html = $app['twig']->render('new_thing.twig', $params);
     return new Response($html, 200);

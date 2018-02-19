@@ -2,24 +2,37 @@
 
 {% block content %}
     <div class="page thing {{ thing['approved_at'] is defined ? 'approved' : 'not-approved' }}">
-        <h1><img src="{{ thing['img'] }}" class="" alt="{{ thing['name'] }}">{{ thing['name'] }}</h1>
-        
-        {% if thing['summary'] is defined %}
+        <div id="grade" class="pull-right a text-center">
+            <div class="inner">
+                a+
+            </div>
+        </div>
+        <h1><span class="img-wrapper"><img src="{{ thing['img'] }}" class="" alt="{{ thing['name'] }}"></span>{{ thing['name'] }}</h1>
         <p class="color-secondary">{{ thing['summary'] }}</p>
-        {% endif %}        
+        <p>
+            {% for type in thing['types'] %}
+                <span class="badge badge-secondary"><i class="fa fa-tag"></i>&nbsp;{{ type['name'] }}</span>
+            {% endfor %}
+            <span class="color-secondary">&nbsp;|&nbsp;</span>
+            {% for category in thing['categories'] %}
+                <a href="{{ category['url'] }}"><span class="badge badge-dark"><i class="fa fa-tag"></i>&nbsp;{{ category['name'] }}</span></a>
+            {% endfor %}
+        </p>
         <hr>
-        <div class="thing-description-wrapper">
-            <p class="thing-description">
-            {{ thing['description']|nl2br }}
-            </p>
-        </div>
-        <div class="text-center">
-            <button onclick="toggle_description(this); return false;" class="btn btn-sm btn-secondary">Full description <i class="fa fa-angle-double-down"></i></button>
-        </div>
+        {% if thing['description'] is defined and thing['description']|length > 0 %}
+            <div class="thing-description-wrapper">
+                <p class="thing-description">
+                {{ thing['description']|nl2br }}
+                </p>
+            </div>
+            <div class="text-center">
+                <button onclick="toggle_description(this); return false;" class="btn btn-sm btn-secondary">Full description <i class="fa fa-angle-double-down"></i></button>
+            </div>
+        {% endif %}
         <hr>
         <p class="color-secondary text-center">
-            Please avoid using any bad words. <br />
-            It may take up few minutes before your submission is published.
+            Please note that these values are <strong>crowdsourced</strong> and may not reflect the actual state of the project/product. <br />
+            Page shows <strong>median</strong> from the submitted values. Newer data have greater priority.
         </p>
     </div>
     {% if thing['approved_at'] is not defined %}

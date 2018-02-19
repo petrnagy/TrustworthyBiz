@@ -14,9 +14,9 @@
                     <small id="nameHelp" class="form-text text-muted">(<span class="red">*</span>) Enter the official full name, without any additions or modifications</small>
                 </div>
                 <div class="form-group col-lg-6 col-md-6">
-                    <label for="categories-input">Categories</label>
-                    <input name="new[categories]" required type="text" class="form-control" id="categories-input" aria-describedby="categoriesHelp" placeholder="Pick one" value="" data-json="{{ jsonCategories }}">
-                    <small id="categoriesHelp" class="form-text text-muted">(<span class="red">*</span>) Pick at least one category</small>
+                <label for="summary">Summary</label>
+                    <input required name="new[summary]" type="text" maxlength="100" class="form-control" id="summary" aria-describedby="summaryHelp" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+                    <small id="summaryHelp" class="form-text text-muted">(<span class="red">*</span>) Describe the product in few words or use official claim</small>
                 </div>
                 <div class="col-lg-12 col-md-12">
                     <div class="alert alert-info similar-thing" style="display: none;">
@@ -27,11 +27,16 @@
                     </div>
                 </div>
                 <div class="form-group col-lg-6 col-md-6">
-                    <label for="summary">Summary</label>
-                    <input required name="new[summary]" type="text" maxlength="100" class="form-control" id="summary" aria-describedby="summaryHelp" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
-                    <small id="summaryHelp" class="form-text text-muted">(<span class="red">*</span>) Describe the product in few words or use official claim</small>
+                    <label for="types-input">Type(s)</label>
+                    <input name="new[types]" required type="text" class="form-control" id="types-input" aria-describedby="typesHelp" placeholder="Pick one" value="" data-json="{{ jsonTypes }}">
+                    <small id="typesHelp" class="form-text text-muted">(<span class="red">*</span>) Pick at least one type</small>
                 </div>
                 <div class="form-group col-lg-6 col-md-6">
+                    <label for="categories-input">Categories</label>
+                    <input name="new[categories]" required type="text" class="form-control" id="categories-input" aria-describedby="categoriesHelp" placeholder="Pick one" value="" data-json="{{ jsonCategories }}">
+                    <small id="categoriesHelp" class="form-text text-muted">(<span class="red">*</span>) Pick at least one category</small>
+                </div>
+                <div class="form-group col-lg-6 col-md-6 col-uploader">
                     <label for="logo">Drag and drop product logo</label>
                     <div class="uploader-area" id="new-thing-uploader">
                         <div class="uploader">Drag image or click to upload</div>
@@ -40,7 +45,7 @@
                 </div>
                 <div class="form-group col-lg-6 description-textarea-wrapper">
                     <label for="descriptionTextarea">Description</label>
-                    <textarea name="new[description]" class="form-control" id="descriptionTextarea" rows="3"></textarea>
+                    <textarea name="new[description]" class="form-control" id="descriptionTextarea" rows="7"></textarea>
                 </div>
                 <div class="form-group col-lg-12">
                     <button onclick="window.location='/things'; return false;" class="btn btn-secondary pull-left" type="submit"><i class="fa fa-angle-double-left"></i>&nbsp;Cancel</button>

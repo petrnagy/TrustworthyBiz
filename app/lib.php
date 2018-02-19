@@ -66,6 +66,17 @@ function get_categories() {
     return $categories;
 } // end function
 
+function get_types() {
+    global $app;
+
+    $types = [];
+    $ids = $app['sql']->select('id')->from('type')->where('deleted_at IS NULL')->orderBy('name ASC')->fetchPairs();
+    foreach ($ids as $id) {
+        $types[] = get_type($id);
+    } // end foreach
+    return $types;
+} // end function
+
 function get_category($id) {
     global $app;
 
@@ -75,6 +86,12 @@ function get_category($id) {
         $row['url'] = make_url('category', $id);
     } // end if
     return $row;
+} // end function
+
+function get_type($id) {
+    global $app;
+
+    return $app['sql']->select('*')->from('type')->where('id = %i', $id)->and('deleted_at IS NULL')->fetch();
 } // end function
 
 function get_things($category_id = null) {
@@ -101,13 +118,24 @@ function get_thing($id) {
 
     $row = $app['sql']->select('thing.*')->from('thing')->where('thing.id = %i', $id)->fetch();
     $row['url'] = make_url('thing', $id);
-    $row['categories'] = [];
+    $categories = $types = [];
+
     $thingCategoriesIds = $app['sql']->select('category_id')->from('thing_mn_category')->where('thing_id = %i', $id)->fetchPairs();
     foreach ($thingCategoriesIds as $categoryId) {
         if ( $category = get_category($categoryId) ) {
             $categories[] = $category;
         } // end if
     } // end foreach
+    $row['categories'] = $categories;
+
+    $thingTypesIds = $app['sql']->select('type_id')->from('thing_mn_type')->where('thing_id = %i', $id)->fetchPairs();
+    foreach ($thingTypesIds as $typeId) {
+        if ( $type = get_type($typeId) ) {
+            $types[] = $type;
+        } // end if
+    } // end foreach
+    $row['types'] = $types;
+
     return $row;
 } // end function
 
@@ -143,6 +171,16 @@ function validate_thing($data) {
     if ( ! $categories ) {
         $errors[] = 'At least one category must be selected.';
     } // end if
+    $types = false;
+    foreach (explode(';', nvl($data['types'])) as $id) {
+        if ( get_type($id) ) {
+            $types = true;
+            break;
+        } // end if
+    } // end foreach
+    if ( ! $types ) {
+        $errors[] = 'At least one type must be selected.';
+    } // end if
     if ( empty($data['tn']) || empty($data['img']) || ! file_exists($__DIR_ROOT . "/web{$data['tn']}") || ! file_exists($__DIR_ROOT . "/web{$data['img']}") ) {
         $errors[] = 'The logo must be uploaded as well.';
     } // end if
@@ -171,6 +209,14 @@ function sanitize_thing($data) {
     } // end foreach
     $data['categories'] = $ids;
 
+    $ids = [];
+    foreach (explode(';', $data['types']) as $id) {
+        if ( get_type($id) ) {
+            $ids[] = $id;
+        } // end if
+    } // end foreach
+    $data['types'] = $ids;
+
     return $data;
 } // end function
 
@@ -193,6 +239,13 @@ function new_thing($data) {
     foreach ($data['categories'] as $categoryId) {
         $app['sql']->insert('thing_mn_category', [
             'category_id'   => $categoryId,
+            'thing_id'      => $id
+        ])->execute();
+    } // end foreach
+
+    foreach ($data['types'] as $typeId) {
+        $app['sql']->insert('thing_mn_type', [
+            'type_id'   => $typeId,
             'thing_id'      => $id
         ])->execute();
     } // end foreach

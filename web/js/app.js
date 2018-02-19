@@ -36,6 +36,15 @@ function start() {
             create: false,
         });
     } // end if
+    if ( $('#types-input').length ) {
+        var options = JSON.parse( $('#types-input').attr('data-json') );
+        $('#types-input').selectize({
+            delimiter: ';',
+            persist: true,
+            options: options,
+            create: false,
+        });
+    } // end if
 
     if ( $('.uploader-area').length ) {
         $('.uploader-area').each(function(){
