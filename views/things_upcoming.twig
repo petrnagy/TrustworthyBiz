@@ -15,10 +15,10 @@
                             {% if thing['tn'] is defined %}
                             <div class="pull-right icons">
                                 {% endif %}
-                                <span class="grade {{ thing['grade'] }} text-center">
+                                <span class="grade {{ thing['grade']|replace({'+': ''}) }} text-center" title="Overall score™" data-toggle="tooltip">
                                     {{ thing['grade'] }}
                                 </span>
-                                <img class="thing-tn" src="{{thing['tn']}}" alt="{{ thing['name'] }}">
+                                <img class="thing-tn blend" src="{{thing['img']}}" alt="{{ thing['name'] }}">
                             </div>
                             </h4>
                             <p class="card-text">

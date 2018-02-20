@@ -36,7 +36,7 @@
 .uploader:hover, .uploader.hovering { background-color: #2C3E50; }
 .uploader-area .dz-preview { position: relative; top: 25px; }
 .uploader-area .dz-image { position: absolute; float: left; width: 100px; height: 100px; overflow: hidden; border: 1px dotted gray; }
-.uploader-area .dz-image img { max-width: 100px; max-height: 100px; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto; }
+.uploader-area .dz-image img { max-width: 100px; max-height: 100px; width: auto; height: auto; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto; }
 .uploader-area .dz-details { position: absolute; left: 100px; height: 100px; padding-top: 30px; color: #a5a5a5; display: inline-block; margin-left: 15px; max-width: 300px; overflow: hidden; }
 .uploader-area .dz-error-message { position: absolute; color: #E74C3C; right: 14px; }
 .uploader-area .dz-progress, .uploader-area .dz-success-mark, .uploader-area .dz-error-mark { display: none; }
@@ -44,7 +44,7 @@
 .red { color: red; }
 .hidden { display: none; }
 a.no-decoration { text-decoration: none; }
-#index { min-height: calc(100vh - 70px - 170px); }
+#index { min-height: calc(100vh - 70px - 170px); margin-left: auto; margin-right: auto; }
 #index h1 { font-size: 2.5rem; margin-bottom: 1.5rem; }
 #index form { margin-top: 2rem; }
 #main-nav-categories-dropdown a i { width: 15px; text-align: center; }
@@ -85,14 +85,14 @@ pre.break { white-space: normal; word-break: break-all; }
 #grade.d .inner, .page.things .grade.d { background-color: #d8ca4d; }
 #grade.e .inner, .page.things .grade.e { background-color: #d8a04d; }
 #grade.f .inner, .page.things .grade.f { background-color: #d86d4d; }
-#grade.na .inner, .page.things .grade.na { background-color: #2C3E50; color: white; opacity: .5; }
+#grade.na .inner, .page.things .grade.na { background-color: #2C3E50; color: white; opacity: .25; }
 .page.things .grade { display: inline-block; text-transform: uppercase; color: white; min-width: 28px; height: 28px; line-height: 28px; }
 .page.thing h1 { margin-bottom: 0.25rem; }
 .col-uploader.has-img { min-height: 200px; }
 .pointer-events-none { pointer-events: none; }
 .fulltext-result { color: #7b8a8b; }
 .fulltext-result.active { color: #2C3E50; }
-.fulltext-result img { max-height: 20px; max-width: 20px; float: right; }
+.fulltext-result img { max-height: 40px; width: auto; height: auto; max-width: 50px; float: right; }
 img.blend { mix-blend-mode: multiply; }
 .fulltext-result .grade { float: right; }
 .page.thing .right { border-left: 1px solid rgba(0,0,0,0.1); }
@@ -104,8 +104,10 @@ img.blend { mix-blend-mode: multiply; }
 .page.thing .right .social-btn:not(:hover) { color: lightgray; }
 .page.thing .right .social-btn:hover { color: #2C3E50; }
 .page.thing .list-group a { padding-left: 10px; padding-right: 10px; }
-.page.thing .list-group img { height: 30px; max-width: 40px; margin-right: 5px; border-right: 1px solid lightgray; padding-right: 7.5px; }
+.page.thing .list-group img { height: auto; max-height: 30px; width: auto; max-width: 40px; margin-right: 5px; border-right: 1px solid lightgray; padding-right: 7.5px; }
 .page.thing .list-group .name { line-height: 30px; vertical-align: middle; font-size: 1.1rem; }
+.page.thing .edit-link { position: absolute; right: 0px; top: 110px; }
+.page.thing.not-approved { pointer-events: none; }
 .outer { display: table; }
 .middle { display: table-cell; vertical-align: middle; }
 .inner { margin-left: auto; margin-right: auto;  }

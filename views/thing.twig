@@ -4,9 +4,9 @@
     <div class="page thing {{ thing['approved_at'] is defined ? 'approved' : 'not-approved' }}">
         <div class="thing-header-wrapper">
             <div class="thing-header">
-                <div id="grade" class="pull-right a text-center">
+                <div id="grade" class="pull-right {{ thing['grade']|replace({'+': ''}) }} text-center" title="Overall score™" data-toggle="tooltip">
                     <div class="inner">
-                        a+
+                        {{ thing['grade'] }}
                     </div>
                 </div>
                 <h1><span class="img-wrapper"><img src="{{ thing['img'] }}" class="" alt="{{ thing['name'] }}"></span>{{ thing['name'] }}</h1>
@@ -23,6 +23,7 @@
                         <a href="{{ category['url'] }}"><span class="badge badge-dark"><i class="fa fa-tag"></i>&nbsp;{{ category['name'] }}</span></a>
                     {% endfor %}
                 </p>
+                <a class="edit-link color-secondary" href="/thing/edit/{{ thing['id'] }}"><small><i class="fa fa-pencil"></i>&nbsp;Edit details</small></a>
             </div>
             <div class="thing-header-bg" style="background: url('{{ thing['img'] }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;"></div>
         </div>
@@ -76,12 +77,21 @@
         <div id="not-approved">
             <div class="content">
                 <h2>Waiting for approval</h2>
+                {% if thing['is_revision_of'] is defined %}
+                <p>
+                    Your changes are being reviewed
+                    <br />to avoid any duplicate or vulgar content. <br />
+                    This should not take more than few minutes. <br /><br />
+                    If you have any questions, please <script>print_email('petr', 'trustworthy.biz', 'let me know')</script>.
+                </p>
+                {% else %}
                 <p>
                     This thing was added quite recently. <br />
                     To avoid any duplicate or vulgar content, it needs to be checked first. <br />
                     This should not take more than few minutes. <br /><br />
                     If you have any questions, please <script>print_email('petr', 'trustworthy.biz', 'let me know')</script>.
                 </p>
+                {% endif %}
             </div>
         </div>
     {% endif %}

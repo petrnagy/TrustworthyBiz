@@ -193,7 +193,7 @@ function start() {
                 var o = '';
                 o += '<div class="fulltext-result">';
                 if ( item.tn ) {
-                    o += '<img class="blend" src="'+escape(item.tn)+'" alt="'+escape(item.name)+'">';
+                    o += '<img class="blend" src="'+escape(item.img)+'" alt="'+escape(item.name)+'">';
                 } // end if
                 
                 o += escape(item.name);

@@ -60,6 +60,7 @@ $app->get('/things/upcoming', function () use ($app) {
     require_http_auth();
 
     $params['things'] = get_upcoming_things();
+    $params['title'] = 'Upcoming things';
     
     $html = $app['twig']->render('things_upcoming.twig', $params);
     return new Response($html, 200);
@@ -142,7 +143,6 @@ $app->post('/thing/new', function () use ($app) {
 
 // Thing detail
 $app->get('/thing/edit/{id}', function ($id) use ($app) {
-    require_http_auth();
     $params = initialize_params($app);
 
     $thing = get_thing($id);
@@ -179,8 +179,6 @@ $app->get('/thing/edit/{id}', function ($id) use ($app) {
 
 // Updates existing thing
 $app->put('/thing/edit/{id}', function () use ($app) {
-    require_http_auth();
-    
     if ( ! csrf_passed() ) {
         return new JsonResponse(['errors' => [], 'url' => '/', 'note' => 'csrf check failed, go away!'], 200);
     } // end if
@@ -192,7 +190,8 @@ $app->put('/thing/edit/{id}', function () use ($app) {
         return new JsonResponse(['errors' => $errors], 200);
     } // end if
     
-    if ( $thing = update_thing($data) ) {
+    $data['is_revision_of'] = $data['id'];
+    if ( $thing = new_thing($data) ) {
         return new JsonResponse(['errors' => [], 'url' => $thing['url']], 200);
     } else {
         return new JsonResponse(['errors' => ['Please try again later']], 500);
@@ -260,6 +259,11 @@ $app->get('/thing/{slug}/{id}', function ($slug, $id) use ($app) {
     $params = initialize_params($app);
 
     $thing = get_thing($id);
+    if ( $thing['is_revision_of'] ) {
+        if ( $thing['approved_at'] || $thing['deleted_at'] ) {
+            return $app->redirect( make_url('thing', $thing['is_revision_of']) );
+        } // end if
+    } // end if
     if ( $thing['deleted_at'] ) {
         throw new NotFoundHttpException;
     } // end if

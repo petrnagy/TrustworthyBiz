@@ -252,14 +252,15 @@ function new_thing($data) {
 
     $data = sanitize_thing($data);
     $app['sql']->insert('thing', [
-        'name'          => $data['name'],
-        'summary'       => $data['summary'],
-        'homepage'      => $data['homepage'],
-        'edited'        => 1,
-        'tn'            => $data['tn'],
-        'img'           => $data['img'],
-        'created_at'    => new DateTime,
-        'approved_at'   => null,
+        'name'              => $data['name'],
+        'summary'           => $data['summary'],
+        'homepage'          => $data['homepage'],
+        'edited'            => 1,
+        'tn'                => $data['tn'],
+        'img'               => $data['img'],
+        'created_at'        => new DateTime,
+        'approved_at'       => null,
+        'is_revision_of'    => nvl($data['is_revision_of'], null),
     ])->execute();
     
     $id = $app['sql']->getInsertId();
@@ -283,10 +284,10 @@ function new_thing($data) {
 
 function update_thing($data) {
     global $app;
-
+    
     $data = sanitize_thing($data);
     $thing = get_thing($data['id']);
-    
+
     if ( ! $thing ) {
         throw new InvalidArgumentException;
     } // end if
@@ -356,7 +357,22 @@ function sanitize_string($item) {
 
 function approve_thing($id) {
     global $app;
-    $app['sql']->update('thing', ['approved_at' => new DateTime])->where('id = %i', $id)->execute();
+    $thing = get_thing($id);
+    if ( $thing['is_revision_of'] ) {
+        $data = (array) $thing;
+        $data['id'] = $thing['is_revision_of'];
+        $data['categories'] = $data['types'] = [];
+        
+        foreach ($thing['categories'] as $category)     $data['categories'][] = $category['id'];
+        foreach ($thing['types'] as $type)              $data['types'][] = $type['id'];
+
+        $data['categories'] = implode(';', $data['categories']);
+        $data['types'] = implode(';', $data['types']);
+        update_thing($data);
+        $app['sql']->update('thing', ['approved_at' => new DateTime, 'deleted_at' => new DateTime])->where('id = %i', $id)->execute();
+    } else {
+        $app['sql']->update('thing', ['approved_at' => new DateTime])->where('id = %i', $id)->execute();
+    } // end if-else
 } // end function
 
 function reject_thing($id) {
