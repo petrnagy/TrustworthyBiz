@@ -8,7 +8,10 @@
             </div>
         </div>
         <h1><span class="img-wrapper"><img src="{{ thing['img'] }}" class="" alt="{{ thing['name'] }}"></span>{{ thing['name'] }}</h1>
-        <p class="color-secondary">{{ thing['summary'] }}</p>
+        <p class="color-secondary">
+            {{ thing['summary'] }}
+            {# <br /><a href="{{ thing['homepage'] }}"><i class="fa fa-globe"></i>&nbsp;{{ thing['homepage']|replace({'http://': '','https://': '','www.': ''}) }}</a> #}
+        </p>
         <p>
             {% for type in thing['types'] %}
                 <span class="badge badge-secondary"><i class="fa fa-tag"></i>&nbsp;{{ type['name'] }}</span>
@@ -19,19 +22,48 @@
             {% endfor %}
         </p>
         <hr>
-        {% if thing['description'] is defined and thing['description']|length > 0 %}
-            <div class="thing-description-wrapper">
-                <p class="thing-description">
-                {{ thing['description']|nl2br }}
-                </p>
+        <div class="row">
+            <div class="col-lg-9 col-md-9 left">
+                {% if thing['description'] is defined and thing['description']|length > 0 %}
+                    <div class="thing-description-wrapper">
+                        <p class="thing-description">
+                        {{ thing['description']|nl2br }}
+                        </p>
+                    </div>
+                    {% if thing['description']|split("\n")|length-1 > 5 %}
+                        <div class="text-center">
+                            <button onclick="toggle_description(this); return false;" class="btn btn-sm btn-secondary">Full description <i class="fa fa-angle-double-down"></i></button>
+                        </div>
+                    {% endif %}
+                {% endif %}
+                {% include 'partial/_crowdsourced.twig' %}
             </div>
-            <div class="text-center">
-                <button onclick="toggle_description(this); return false;" class="btn btn-sm btn-secondary">Full description <i class="fa fa-angle-double-down"></i></button>
+            <div class="col-lg-3 col-md-3 right">
+                <button class="btn btn-secondary btn-full text-left">
+                    <strong>Visit website</strong>&nbsp;<i class="fa fa-globe"></i><br />
+                    <small>{{ thing['homepage']|lower|replace({'http://': '','https://': '','www.': ''}) }}&nbsp;<i class="fa fa-angle-double-right"></i></small>
+                </button>
+                <p class="color-secondary"><small><i class="fa fa-users"></i>&nbsp;Social</small></p>
+                <a href="#" class="social-btn"><i class="fa fa-facebook-square"></i></a>
+                <a href="#" class="social-btn"><i class="fa fa-twitter-square"></i></a>
+                <a href="#" class="social-btn"><i class="fa fa-linkedin-square"></i></a>
+                <a href="#" class="social-btn"><i class="fa fa-instagram"></i></a>
+                {% if similar|length %}
+                <p class="color-secondary"><small><i class="fa fa-search"></i>&nbsp;Similar things</small></p>
+                <div class="list-group">
+                    {% for similarThing in similar %}
+                        <a href="{{ similarThing['url'] }}" class="list-group-item list-group-item-action">
+                            <img class="blend" src="{{ similarThing['img'] }}" alt="{{ similarThing['name'] }}">
+                            <span class="name">{{ similarThing['name'] }}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
-        {% endif %}
+        </div>
         <hr>
         <p class="color-secondary text-center">
-            Please note that these values are <strong>crowdsourced</strong> and may not reflect the actual state of the project/product. <br />
+            Please note that these values are <strong>crowdsourced</strong> and may not reflect the project/product official info. <br />
             Page shows <strong>median</strong> from the submitted values. Newer data have greater priority.
         </p>
     </div>

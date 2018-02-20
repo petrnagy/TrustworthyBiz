@@ -28,21 +28,25 @@ function start() {
         }
     });
     if ( $('#categories-input').length ) {
-        var options = JSON.parse( $('#categories-input').attr('data-json') );
+        var options = $('#categories-input').data('json');
+        var assigned = $('#categories-input').data('assigned');
         $('#categories-input').selectize({
             delimiter: ';',
             persist: true,
             options: options,
             create: false,
+            items: assigned
         });
     } // end if
     if ( $('#types-input').length ) {
-        var options = JSON.parse( $('#types-input').attr('data-json') );
+        var options = $('#types-input').data('json');
+        var assigned = $('#categories-input').data('assigned');
         $('#types-input').selectize({
             delimiter: ';',
             persist: true,
             options: options,
             create: false,
+            items: assigned
         });
     } // end if
 
@@ -50,7 +54,7 @@ function start() {
         $('.uploader-area').each(function(){
             var $this = $(this);
             var selector = 'div#' + $this.attr('id');
-            var myDropzone = new Dropzone(selector, {
+            var dropZone = new Dropzone(selector, {
                 url: "/upload/logo/",
                 uploadMultiple: false,
                 maxFiles: 1,
@@ -72,7 +76,7 @@ function start() {
                             this.removeFile(prevFile);
                         } // end if
                         $this.find('.dz-preview').not(':last').remove();
-                        // this.processQueue();
+                        $this.closest('.col-uploader').addClass('has-img');
                     });
                     this.on('success', function(file, response) {
                         prevFile = file;
@@ -92,6 +96,16 @@ function start() {
                     });
                 }
             });
+
+            var $img = $this.closest('form').find('input[type="hidden"][name="new[img]"]');
+            var $tn = $this.closest('form').find('input[type="hidden"][name="tn"]');
+            if ( $img.length && $img.val().length ) {
+                var fileName = $img.val().split('/').slice(-1);
+                fileName = fileName[Object.keys(fileName)[0]];
+                var mockFile = { name: fileName, size: 12345 };
+                dropZone.emit("addedfile", mockFile);
+                dropZone.emit("thumbnail", mockFile, $img.val());
+            } // end if
             $this.find('.uploader').click(function(){
                 $this.trigger('click');
             });
@@ -163,7 +177,58 @@ function start() {
                 $form.prepend('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>'+err+'</div>');
             }, // end func
         }); // end ajax
-    })
+    });
+
+    $('input.thing-autocomplete').selectize({
+        valueField: 'url',
+        labelField: 'name',
+        searchField: 'name',
+        create: false,
+        render: {
+            option: function(item, escape) {
+                var o = '';
+                o += '<div class="fulltext-result">';
+                if ( item.tn ) {
+                    o += '<img class="blend" src="'+escape(item.tn)+'" alt="'+escape(item.name)+'">';
+                } // end if
+                
+                o += escape(item.name);
+                if ( item.fa ) {
+                    o += '&nbsp;<i class="fa fa-'+item.fa+'"></i>';
+                } // end if
+                if ( item.summary ) {
+                    o += '<br /><small>'+escape(item.summary)+'</small>';
+                } // end if
+                o += '';
+                o += '</div>';
+                return o;
+            }
+        },
+        load: function(query, callback) {
+            if (!query.length) return callback();
+            $.ajax({
+                url: '/things/autocomplete?q=' + encodeURIComponent(query),
+                type: 'GET',
+                error: function() {
+                    callback();
+                },
+                success: function(res) {
+                    callback(res);
+                }
+            });
+        }
+    }).change(function(){
+        window.location = $(this).val();
+    }).closest('form').find('.selectize-input input[type="text"]').focus();
+
+    $('[data-toggle="tooltip"]').tooltip(); 
+
+    $('.page.thing .tap-to-edit').on('click', function(e){
+        e.preventDefault();
+        $(this).addClass('hidden');
+        $(this).closest('.crowd-col').find('select, .input').removeClass('hidden');
+        return false;
+    });
 } // end function
 
 function toggle_description(el) {
@@ -173,4 +238,26 @@ function toggle_description(el) {
     } else {
         $(el).find('i.fa').addClass('fa-angle-double-down').removeClass('fa-angle-double-up');
     } // end if-else
-}
+} // end function
+
+function reject_thing(id, el) {
+    $(el).addClass('disabled');
+    $.ajax({
+        method: 'PATCH',
+        url: '/thing/reject/' + id,
+        success: function() {
+            $(el).closest('.card').addClass('pointer-events-none').animate({opacity: 0.00}, 2000);
+        }, // end func
+    }); // end ajax
+} // end function
+
+function approve_thing(id, el) {
+    $(el).addClass('disabled');
+    $.ajax({
+        method: 'PATCH',
+        url: '/thing/approve/' + id,
+        success: function() {
+            $(el).closest('.card').addClass('pointer-events-none').animate({opacity: 0.00}, 2000);
+        }, // end func
+    }); // end ajax
+} // end function

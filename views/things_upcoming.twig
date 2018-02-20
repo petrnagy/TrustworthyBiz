@@ -2,37 +2,8 @@
 
 {% block content %}
     <div class="page things">
-        <h1>Things
-        {% if category is defined %}
-        <span class="color-secondary">in {{ category['name'] }} <i class="fa fa-{{ category['fa'] }}"></i></span>
-        {% else %}
-        <span class="color-secondary">in all categories</span>
-        {% endif %}
-        </h1>
+        <h1>Upcoming things</h1>
         <hr>
-        <div class="row">
-            <form class="col-lg-6 col-md-6">
-                <div class="form-group">
-                    <label for="category-select">Pick a category</label>
-                    <select class="form-control" id="category-select">
-                        <option value="/things">All categories</option>
-                        {% for oneCategory in categories %}
-                            <option {{ category is defined and category['id'] == oneCategory['id'] ? 'selected="selected"' : '' }} value="{{ oneCategory['url'] }}">{{ oneCategory['name'] }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </form>
-            <form class="col-lg-6 col-md-6">
-                <div class="form-group">
-                    <label for="sorting-select">Sort things by</label>
-                    <select class="form-control" id="sorting-select">
-                        {% for sortOption in sorting %}
-                        <option {{ sort is defined and sort == sortOption[0] ? 'selected="selected"' : '' }} value="{{ clear_me }}?sort={{sortOption[0]}}">{{ sortOption[1] }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </form>
-        </div>
         <div class="row">
         {% for thing in things %}
             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -47,7 +18,7 @@
                                 <span class="grade {{ thing['grade'] }} text-center">
                                     {{ thing['grade'] }}
                                 </span>
-                                <img class="thing-tn" src="{{thing['img']}}" alt="{{ thing['name'] }}">
+                                <img class="thing-tn" src="{{thing['tn']}}" alt="{{ thing['name'] }}">
                             </div>
                             </h4>
                             <p class="card-text">
@@ -68,6 +39,10 @@
                             <div class="card-bg thing-bg" style="background: url('{{ thing['img'] }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;"></div>
                         {% endif %}
                     </a>
+                    <div>
+                        <button onclick="confirm('Reject?') && reject_thing({{ thing['id'] }}, this);" class="btn btn-danger">Reject</button>
+                        <button onclick="confirm('Approve?') && approve_thing({{ thing['id'] }}, this);" class="btn btn-success pull-right">Approve</button>
+                    </div>
                 </div>
             </div>
         {% endfor %}

@@ -37,15 +37,16 @@
                     <small id="categoriesHelp" class="form-text text-muted">(<span class="red">*</span>) Pick at least one category</small>
                 </div>
                 <div class="form-group col-lg-6 col-md-6 col-uploader">
-                    <label for="logo">Drag and drop product logo</label>
+                    <label for="logo">Logo or picture</label>
                     <div class="uploader-area" id="new-thing-uploader">
                         <div class="uploader">Drag image or click to upload</div>
                     </div>
                     <small id="logoHelp" class="form-text text-muted">(<span class="red">*</span>) You can upload <i>.jpg</i>, <i>.png</i>, <i>.gif</i> or <i>.bmp</i> images</small>
                 </div>
-                <div class="form-group col-lg-6 description-textarea-wrapper">
-                    <label for="descriptionTextarea">Description</label>
-                    <textarea name="new[description]" class="form-control" id="descriptionTextarea" rows="7"></textarea>
+                <div class="form-group col-lg-6">
+                    <label for="name">Homepage</label>
+                    <input required name="new[name]" type="url" maxlength="100" class="form-control" id="name" aria-describedby="nameHelp" placeholder="https://trustworthy.biz">
+                    <small id="nameHelp" class="form-text text-muted">(<span class="red">*</span>) Enter the official project homepage</small>
                 </div>
                 <div class="form-group col-lg-12">
                     <button onclick="window.location='/things'; return false;" class="btn btn-secondary pull-left" type="submit"><i class="fa fa-angle-double-left"></i>&nbsp;Cancel</button>
