@@ -125,6 +125,7 @@ $app->get('/thing/new', function () use ($app) {
 
 // Creates new thing
 $app->post('/thing/new', function () use ($app) {
+    csrf_passed();
     $request = $app['request_stack']->getCurrentRequest();
     $new = $request->get('new');
     $errors = validate_thing($new);
@@ -179,6 +180,11 @@ $app->get('/thing/edit/{id}', function ($id) use ($app) {
 // Updates existing thing
 $app->put('/thing/edit/{id}', function () use ($app) {
     require_http_auth();
+    
+    if ( ! csrf_passed() ) {
+        return new JsonResponse(['errors' => [], 'url' => '/', 'note' => 'csrf check failed, go away!'], 200);
+    } // end if
+
     $request = $app['request_stack']->getCurrentRequest();
     $data = $request->get('new');
     $errors = validate_thing($data);

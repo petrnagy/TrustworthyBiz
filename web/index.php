@@ -46,6 +46,27 @@ $app->register(new \Silex\Provider\AssetServiceProvider(), [
 
 $app->register(new \Silex\Provider\TwigServiceProvider(), [
     'twig.path' => $__DIR_ROOT . '/views',
+    'twig.options' => [
+        'cache' => "{$__DIR_ROOT}/tmp/cache/"
+    ],
 ]);
+
+$app->register(new Moust\Silex\Provider\CacheServiceProvider(), array(
+    'cache.options' => array(
+        'driver' => 'file',
+        'cache_dir' => "{$__DIR_ROOT}/tmp/cache/",
+    )
+));
+
+$app->register(new Silex\Provider\HttpCacheServiceProvider(), array(
+    'http_cache.cache_dir' => "{$__DIR_ROOT}/tmp/cache/",
+));
+
+$app->register(new Silex\Provider\SessionServiceProvider(), [
+    'session.storage.save_path' => $app['debug'] ? "/tmp" : "{$__DIR_ROOT}/tmp/session/"
+]);
+$app['session']->start();
+
+$app->register(new Silex\Provider\CsrfServiceProvider());
 
 $app->run();

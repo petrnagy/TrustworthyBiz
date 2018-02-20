@@ -9,6 +9,10 @@ function goto_top() {
 } // end function
 
 function start() {
+    $.ajaxSetup({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+    });
+
     $('#category-select').selectize({
         create: false,
         sortField: 'text',

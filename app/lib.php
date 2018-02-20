@@ -6,8 +6,11 @@
  * See readme.txt for more information
  */
 
+use Symfony\Component\Security\Csrf\CsrfToken;
+
 function initialize_params($app) {
     $params = [];
+    $params['csrf'] = $app['csrf.token_manager']->getToken($app['session']->getId());
     $params['helpers'] = [];
     $params['helpers']['crowdsourcedField'] = function($data){ return print_crowdsourced_field($data); };
     $params['me'] = me();
@@ -503,6 +506,14 @@ function fulltext_search($q) {
     } // end foreach
 
     return $results;
+} // end function
+
+function csrf_passed() {
+    global $app;
+
+    $request = $app['request_stack']->getCurrentRequest();
+    $token = $headers = $request->headers->get('X-CSRF-TOKEN');
+    return $app['csrf.token_manager']->isTokenValid(new CsrfToken($app['session']->getId(), $token));
 } // end function
 
 function print_crowdsourced_field($data) {

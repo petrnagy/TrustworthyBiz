@@ -4,9 +4,9 @@
         "dibi/dibi": "^3.1",
         "twig/twig": "^2.0",
         "symfony/asset": "^3.4",
-        "facebook/graph-sdk": "^5.6",
-        "google/apiclient": "^2.2",
         "tracy/tracy": "^2.4",
-        "symfony/twig-bridge": "^3.4"
+        "symfony/twig-bridge": "^3.4",
+        "moust/silex-cache": "~2.0",
+        "symfony/security-csrf": "^3.4"
     }
 }
