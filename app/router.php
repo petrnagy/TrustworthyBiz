@@ -200,12 +200,28 @@ $app->put('/thing/edit/{id}', function () use ($app) {
 })->assert('id', '\d+');
 
 // Updates single parameter for existing thing [crowdsourced ajax fields]
-$app->patch('/thing/patch/{id}', function () use ($app) {
+$app->patch('/thing/patch/{id}', function ($id) use ($app) {
     $params = initialize_params($app);
-
     
-    $html = $app['twig']->render('edit_thing.twig', $params);
-    return new Response($html, 200);
+    if ( ! csrf_passed() ) {
+        return new JsonResponse(['csrf test failed, go away!'], 200);
+    } // end if
+
+    $request = $app['request_stack']->getCurrentRequest();
+    $data = $request->request->all();
+
+    foreach ($data as $slug => $value) {
+        if ( $crate = Option::get($slug) ) {
+            if ( Option::val($crate, $value) ) {
+                if ( $thing = get_thing($id) ) {
+                    vote($id, $slug, $value);
+                    return new JsonResponse([], 200);
+                } // end if
+            } // end if
+        } // end if
+    } // end foreach
+    
+    return new JsonResponse([], 400);
 })->assert('id', '\d+');
 
 // Uploads logo to /web/uploads/logo
@@ -247,7 +263,9 @@ $app->get('/thing/{slug}/{id}', function ($slug, $id) use ($app) {
     if ( $thing['deleted_at'] ) {
         throw new NotFoundHttpException;
     } // end if
+
     $params['thing'] = $thing;
+    $params['title'] = $thing['name'];
     $params['similar'] = get_similar($thing['id']);
     $html = $app['twig']->render('thing.twig', $params);
     return new Response($html, 200);

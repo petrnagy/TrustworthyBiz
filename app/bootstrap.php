@@ -12,6 +12,8 @@ if ( 'cli' === strtolower(PHP_SAPI) ) {
 
 $__DIR_ROOT = dirname(__DIR__);
 
+require $__DIR_ROOT . '/app/di.php';
 require $__DIR_ROOT . '/app/config.php';
+require $__DIR_ROOT . '/app/options.php';
 
 require $__DIR_ROOT . '/app/lib.php';

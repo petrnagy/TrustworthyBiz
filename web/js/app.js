@@ -230,7 +230,32 @@ function start() {
     $('.page.thing .tap-to-edit').on('click', function(e){
         e.preventDefault();
         $(this).addClass('hidden');
-        $(this).closest('.crowd-col').find('select, .input').removeClass('hidden');
+        var $input = $(this).closest('.crowd-col').find('select, .input');
+        $input.removeClass('hidden');
+        // var event = document.createEvent('MouseEvents');
+        // event.initMouseEvent('mousedown', true, true, window);
+        // $input[0].dispatchEvent(event);
+        return false;
+    });
+    $('.page.thing .live-update').on('change', function(e){
+        e.preventDefault();
+        var $this = $(this);
+        var $tag = $this.closest('.crowd-col').prev().find('.saved');
+        var val = $this.val();
+        if ( val.length > 0 ) {
+            var id = $this.data('id');
+            var slug = $this.data('slug');
+            var data = {};
+            data[slug] = val;
+            $.ajax({
+                method: 'PATCH',
+                url: '/thing/patch/' + id,
+                data: data,
+                complete: function(res) {
+                    $tag.stop().fadeIn('slow').fadeOut(2000);
+                }, // end func
+            }); // end ajax
+        } // end if
         return false;
     });
 } // end function

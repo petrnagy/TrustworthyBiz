@@ -8,33 +8,6 @@
 
 use Symfony\Component\Security\Csrf\CsrfToken;
 
-function initialize_params($app) {
-    $params = [];
-    $params['csrf'] = $app['csrf.token_manager']->getToken($app['session']->getId());
-    $params['helpers'] = [];
-    $params['helpers']['crowdsourcedField'] = function($data){ return print_crowdsourced_field($data); };
-    $params['me'] = me();
-    $params['clear_me'] = clear_me();
-    $params['helpUrl'] = make_url('page', 1);
-    $params['appName'] = 'Trustworthy.biz';
-    $params['title'] = 'Which app is worth your time & money?';
-    $params['description'] = 'Crowdsourced list of well established apps, websites and projects';
-    $params['topCategories'] = [];
-    foreach ([1,2,3,4,5,6] as $id) {
-        $cat = get_category($id);
-        if ( $cat ) {
-            $params['topCategories'][] = $cat;
-        } // end if
-    } // end foreach
-    $params['sorting'] = [
-        ['magic', 'Magic'],
-        ['top', 'Top score'],
-        ['new', 'Newest first'],
-        ['a-z', 'Alphabetically'],
-    ];
-    return $params;
-} // end function
-
 function get_random_string($length = 4) {
     return bin2hex(openssl_random_pseudo_bytes($length));
 } // end function
@@ -347,6 +320,33 @@ function update_thing($data) {
     return get_thing($data['id']);
 } // end function
 
+function vote($thingId, $optionSlug, $value) {
+    global $app;
+    $request = $app['request_stack']->getCurrentRequest();
+
+    // TODO: najit dle session posledni hlas a prepsat
+    $exists = $app['sql']->select('id')->from('thing_option')->where('thing_id = %i', $thingId)
+    ->and('value_slug = %s', $optionSlug)->and('user_session = %s', $app['session']->getId())
+    ->and('deleted_at IS NULL')->fetchSingle();
+
+    if ( $exists ) {
+        $app['sql']->update('thing_option', [
+            'value'             => $value,
+        ])->where('id = %i', $exists)->execute();
+    } else {
+        $app['sql']->insert('thing_option', [
+            'thing_id'          => $thingId,
+            'value_slug'        => $optionSlug,
+            'value'             => $value,
+            'user_ip'           => $request->getClientIp(),
+            'user_agent'        => $request->headers->get('User-Agent'),
+            'user_session'      => $app['session']->getId(),
+            'created_at'        => new DateTime
+        ])->execute();
+    } // end if-else
+
+} // end function
+
 function sanitize_string($item) {
     $item = strip_tags($item);
     $item = preg_replace('~(?<open><|&lt;|U\+003C|&#60;)(?<tag>\ *?script\ *?)(?<close>>|U\+003E|&#62;|&gt;).*~uis', '', $item);
@@ -516,7 +516,77 @@ function csrf_passed() {
     return $app['csrf.token_manager']->isTokenValid(new CsrfToken($app['session']->getId(), $token));
 } // end function
 
-function print_crowdsourced_field($data) {
+function get_option_median($thingId, $optionSlug){
+    global $app;
 
-} // end function
+    $key = "{$thingId}x{$optionSlug}";
+    if ( $cached = $app['cache']->fetch($key) ) {
+        return $cached;
+    } // end if
+
+    $thingId = (int) $thingId;
+    $optionSlug = slugify($optionSlug);
+
+    $median = $app['sql']->query("SELECT x.`value` 
+                                  FROM thing_option x, thing_option y
+                                  WHERE x.thing_id = {$thingId}
+                                  AND x.value_slug = '{$optionSlug}'
+                                  AND x.deleted_at IS NULL
+                                  GROUP BY x.`value`
+                                  HAVING SUM(SIGN(1-SIGN(y.`value`-x.`value`)))/COUNT(*) > .5
+                                  LIMIT 1")->fetchSingle();
     
+    $app['cache']->store($key, $median, 60);
+    return $median;
+} // end function
+
+function initialize_params($app) {
+    global $TWIG_HELPERS;
+
+    $params = [];
+    $params['csrf'] = $app['csrf.token_manager']->getToken($app['session']->getId());
+    $params['me'] = me();
+    $params['clear_me'] = clear_me();
+    $params['helpUrl'] = make_url('page', 1);
+    $params['appName'] = 'Trustworthy.biz';
+    $params['title'] = 'Which app is worth your time & money?';
+    $params['description'] = 'Crowdsourced list of well established apps, websites and projects';
+    $params['topCategories'] = [];
+    foreach ([1,2,3,4,5,6] as $id) {
+        $cat = get_category($id);
+        if ( $cat ) {
+            $params['topCategories'][] = $cat;
+        } // end if
+    } // end foreach
+    $params['sorting'] = [
+        ['magic', 'Magic'],
+        ['top', 'Top score'],
+        ['new', 'Newest first'],
+        ['a-z', 'Alphabetically'],
+    ];
+
+    $params['helpers'] = new DynamicMockupDI;
+    $params['helpers']->print_crowdsourced_field = function($thingId, $optionSlug){
+        $median = get_option_median($thingId, $optionSlug);
+        $crate = Option::get($optionSlug);
+
+        if ( false === $median || null === $median ) {
+            $val = $crate->empty;
+        } else {
+            $val = Option::val($crate, $median)[1];
+        } // end if-else
+
+        $o = '';
+        $o .= '<span class="value underline-info pointer tap-to-edit" title="Tap to edit" data-toggle="tooltip">'.htmlentities($val).'</span>';
+        $o .= '<select class="form-control hidden pointer live-update" data-id="'.$thingId.'" data-slug="'.htmlentities($optionSlug).'">';
+        $o .= '<option value="">- - -</option>';
+        foreach ($crate->values as $row) {
+            $selected = $row[0] == $val ? 'selected="selected"' : '';
+            $o .= '<option '.$selected.' value="'.htmlentities($row[0]).'">'.htmlentities($row[1]).'</option>';
+        } // end foreach
+        $o .= '</select>';
+        return $o;
+    };
+
+    return $params;
+} // end function

@@ -2,25 +2,30 @@
 
 {% block content %}
     <div class="page thing {{ thing['approved_at'] is defined ? 'approved' : 'not-approved' }}">
-        <div id="grade" class="pull-right a text-center">
-            <div class="inner">
-                a+
+        <div class="thing-header-wrapper">
+            <div class="thing-header">
+                <div id="grade" class="pull-right a text-center">
+                    <div class="inner">
+                        a+
+                    </div>
+                </div>
+                <h1><span class="img-wrapper"><img src="{{ thing['img'] }}" class="" alt="{{ thing['name'] }}"></span>{{ thing['name'] }}</h1>
+                <p class="color-secondary">
+                    {{ thing['summary'] }}
+                    {# <br /><a href="{{ thing['homepage'] }}"><i class="fa fa-globe"></i>&nbsp;{{ thing['homepage']|replace({'http://': '','https://': '','www.': ''}) }}</a> #}
+                </p>
+                <p>
+                    {% for type in thing['types'] %}
+                        <span class="badge badge-secondary"><i class="fa fa-tag"></i>&nbsp;{{ type['name'] }}</span>
+                    {% endfor %}
+                    <span class="color-secondary">&nbsp;|&nbsp;</span>
+                    {% for category in thing['categories'] %}
+                        <a href="{{ category['url'] }}"><span class="badge badge-dark"><i class="fa fa-tag"></i>&nbsp;{{ category['name'] }}</span></a>
+                    {% endfor %}
+                </p>
             </div>
+            <div class="thing-header-bg" style="background: url('{{ thing['img'] }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;"></div>
         </div>
-        <h1><span class="img-wrapper"><img src="{{ thing['img'] }}" class="" alt="{{ thing['name'] }}"></span>{{ thing['name'] }}</h1>
-        <p class="color-secondary">
-            {{ thing['summary'] }}
-            {# <br /><a href="{{ thing['homepage'] }}"><i class="fa fa-globe"></i>&nbsp;{{ thing['homepage']|replace({'http://': '','https://': '','www.': ''}) }}</a> #}
-        </p>
-        <p>
-            {% for type in thing['types'] %}
-                <span class="badge badge-secondary"><i class="fa fa-tag"></i>&nbsp;{{ type['name'] }}</span>
-            {% endfor %}
-            <span class="color-secondary">&nbsp;|&nbsp;</span>
-            {% for category in thing['categories'] %}
-                <a href="{{ category['url'] }}"><span class="badge badge-dark"><i class="fa fa-tag"></i>&nbsp;{{ category['name'] }}</span></a>
-            {% endfor %}
-        </p>
         <hr>
         <div class="row">
             <div class="col-lg-9 col-md-9 left">

@@ -1,34 +1,18 @@
 <form>
     <p class="crowdsourced"><small class="color-secondary">General</small></p>
     <div class="row color-primary crowdsourced-data">
-        <div class="crowd-col bg col-lg-3 col-md-3">Founded</div>
+        <div class="crowd-col bg col-lg-3 col-md-3">Founded&nbsp;<span style="display: none;" class="saved badge badge-pill badge-success">Saved!</span></div>
         <div class="crowd-col bg col-lg-3 col-md-3">
-            <span class="value underline-info pointer tap-to-edit" title="Tap to edit" data-toggle="tooltip">Last 12 months 👶</span>
-            <select class="form-control hidden pointer">
-                <option>Last 12 months 👶</option>
-                <option>Over 1 year ago</option>
-                <option>Free with limited functionality</option>
-                <option>Commercial</option>
-            </select>
+            {{ helpers.print_crowdsourced_field(thing['id'], 'founded')|raw }}
         </div>
         
         <div class="crowd-col col-lg-3 col-md-3">Pricing</div>
         <div class="crowd-col col-lg-3 col-md-3">
-            <select class="form-control pointer" title="Tap to edit" data-toggle="tooltip">
-                <option>Free</option>
-                <option>Free for personal use</option>
-                <option>Free with limited functionality</option>
-                <option>Commercial</option>
-            </select>
+            {{ helpers.print_crowdsourced_field(thing['id'], 'pricing')|raw }}
         </div>
         <div class="crowd-col bg col-lg-3 col-md-3">Pricing model</div>
         <div class="crowd-col bg col-lg-3 col-md-3">
-            <select class="form-control pointer" title="Tap to edit" data-toggle="tooltip">
-                <option>One time purchase</option>
-                <option>Subscription</option>
-                <option>Both</option>
-                <option>Not applicable</option>
-            </select>
+            {{ helpers.print_crowdsourced_field(thing['id'], 'pricing-model')|raw }}
         </div>
         <div class="crowd-col bg col-lg-3 col-md-3">Is opensource</div>
         <div class="crowd-col bg col-lg-3 col-md-3">
@@ -41,16 +25,20 @@
     <p class="crowdsourced"><small class="color-secondary">Data & security</small></p>
     <div class="row color-primary crowdsourced-data">
         <div class="crowd-col col-lg-3 col-md-3">You own your data?</div>
-            <div class="crowd-col col-lg-3 col-md-3">
-                <select class="form-control pointer" title="Tap to edit" data-toggle="tooltip">
-                    <option>Yes</option>
-                    <option>No</option>
-                    <option>Some</option>
-                    <option>Not applicable</option>
-                </select>
-            </div>
+        <div class="crowd-col col-lg-3 col-md-3">
+            <select class="form-control pointer" title="Tap to edit" data-toggle="tooltip">
+                <option>Yes</option>
+                <option>No</option>
+                <option>Some</option>
+                <option>Not applicable</option>
+            </select>
         </div>
-    <p class="crowdsourced"><small class="color-secondary">Application</small></p>
+        <div class="crowd-col col-lg-3 col-md-3">Easily downloadable?</div>
+        <div class="crowd-col col-lg-3 col-md-3"></div>
+        <div class="crowd-col col-lg-3 col-md-3">Accessible online?</div>
+        <div class="crowd-col col-lg-3 col-md-3"></div>
+    </div>
+    <p class="crowdsourced"><small class="color-secondary">Platforms</small></p>
     <div class="row color-primary crowdsourced-data">
 
     </div>

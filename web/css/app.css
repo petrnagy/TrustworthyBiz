@@ -57,6 +57,8 @@ pre.break { white-space: normal; word-break: break-all; }
 .card { background-color: transparent; }
 .card-bg { position: absolute; z-index: -1; top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%; opacity: .15; }
 .card-bg.thing-bg { opacity: .2; -webkit-filter: blur(5px); -moz-filter: blur(5px); -o-filter: blur(5px); -ms-filter: blur(5px); filter: blur(5px); }
+.thing-header-bg { position: absolute; z-index: -1; top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%; opacity: .15; opacity: .2; -webkit-filter: blur(20px); -moz-filter: blur(20px); -o-filter: blur(20px); -ms-filter: blur(20px); filter: blur(20px); }
+.thing-header-wrapper { position: relative; }
 .new-thing .current-value { font-family: monospace; font-size: 125%; color: lightgray; }
 .card-body .icons { font-size: 20px; line-height: 20px; }
 .card-body .thing-tn { height: 28px; position: relative; vertical-align: top; }
@@ -68,7 +70,7 @@ pre.break { white-space: normal; word-break: break-all; }
 #not-approved .content { width: 500px; margin-left: auto; margin-right: auto; margin-top: 10vh; border: 2px dashed lightgray; border-radius: 5px; padding: 10px; }
 #not-approved .content h2 { border-bottom: 1px dotted lightgray; }
 .page.thing .img-wrapper { max-width: 100px; overflow: hidden; float: left; border-right: 1px solid lightgray; margin-right: 15px; padding-right: 15px; }
-.page.thing img { height: 3rem; vertical-align: top; margin-top: 4px; }
+.page.thing .img-wrapper img { height: 3rem; vertical-align: top; margin-top: 4px; }
 .thing-description-wrapper { position: relative; }
 .thing-description { max-height: 150px; overflow: hidden; }
 .thing-description:before { content: ""; width: 100%; height: 100%; position: absolute; left: 0; top: 0; background: linear-gradient(rgba(255,255,255,0) 30px, rgba(255,255,255,1)); }
@@ -101,8 +103,9 @@ img.blend { mix-blend-mode: multiply; }
 .page.thing .right .social-btn { font-size: 2.5rem; }
 .page.thing .right .social-btn:not(:hover) { color: lightgray; }
 .page.thing .right .social-btn:hover { color: #2C3E50; }
-.page.thing .list-group img { max-height: 30px; max-width: 40px; margin-right: 5px; border-right: 1px solid lightgray; padding-right: 10px; }
-.page.thing .list-group .name { line-height: 30px; vertical-align: text-top; font-size: 1.1rem; }
+.page.thing .list-group a { padding-left: 10px; padding-right: 10px; }
+.page.thing .list-group img { height: 30px; max-width: 40px; margin-right: 5px; border-right: 1px solid lightgray; padding-right: 7.5px; }
+.page.thing .list-group .name { line-height: 30px; vertical-align: middle; font-size: 1.1rem; }
 .outer { display: table; }
 .middle { display: table-cell; vertical-align: middle; }
 .inner { margin-left: auto; margin-right: auto;  }
