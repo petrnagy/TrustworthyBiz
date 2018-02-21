@@ -30,7 +30,7 @@
                     {% endfor %}
                 </p>
                 {% if thing['is_revision_of'] is not defined %}
-                <a class="edit-link color-secondary" href="/thing/edit/{{ thing['id'] }}"><small><i class="fa fa-pencil"></i>&nbsp;Edit details</small></a>
+                <a class="edit-link color-secondary" href="/thing/edit/{{ thing['id'] }}/"><small><i class="fa fa-pencil"></i>&nbsp;Edit details</small></a>
                 {% endif %}
             </div>
             <div class="thing-header-bg" style="background: url('{{ thing['img'] }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;"></div>

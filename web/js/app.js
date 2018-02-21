@@ -142,7 +142,7 @@ function start() {
                 if ( $this.val() == lastNameVal ) {
                     $.ajax({
                         cache: true,
-                        url: '/thing/similar',
+                        url: '/thing/similar/',
                         data: { name: lastNameVal },
                         success: function(data) {
                             if ( data.length ) {
@@ -225,7 +225,7 @@ function start() {
         load: function(query, callback) {
             if (!query.length) return callback();
             $.ajax({
-                url: '/things/autocomplete?q=' + encodeURIComponent(query),
+                url: '/things/autocomplete/?q=' + encodeURIComponent(query),
                 type: 'GET',
                 error: function() {
                     callback();
@@ -263,7 +263,7 @@ function start() {
             data[slug] = val;
             $.ajax({
                 method: 'PATCH',
-                url: '/thing/patch/' + id,
+                url: '/thing/patch/' + id + '/',
                 data: data,
                 complete: function(res) {
                     $tag.stop().fadeIn('slow').fadeOut(2000);
@@ -287,7 +287,7 @@ function reject_thing(id, el) {
     $(el).addClass('disabled');
     $.ajax({
         method: 'PATCH',
-        url: '/thing/reject/' + id,
+        url: '/thing/reject/' + id + '/',
         success: function() {
             $(el).closest('.card').addClass('pointer-events-none').animate({opacity: 0.00}, 2000);
         }, // end func
@@ -298,7 +298,7 @@ function approve_thing(id, el) {
     $(el).addClass('disabled');
     $.ajax({
         method: 'PATCH',
-        url: '/thing/approve/' + id,
+        url: '/thing/approve/' + id + '/',
         success: function() {
             $(el).closest('.card').addClass('pointer-events-none').animate({opacity: 0.00}, 2000);
         }, // end func

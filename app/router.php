@@ -19,7 +19,7 @@ $app->get('/', function () use ($app) {
 });
 
 // Page detail
-$app->get('/page/{slug}/{id}', function ($slug, $id) use ($app) {
+$app->get('/page/{slug}/{id}/', function ($slug, $id) use ($app) {
     $page = get_page($id);
 
     if ( ! $page || $page->deleted_at ) {
@@ -35,7 +35,7 @@ $app->get('/page/{slug}/{id}', function ($slug, $id) use ($app) {
 })->assert('id', '\d+');
 
 // All categories
-$app->get('/categories', function () use ($app) {
+$app->get('/categories/', function () use ($app) {
     $params = initialize_params($app);
     $params['title'] = 'Categories';
     $params['categories'] = get_categories();
@@ -44,7 +44,7 @@ $app->get('/categories', function () use ($app) {
 });
 
 // All labels
-$app->get('/labels', function () use ($app) {
+$app->get('/labels/', function () use ($app) {
     $params = initialize_params($app);
     $params['title'] = 'Labels';
     $params['labels'] = get_labels();
@@ -53,7 +53,7 @@ $app->get('/labels', function () use ($app) {
 });
 
 // All things
-$app->get('/things', function () use ($app) {
+$app->get('/things/', function () use ($app) {
     $params = initialize_params($app);
 
     $request = $app['request_stack']->getCurrentRequest();
@@ -67,7 +67,7 @@ $app->get('/things', function () use ($app) {
 });
 
 // All things waiting for approal/rejection
-$app->get('/things/upcoming', function () use ($app) {
+$app->get('/things/upcoming/', function () use ($app) {
     $params = initialize_params($app);
     require_http_auth();
 
@@ -79,21 +79,21 @@ $app->get('/things/upcoming', function () use ($app) {
 });
 
 // Autocomplete
-$app->get('/things/autocomplete', function () use ($app) {
+$app->get('/things/autocomplete/', function () use ($app) {
     $request = $app['request_stack']->getCurrentRequest();
     $q = $request->get('q');
     $results = fulltext_search($q);
     return new JsonResponse($results, 200);
 });
 
-$app->patch('/thing/approve/{id}', function ($id) use ($app) {
+$app->patch('/thing/approve/{id}/', function ($id) use ($app) {
     require_http_auth();
 
     approve_thing($id);
     return new Response('', 200);
 })->assert('id', '\d+');
 
-$app->patch('/thing/reject/{id}', function ($id) use ($app) {
+$app->patch('/thing/reject/{id}/', function ($id) use ($app) {
     require_http_auth();
     
     reject_thing($id);
@@ -101,7 +101,7 @@ $app->patch('/thing/reject/{id}', function ($id) use ($app) {
 })->assert('id', '\d+');
 
 // Things filtered by label
-$app->get('/things/with-label/{slug}/{id}', function ($slug, $id) use ($app) {
+$app->get('/things/with-label/{slug}/{id}/', function ($slug, $id) use ($app) {
     $params = initialize_params($app);
     $label = get_label($id);
 
@@ -120,7 +120,7 @@ $app->get('/things/with-label/{slug}/{id}', function ($slug, $id) use ($app) {
 })->assert('id', '\d+');
 
 // Things filtered by category
-$app->get('/things/{slug}/{id}', function ($slug, $id) use ($app) {
+$app->get('/things/{slug}/{id}/', function ($slug, $id) use ($app) {
     $params = initialize_params($app);
     $category = get_category($id);
 
@@ -140,7 +140,7 @@ $app->get('/things/{slug}/{id}', function ($slug, $id) use ($app) {
 })->assert('id', '\d+');
 
 // New thing form
-$app->get('/thing/new', function () use ($app) {
+$app->get('/thing/new/', function () use ($app) {
     $params = initialize_params($app);
 
     $json = [];
@@ -166,7 +166,7 @@ $app->get('/thing/new', function () use ($app) {
 });
 
 // Creates new thing
-$app->post('/thing/new', function () use ($app) {
+$app->post('/thing/new/', function () use ($app) {
     csrf_passed();
     $request = $app['request_stack']->getCurrentRequest();
     $new = $request->get('new');
@@ -183,7 +183,7 @@ $app->post('/thing/new', function () use ($app) {
 });
 
 // Thing detail
-$app->get('/thing/edit/{id}', function ($id) use ($app) {
+$app->get('/thing/edit/{id}/', function ($id) use ($app) {
     $params = initialize_params($app);
 
     $thing = get_thing($id);
@@ -234,7 +234,7 @@ $app->get('/thing/edit/{id}', function ($id) use ($app) {
 })->assert('id', '\d+');
 
 // Updates existing thing
-$app->put('/thing/edit/{id}', function () use ($app) {
+$app->put('/thing/edit/{id}/', function () use ($app) {
     if ( ! csrf_passed() ) {
         return new JsonResponse(['errors' => [], 'url' => '/', 'note' => 'csrf check failed, go away!'], 200);
     } // end if
@@ -255,7 +255,7 @@ $app->put('/thing/edit/{id}', function () use ($app) {
 })->assert('id', '\d+');
 
 // Updates single parameter for existing thing [crowdsourced ajax fields]
-$app->patch('/thing/patch/{id}', function ($id) use ($app) {
+$app->patch('/thing/patch/{id}/', function ($id) use ($app) {
     $params = initialize_params($app);
     
     if ( ! csrf_passed() ) {
@@ -311,7 +311,7 @@ $app->post('/upload/logo/', function () use ($app) {
 });
 
 // Thing detail
-$app->get('/thing/{slug}/{id}', function ($slug, $id) use ($app) {
+$app->get('/thing/{slug}/{id}/', function ($slug, $id) use ($app) {
     $params = initialize_params($app);
 
     $thing = get_thing($id);
@@ -332,7 +332,7 @@ $app->get('/thing/{slug}/{id}', function ($slug, $id) use ($app) {
 })->assert('id', '\d+');
 
 // Finds similar things
-$app->get('/thing/similar', function () use ($app) {
+$app->get('/thing/similar/', function () use ($app) {
     $request = $app['request_stack']->getCurrentRequest();
     $name = $request->get('name');
 

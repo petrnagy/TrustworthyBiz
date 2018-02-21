@@ -18,16 +18,16 @@ function make_url($type, $id) {
     switch ( $type ) {
         case 'page':
             $title = $app['sql']->select('title')->from('page')->where('id = %i', $id)->fetchSingle();
-            return '/page/' . slugify($title) . '/' . $id;
+            return '/page/' . slugify($title) . '/' . $id . '/';
         case 'category':
             $name = $app['sql']->select('name')->from('category')->where('id = %i', $id)->fetchSingle();
-            return '/things/' . slugify($name) . '/' . $id;
+            return '/things/' . slugify($name) . '/' . $id . '/';
         case 'thing':
             $name = $app['sql']->select('name')->from('thing')->where('id = %i', $id)->fetchSingle();
-            return '/thing/' . slugify($name) . '/' . $id;
+            return '/thing/' . slugify($name) . '/' . $id . '/';
         case 'label':
             $name = $app['sql']->select('name')->from('label')->where('id = %i', $id)->fetchSingle();
-            return '/things/with-label/' . slugify($name) . '/' . $id;
+            return '/things/with-label/' . slugify($name) . '/' . $id . '/';
     } // end switch
 } // end function
 
@@ -381,7 +381,7 @@ function new_thing($data) {
         ])->execute();
     } // end foreach
 
-    $app['cache']->clear();
+    // $app['cache']->clear();
 
     return get_thing($id);
 } // end function
@@ -434,7 +434,7 @@ function update_thing($data) {
         ])->execute();
     } // end foreach
 
-    $app['cache']->clear();
+    // $app['cache']->clear();
 
     return get_thing($data['id']);
 } // end function
