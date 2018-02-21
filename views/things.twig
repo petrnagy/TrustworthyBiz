@@ -64,8 +64,8 @@
         {% endfor %}
         {% if things|length == 0 %}
         <p class="text-center color-primary col-lg-12 nuffin">
-            Ok, so there are no things here. Yet!<br />
-            You know what? You could <a href="/thing/new">add something</a>! Everyone can!
+            Ok, so there are no things here. <strong>Yet.</strong><br />
+            You know what? You could <a href="/thing/new/">add something</a>! Everyone can!
             <br /><br />
             <img src="/img/nuffin-to-see-here.jpg" class="" alt="Nuffin to see here">
         </p>
@@ -73,6 +73,6 @@
         </div>
         {% include 'partial/_pagination.twig' %}
         <hr>
-        <p class="color-secondary text-center">Missing some<span class="color-info">thing</span>? <a href="/thing/new">Submit it</a> - everyone can.</p>
+        <p class="color-secondary text-center">Missing some<span class="color-info">thing</span>? <a href="/thing/new/">Submit it</a> - everyone can.</p>
     </div>
 {% endblock %}
