@@ -10,29 +10,7 @@
         {% endif %}
         </h1>
         <hr>
-        <div class="row">
-            <form class="col-lg-6 col-md-6">
-                <div class="form-group">
-                    <label for="category-select">Pick a category</label>
-                    <select class="form-control" id="category-select">
-                        <option value="/things">All categories</option>
-                        {% for oneCategory in categories %}
-                            <option {{ category is defined and category['id'] == oneCategory['id'] ? 'selected="selected"' : '' }} value="{{ oneCategory['url'] }}">{{ oneCategory['name'] }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </form>
-            <form class="col-lg-6 col-md-6">
-                <div class="form-group">
-                    <label for="sorting-select">Sort things by</label>
-                    <select class="form-control" id="sorting-select">
-                        {% for sortOption in sorting %}
-                        <option {{ sort is defined and sort == sortOption[0] ? 'selected="selected"' : '' }} value="{{ clear_me }}?sort={{sortOption[0]}}">{{ sortOption[1] }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </form>
-        </div>
+        {% include 'partial/_sort.twig' %}
         <div class="row">
         {% for thing in things %}
             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -55,13 +33,26 @@
                             </p>
                             <p class="labels">
                                 {% for type in thing['types'] %}
-                                    <span class="badge badge-secondary"><i class="fa fa-tag"></i>&nbsp;{{ type['name'] }}</span>
+                                    <span class="badge badge-success"><i class="fa fa-tag"></i>&nbsp;{{ type['name'] }}</span>
                                 {% endfor %}
                                 <span class="color-secondary">&nbsp;|&nbsp;</span>
                                 {% for category in thing['categories'] %}
-                                    <span class="badge badge-dark"><i class="fa fa-tag"></i>&nbsp;{{ category['name'] }}</span>
+                                    <span class="badge badge-primary"><i class="fa fa-tag"></i>&nbsp;{{ category['name'] }}</span>
                                 {% endfor %}
-                                <br /><i class="fa fa-globe"></i>&nbsp;{{ thing['homepage']|replace({'http://': '','https://': '','www.': ''}) }}
+                                {% if thing['labels']|length %}
+                                <span class="color-secondary">&nbsp;|&nbsp;</span>
+                                {% endif %}
+                                {% for label in thing['labels'] %}
+                                    <span class="badge badge-secondary"><i class="fa fa-tag"></i>&nbsp;{{ label['name'] }}</span>
+                                {% endfor %}
+                                <br /><span class="color-primary"><i class="fa fa-globe"></i>&nbsp;{{ thing['homepage']|replace({'http://': '','https://': '','www.': ''}) }}</span>
+                                {% if thing['facebook'] is defined or thing['twitter'] is defined or thing['linkedin'] is defined or thing['instagram'] is defined %}
+                                    | 
+                                    {% if thing['facebook'] is defined %}<i class="fa fa-facebook-square color-primary"></i>{% endif %}
+                                    {% if thing['twitter'] is defined %}<i class="fa fa-twitter-square color-primary"></i>{% endif %}
+                                    {% if thing['linkedin'] is defined %}<i class="fa fa-linkedin-square color-primary"></i>{% endif %}
+                                    {% if thing['instagram'] is defined %}<i class="fa fa-instagram color-primary"></i>{% endif %}
+                                {% endif %}
                             </p>
                         </div>
                         {% if thing['img'] is defined %}
@@ -71,7 +62,15 @@
                 </div>
             </div>
         {% endfor %}
+        {% if things|length == 0 %}
+        <p class="text-center color-primary col-lg-12 nuffin">
+            Ok, so there are no things here yet.
+            <br />
+            <img src="/img/nuffin-to-see-here.jpg" class="" alt="Nuffin to see here">
+        </p>
+        {% endif %}
         </div>
+        {% include 'partial/_pagination.twig' %}
         <hr>
         <p class="color-secondary text-center">Missing some<span class="color-info">thing</span>? <a href="/thing/new">Submit it</a> - everyone can.</p>
     </div>

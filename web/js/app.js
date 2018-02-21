@@ -39,18 +39,32 @@ function start() {
             persist: true,
             options: options,
             create: false,
-            items: assigned
+            items: assigned,
+            maxItems: 3
         });
     } // end if
     if ( $('#types-input').length ) {
         var options = $('#types-input').data('json');
-        var assigned = $('#categories-input').data('assigned');
+        var assigned = $('#types-input').data('assigned');
         $('#types-input').selectize({
             delimiter: ';',
             persist: true,
             options: options,
             create: false,
-            items: assigned
+            items: assigned,
+            maxItems: 5
+        });
+    } // end if
+    if ( $('#labels-input').length ) {
+        var options = $('#labels-input').data('json');
+        var assigned = $('#labels-input').data('assigned');
+        $('#labels-input').selectize({
+            delimiter: ';',
+            persist: true,
+            options: options,
+            create: false,
+            items: assigned,
+            maxItems: 10
         });
     } // end if
 

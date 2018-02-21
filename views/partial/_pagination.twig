@@ -1,0 +1,58 @@
+{% if total_cnt > perPage %}
+<div>
+    <ul class="pagination">
+        {% if page > 1 %}
+        <li class="page-item">
+            <a class="page-link" href="{{ clear_me }}?sort={{ sort }}&page=1">&laquo;</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">&laquo;</a>
+        </li>
+        {% endif %}
+
+        {% if (page-6) > 0 %}
+        <li class="page-item disabled dotted">
+            <a class="page-link" href="#">…</a>
+        </li>
+        {% endif %}
+
+        {% for i in (page-5)..(page-1) %}
+            {% if i > 0 %}
+            <li class="page-item">
+                <a class="page-link" href="{{ clear_me }}?sort={{ sort }}&page={{ i }}">{{ i }}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+        
+        <li class="page-item active disabled">
+            <a class="page-link" href="#">{{ page }}</a>
+        </li>
+
+        {% for i in (page+1)..(page+5) %}
+            {% if i*perPage <= (total_cnt/perPage)|round(0, 'ceil') * perPage %}
+            <li class="page-item">
+                <a class="page-link" href="{{ clear_me }}?sort={{ sort }}&page={{ i }}">{{ i }}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if (page+6) < (total_cnt/perPage)|round(0, 'ceil') %}
+        <li class="page-item disabled dotted">
+            <a class="page-link" href="#">…</a>
+        </li>
+        {% endif %}
+
+        {% if (total_cnt/perPage)|round(0, 'ceil') > page %}
+        <li class="page-item">
+            <a class="page-link" href="{{ clear_me }}?sort={{ sort }}&page={{ (total_cnt/perPage)|round(0, 'ceil') }}">&raquo;</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">&raquo;</a>
+        </li>
+        {% endif %}
+        
+    </ul>
+</div>
+{% endif %}

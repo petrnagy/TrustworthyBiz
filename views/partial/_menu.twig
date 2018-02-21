@@ -11,13 +11,23 @@
                 <a class="nav-link" href="/things"><i class="fa fa-list-ul"></i>&nbsp;&nbsp;&nbsp;All things</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="main-nav-categories" href="#"><i class="fa fa-tags"></i>&nbsp;&nbsp;&nbsp;Categories</a>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="main-nav-categories" href="#"><i class="fa fa-sitemap"></i>&nbsp;&nbsp;&nbsp;Categories</a>
                 <div class="dropdown-menu" id="main-nav-categories-dropdown">
                     {% for category in topCategories %}
                     <a class="dropdown-item" href="{{ category['url'] }}"><i class="fa fa-{{ category['fa'] }}"></i>&nbsp;&nbsp;&nbsp;{{ category['name'] }} ({{ category['cnt'] }})</a>
                     {% endfor %}
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/categories">All categories…</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="main-nav-categories" href="#"><i class="fa fa-tag"></i>&nbsp;&nbsp;&nbsp;Labels</a>
+                <div class="dropdown-menu" id="main-nav-categories-dropdown">
+                    {% for label in topLabels %}
+                    <a class="dropdown-item" href="{{ label['url'] }}">{{ label['name'] }} ({{ label['cnt'] }})</a>
+                    {% endfor %}
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/labels">All labels…</a>
                 </div>
             </li>
             <li class="nav-item help-item">

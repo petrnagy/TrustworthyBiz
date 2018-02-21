@@ -1,0 +1,17 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <div class="page">
+        <h1>Labels</h1>
+        <hr>
+        <div class="row">
+        {% for label in labels %}
+        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+            <a class="color-second" href="{{ label['url'] }}">{{ label['name'] }} ({{ label['cnt'] }})</a>
+        </div>
+        {% endfor %}
+        </div>
+        <hr>
+        <p class="color-secondary text-center">Missing something? <script>print_email('petr', 'trustworthy.biz', 'Let me know!')</script></p>
+    </div>
+{% endblock %}

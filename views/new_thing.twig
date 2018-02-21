@@ -48,6 +48,31 @@
                     <input required name="new[name]" type="url" maxlength="100" class="form-control" id="name" aria-describedby="nameHelp" placeholder="https://trustworthy.biz">
                     <small id="nameHelp" class="form-text text-muted">(<span class="red">*</span>) Enter the official project homepage</small>
                 </div>
+                <div class="form-group col-lg-12 col-md-12">
+                    <label for="labels-input">Label(s)</label>
+                    <input name="new[labels]" label="text" class="form-control" id="labels-input" aria-describedby="labelsHelp" placeholder="" value="" data-json="{{ jsonLabels }}">
+                    <small id="labelsHelp" class="form-text text-muted">Optional: 0-10 labels describing the thing</small>
+                </div>
+                <div class="form-group col-md-6 col-lg-6">
+                    <label for="facebook">Facebook page</label>
+                    <input name="new[facebook]" type="url" maxlength="100" class="form-control" id="facebook" aria-describedby="facebookHelp" placeholder="" value="{{ thing['facebook']|default('') }}">
+                    <small id="facebookHelp" class="form-text text-muted">Optional: Official Facebook profile url</small>
+                </div>
+                <div class="form-group col-md-6 col-lg-6">
+                    <label for="twitter">Twitter page</label>
+                    <input name="new[twitter]" type="url" maxlength="100" class="form-control" id="twitter" aria-describedby="twitterHelp" placeholder="" value="{{ thing['twitter']|default('') }}">
+                    <small id="twitterHelp" class="form-text text-muted">Optional: Official Twitter profile url</small>
+                </div>
+                <div class="form-group col-md-6 col-lg-6">
+                    <label for="instagram">Instagram page</label>
+                    <input name="new[instagram]" type="url" maxlength="100" class="form-control" id="instagram" aria-describedby="instagramHelp" placeholder="" value="{{ thing['instagram']|default('') }}">
+                    <small id="instagramHelp" class="form-text text-muted">Optional: Official Instagram profile url</small>
+                </div>
+                <div class="form-group col-md-6 col-lg-6">
+                    <label for="linkedin">LinkedIn page</label>
+                    <input name="new[linkedin]" type="url" maxlength="100" class="form-control" id="linkedin" aria-describedby="linkedinHelp" placeholder="" value="{{ thing['linkedin']|default('') }}">
+                    <small id="linkedinHelp" class="form-text text-muted">Optional: Official LinkedIn profile url</small>
+                </div>
                 <div class="form-group col-lg-12">
                     <button onclick="window.location='/things'; return false;" class="btn btn-secondary pull-left" type="submit"><i class="fa fa-angle-double-left"></i>&nbsp;Cancel</button>
                     <button class="btn btn-primary pull-right" type="submit">Save&nbsp;<i class="fa fa-floppy-o"></i></button>

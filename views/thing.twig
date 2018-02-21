@@ -16,14 +16,22 @@
                 </p>
                 <p>
                     {% for type in thing['types'] %}
-                        <span class="badge badge-secondary"><i class="fa fa-tag"></i>&nbsp;{{ type['name'] }}</span>
+                        <span class="badge badge-success"><i class="fa fa-tag"></i>&nbsp;{{ type['name'] }}</span>
                     {% endfor %}
                     <span class="color-secondary">&nbsp;|&nbsp;</span>
                     {% for category in thing['categories'] %}
-                        <a href="{{ category['url'] }}"><span class="badge badge-dark"><i class="fa fa-tag"></i>&nbsp;{{ category['name'] }}</span></a>
+                        <a href="{{ category['url'] }}"><span class="badge badge-primary"><i class="fa fa-tag"></i>&nbsp;{{ category['name'] }}</span></a>
+                    {% endfor %}
+                    {% if thing['labels']|length %}
+                        <span class="color-secondary">&nbsp;|&nbsp;</span>
+                    {% endif %}
+                    {% for label in thing['labels'] %}
+                        <span class="badge badge-secondary"><i class="fa fa-tag"></i>&nbsp;{{ label['name'] }}</span>
                     {% endfor %}
                 </p>
+                {% if thing['is_revision_of'] is not defined %}
                 <a class="edit-link color-secondary" href="/thing/edit/{{ thing['id'] }}"><small><i class="fa fa-pencil"></i>&nbsp;Edit details</small></a>
+                {% endif %}
             </div>
             <div class="thing-header-bg" style="background: url('{{ thing['img'] }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;"></div>
         </div>
@@ -45,15 +53,25 @@
                 {% include 'partial/_crowdsourced.twig' %}
             </div>
             <div class="col-lg-3 col-md-3 right">
-                <button class="btn btn-secondary btn-full text-left">
+                <button class="btn btn-secondary btn-full text-left" onclick="window.location = '{{ thing['homepage'] }}';">
                     <strong>Visit website</strong>&nbsp;<i class="fa fa-globe"></i><br />
                     <small>{{ thing['homepage']|lower|replace({'http://': '','https://': '','www.': ''}) }}&nbsp;<i class="fa fa-angle-double-right"></i></small>
                 </button>
-                <p class="color-secondary"><small><i class="fa fa-users"></i>&nbsp;Social</small></p>
-                <a href="#" class="social-btn"><i class="fa fa-facebook-square"></i></a>
-                <a href="#" class="social-btn"><i class="fa fa-twitter-square"></i></a>
-                <a href="#" class="social-btn"><i class="fa fa-linkedin-square"></i></a>
-                <a href="#" class="social-btn"><i class="fa fa-instagram"></i></a>
+                {% if thing['facebook'] is defined or thing['twitter'] is defined or thing['linkedin'] is defined or thing['instagram'] is defined %}
+                    <p class="color-secondary"><small><i class="fa fa-users"></i>&nbsp;Social</small></p>
+                    {% if thing['facebook'] is defined %}
+                        <a href="{{ thing['facebook'] }}" class="social-btn"><i class="fa fa-facebook-square"></i></a>
+                    {% endif %}
+                    {% if thing['twitter'] is defined %}
+                        <a href="{{ thing['facebook'] }}" class="social-btn"><i class="fa fa-twitter-square"></i></a>
+                    {% endif %}
+                    {% if thing['linkedin'] is defined %}
+                        <a href="{{ thing['linkedin'] }}" class="social-btn"><i class="fa fa-linkedin-square"></i></a>
+                    {% endif %}
+                    {% if thing['instagram'] is defined %}
+                        <a href="{{ thing['instagram'] }}" class="social-btn"><i class="fa fa-instagram"></i></a>
+                    {% endif %}
+                {% endif %}
                 {% if similar|length %}
                 <p class="color-secondary"><small><i class="fa fa-search"></i>&nbsp;Similar things</small></p>
                 <div class="list-group">

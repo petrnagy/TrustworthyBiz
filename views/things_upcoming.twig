@@ -26,13 +26,29 @@
                             </p>
                             <p class="labels">
                                 {% for type in thing['types'] %}
-                                    <span class="badge badge-secondary"><i class="fa fa-tag"></i>&nbsp;{{ type['name'] }}</span>
+                                    <span class="badge badge-success"><i class="fa fa-tag"></i>&nbsp;{{ type['name'] }}</span>
                                 {% endfor %}
                                 <span class="color-secondary">&nbsp;|&nbsp;</span>
                                 {% for category in thing['categories'] %}
-                                    <span class="badge badge-dark"><i class="fa fa-tag"></i>&nbsp;{{ category['name'] }}</span>
+                                    <span class="badge badge-primary"><i class="fa fa-tag"></i>&nbsp;{{ category['name'] }}</span>
+                                {% endfor %}
+                                {% if thing['labels']|length %}
+                                <span class="color-secondary">&nbsp;|&nbsp;</span>
+                                {% endif %}
+                                {% for label in thing['labels'] %}
+                                    <span class="badge badge-secondary"><i class="fa fa-tag"></i>&nbsp;{{ label['name'] }}</span>
                                 {% endfor %}
                                 <br /><i class="fa fa-globe"></i>&nbsp;{{ thing['homepage']|replace({'http://': '','https://': '','www.': ''}) }}
+                                {% if thing['facebook'] is defined or thing['twitter'] is defined or thing['linkedin'] is defined or thing['instagram'] is defined %}
+                                    | 
+                                    {% if thing['facebook'] is defined %}<i class="fa fa-facebook-square color-primary"></i>{% endif %}
+                                    {% if thing['twitter'] is defined %}<i class="fa fa-twitter-square color-primary"></i>{% endif %}
+                                    {% if thing['linkedin'] is defined %}<i class="fa fa-linkedin-square color-primary"></i>{% endif %}
+                                    {% if thing['instagram'] is defined %}<i class="fa fa-instagram color-primary"></i>{% endif %}
+                                {% endif %}
+                                {% if thing['is_revision_of'] is defined %}
+                                <br /><span class="badge badge-warning">Revision</span>
+                                {% endif %}
                             </p>
                         </div>
                         {% if thing['img'] is defined %}
@@ -40,8 +56,8 @@
                         {% endif %}
                     </a>
                     <div>
-                        <button onclick="confirm('Reject?') && reject_thing({{ thing['id'] }}, this);" class="btn btn-danger">Reject</button>
-                        <button onclick="confirm('Approve?') && approve_thing({{ thing['id'] }}, this);" class="btn btn-success pull-right">Approve</button>
+                        <button onclick="reject_thing({{ thing['id'] }}, this);" class="btn btn-danger">Reject</button>
+                        <button onclick="approve_thing({{ thing['id'] }}, this);" class="btn btn-success pull-right">Approve</button>
                     </div>
                 </div>
             </div>

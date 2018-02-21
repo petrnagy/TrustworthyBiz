@@ -25,6 +25,9 @@ function make_url($type, $id) {
         case 'thing':
             $name = $app['sql']->select('name')->from('thing')->where('id = %i', $id)->fetchSingle();
             return '/thing/' . slugify($name) . '/' . $id;
+        case 'label':
+            $name = $app['sql']->select('name')->from('label')->where('id = %i', $id)->fetchSingle();
+            return '/things/with-label/' . slugify($name) . '/' . $id;
     } // end switch
 } // end function
 
@@ -37,52 +40,115 @@ function get_page($id) {
 function get_categories() {
     global $app;
 
+    $key = "all-categories";
+    if ( $cached = $app['cache']->fetch($key) ) return $cached;
+
     $categories = [];
     $ids = $app['sql']->select('id')->from('category')->where('deleted_at IS NULL')->orderBy('sequence ASC, name ASC')->fetchPairs();
     foreach ($ids as $id) {
         $categories[] = get_category($id);
     } // end foreach
+
+    $app['cache']->store($key, $categories, 900);
+
     return $categories;
 } // end function
 
 function get_types() {
     global $app;
 
+    $key = "all-types";
+    if ( $cached = $app['cache']->fetch($key) ) return $cached;
+
     $types = [];
     $ids = $app['sql']->select('id')->from('type')->where('deleted_at IS NULL')->orderBy('name ASC')->fetchPairs();
     foreach ($ids as $id) {
         $types[] = get_type($id);
     } // end foreach
+
+    $app['cache']->store($key, $types, 900);
+
     return $types;
+} // end function
+
+function get_labels() {
+    global $app;
+
+    $key = "all-labels";
+    if ( $cached = $app['cache']->fetch($key) ) return $cached;
+
+    $labels = [];
+    $ids = $app['sql']->select('id')->from('label')->where('deleted_at IS NULL')->orderBy('name ASC')->fetchPairs();
+    foreach ($ids as $id) {
+        $labels[] = get_label($id);
+    } // end foreach
+
+    $app['cache']->store($key, $labels, 900);
+
+    return $labels;
 } // end function
 
 function get_category($id) {
     global $app;
 
     $row = $app['sql']->select('*')->from('category')->where('id = %i', $id)->and('deleted_at IS NULL')->fetch();
-    if ( $row ) {
-        $row['cnt'] = $app['sql']->select('COUNT(*)')->from('thing_mn_category')->where('category_id = %i', $id)->fetchSingle();
-        $row['url'] = make_url('category', $id);
-    } // end if
+    $ids = $app['sql']->select('thing_id')->from('thing_mn_category')->where('category_id = %i', $id)->fetchPairs();
+    $row['cnt'] = $app['sql']->select('COUNT(*)')->from('thing')->where('id IN %in', $ids)->and('deleted_at IS NULL')->and('approved_at IS NOT NULL')->fetchSingle();
+    $row['url'] = make_url('category', $id);
+
     return $row;
 } // end function
 
 function get_type($id) {
     global $app;
 
-    return $app['sql']->select('*')->from('type')->where('id = %i', $id)->and('deleted_at IS NULL')->fetch();
+    return $app['sql']->select(['id', 'name'])->from('type')->where('id = %i', $id)->and('deleted_at IS NULL')->fetch();
 } // end function
 
-function get_things($category_id = null) {
+function get_label($id) {
     global $app;
 
-    $stmt = $app['sql']->select('thing.id')->from('thing')->where('thing.deleted_at IS NULL')->and('approved_at IS NOT NULL');
+    $row = $app['sql']->select(['id', 'name'])->from('label')->where('id = %i', $id)->and('deleted_at IS NULL')->fetch();
+    $ids = $app['sql']->select('thing_id')->from('thing_mn_label')->where('label_id = %i', $id)->fetchPairs();
+    $row['cnt'] = $app['sql']->select('COUNT(*)')->from('thing')->where('id IN %in', $ids)->and('deleted_at IS NULL')->and('approved_at IS NOT NULL')->fetchSingle();
+    $row['url'] = make_url('label', $row['id']);
+
+    return $row;
+} // end function
+
+function get_things($category_id = null, $label_id = null, $ordering = null, $page = null, $cnt = false) {
+    global $app;
+    $page = abs( intval($page) );
+
+    $stmt = $app['sql']->select($cnt ? 'COUNT(*)' : 'thing.id')->from('thing')->where('thing.deleted_at IS NULL')->and('approved_at IS NOT NULL');
     if ( $category_id ) {
         $stmt->and('thing_mn_category.category_id = %i', $category_id);
         $stmt->innerJoin('thing_mn_category')->on('thing_mn_category.thing_id = thing.id');
     } // end if
-    $stmt->orderBy('thing.score DESC');
-    $ids = $stmt->fetchPairs();
+    if ( $label_id ) {
+        $stmt->and('thing_mn_label.label_id = %i', $label_id);
+        $stmt->innerJoin('thing_mn_label')->on('thing_mn_label.thing_id = thing.id');
+    } // end if
+    switch ( $ordering ) {
+        case 'a-z':
+            $stmt->orderBy('thing.name ASC');
+        break;
+        case 'new':
+            $stmt->orderBy('thing.created_at DESC');
+        break;
+        case 'top':
+            $stmt->orderBy('thing.score DESC');
+        break;
+        default:
+            $stmt->orderBy('thing.score DESC');
+        break;
+    } // end switch
+    
+    if ( $cnt ) {
+        return $stmt->fetchSingle();
+    } else {
+        $ids = $stmt->fetchPairs();
+    } // end if-else
 
     $things = [];
     foreach ($ids as $id) {
@@ -90,6 +156,10 @@ function get_things($category_id = null) {
     } // end foreach
     
     return $things;
+} // end function
+
+function get_things_cnt($category_id = null, $label_id = null) {
+    return get_things($category_id, $label_id, null, null, true);
 } // end function
 
 function get_upcoming_things() {
@@ -108,7 +178,7 @@ function get_thing($id) {
 
     $row = $app['sql']->select('thing.*')->from('thing')->where('thing.id = %i', $id)->fetch();
     $row['url'] = make_url('thing', $id);
-    $categories = $types = [];
+    $categories = $types = $labels = [];
 
     $thingCategoriesIds = $app['sql']->select('category_id')->from('thing_mn_category')->where('thing_id = %i', $id)->fetchPairs();
     foreach ($thingCategoriesIds as $categoryId) {
@@ -125,6 +195,14 @@ function get_thing($id) {
         } // end if
     } // end foreach
     $row['types'] = $types;
+
+    $thingLabelsIds = $app['sql']->select('label_id')->from('thing_mn_label')->where('thing_id = %i', $id)->fetchPairs();
+    foreach ($thingLabelsIds as $labelId) {
+        if ( $label = get_label($labelId) ) {
+            $labels[] = $label;
+        } // end if
+    } // end foreach
+    $row['labels'] = $labels;
 
     $row['grade'] = get_grade($row['score']);
 
@@ -219,6 +297,11 @@ function sanitize_thing($data) {
     $data['description'] = isset($data['description']) ? sanitize_string($data['description']) : null;
     $data['homepage'] = mb_substr($data['homepage'], 0, 150);
     
+    $data['facebook'] = empty($data['facebook']) ? null : mb_substr($data['facebook'], 0, 150);
+    $data['twitter'] = empty($data['twitter']) ? null : mb_substr($data['twitter'], 0, 150);
+    $data['instagram'] = empty($data['instagram']) ? null : mb_substr($data['instagram'], 0, 150);
+    $data['linkedin'] = empty($data['linkedin']) ? null : mb_substr($data['linkedin'], 0, 150);
+    
     $data['tn'] = str_replace('..', '', $data['tn']);
     $data['img'] = str_replace('..', '', $data['img']);
     if ( 0 !== strpos($data['tn'], '/upload') ) {
@@ -244,6 +327,14 @@ function sanitize_thing($data) {
     } // end foreach
     $data['types'] = $ids;
 
+    $ids = [];
+    foreach (explode(';', $data['labels']) as $id) {
+        if ( get_label($id) ) {
+            $ids[] = $id;
+        } // end if
+    } // end foreach
+    $data['labels'] = $ids;
+
     return $data;
 } // end function
 
@@ -255,6 +346,10 @@ function new_thing($data) {
         'name'              => $data['name'],
         'summary'           => $data['summary'],
         'homepage'          => $data['homepage'],
+        'facebook'          => nvl($data['facebook'], null),
+        'twitter'           => nvl($data['twitter'], null),
+        'instagram'         => nvl($data['instagram'], null),
+        'linkedin'          => nvl($data['linkedin'], null),
         'edited'            => 1,
         'tn'                => $data['tn'],
         'img'               => $data['img'],
@@ -274,11 +369,20 @@ function new_thing($data) {
 
     foreach ($data['types'] as $typeId) {
         $app['sql']->insert('thing_mn_type', [
-            'type_id'   => $typeId,
+            'type_id'       => $typeId,
             'thing_id'      => $id
         ])->execute();
     } // end foreach
-    
+
+    foreach ($data['labels'] as $labelId) {
+        $app['sql']->insert('thing_mn_label', [
+            'label_id'       => $labelId,
+            'thing_id'       => $id
+        ])->execute();
+    } // end foreach
+
+    $app['cache']->clear();
+
     return get_thing($id);
 } // end function
 
@@ -296,6 +400,10 @@ function update_thing($data) {
         'name'          => $data['name'],
         'summary'       => $data['summary'],
         'homepage'      => $data['homepage'],
+        'facebook'      => $data['facebook'],
+        'twitter'       => $data['twitter'],
+        'linkedin'      => $data['linkedin'],
+        'instagram'     => $data['instagram'],
         'description'   => $data['description'],
         'tn'            => $data['tn'],
         'img'           => $data['img'],
@@ -317,7 +425,17 @@ function update_thing($data) {
             'thing_id'  => $data['id']
         ])->execute();
     } // end foreach
-    
+
+    $app['sql']->delete('thing_mn_label')->where('thing_id = %i', $data['id'])->execute();
+    foreach ($data['labels'] as $labelId) {
+        $app['sql']->insert('thing_mn_label', [
+            'label_id'   => $labelId,
+            'thing_id'  => $data['id']
+        ])->execute();
+    } // end foreach
+
+    $app['cache']->clear();
+
     return get_thing($data['id']);
 } // end function
 
@@ -325,7 +443,6 @@ function vote($thingId, $optionSlug, $value) {
     global $app;
     $request = $app['request_stack']->getCurrentRequest();
 
-    // TODO: najit dle session posledni hlas a prepsat
     $exists = $app['sql']->select('id')->from('thing_option')->where('thing_id = %i', $thingId)
     ->and('value_slug = %s', $optionSlug)->and('user_session = %s', $app['session']->getId())
     ->and('deleted_at IS NULL')->fetchSingle();
@@ -361,13 +478,15 @@ function approve_thing($id) {
     if ( $thing['is_revision_of'] ) {
         $data = (array) $thing;
         $data['id'] = $thing['is_revision_of'];
-        $data['categories'] = $data['types'] = [];
-        
+        $data['categories'] = $data['types'] = $data['labels'] = [];
+
         foreach ($thing['categories'] as $category)     $data['categories'][] = $category['id'];
         foreach ($thing['types'] as $type)              $data['types'][] = $type['id'];
+        foreach ($thing['labels'] as $label)            $data['labels'][] = $label['id'];
 
         $data['categories'] = implode(';', $data['categories']);
         $data['types'] = implode(';', $data['types']);
+        $data['labels'] = implode(';', $data['labels']);
         update_thing($data);
         $app['sql']->update('thing', ['approved_at' => new DateTime, 'deleted_at' => new DateTime])->where('id = %i', $id)->execute();
     } else {
@@ -556,10 +675,54 @@ function get_option_median($thingId, $optionSlug){
     return $median;
 } // end function
 
+function get_top_categories() {
+    global $app;
+
+    $ids = $app['sql']->query("SELECT mn.category_id
+                        FROM thing_mn_category mn
+                        INNER JOIN category c ON c.id = mn.category_id
+                        WHERE c.deleted_at IS NULL
+                        GROUP BY mn.category_id 
+                        ORDER BY COUNT(mn.category_id) DESC
+                        LIMIT 6")->fetchPairs();
+
+    $categories = [];
+    foreach ($ids as $id) {
+        if ( $cat = get_category($id) ) {
+            $categories[] = $cat;
+        } // end if
+    } // end foreach
+    return $categories;
+} // end function
+
+function get_top_labels() {
+    global $app;
+
+    $ids = $app['sql']->query("SELECT mn.label_id
+                        FROM thing_mn_label mn
+                        INNER JOIN label c ON c.id = mn.label_id
+                        WHERE c.deleted_at IS NULL
+                        GROUP BY mn.label_id 
+                        ORDER BY COUNT(mn.label_id) DESC
+                        LIMIT 6")->fetchPairs();
+    
+    $labels = [];
+    foreach ($ids as $id) {
+        if ( $label = get_label($id) ) {
+            $labels[] = $label;
+        } // end if
+    } // end foreach
+    return $labels;
+} // end function
+
 function initialize_params($app) {
     global $TWIG_HELPERS;
+    $request = $app['request_stack']->getCurrentRequest();
 
     $params = [];
+    $params['sort'] = $request->get('sort') ? $request->get('sort') : 'magic';
+    $params['page'] = $request->get('page') ? $request->get('page') : 1;
+    $params['perPage'] = THINGS_PER_PAGE;
     $params['csrf'] = $app['csrf.token_manager']->getToken($app['session']->getId());
     $params['me'] = me();
     $params['clear_me'] = clear_me();
@@ -567,13 +730,9 @@ function initialize_params($app) {
     $params['appName'] = 'Trustworthy.biz';
     $params['title'] = 'Which app is worth your time & money?';
     $params['description'] = 'Crowdsourced list of well established apps, websites and projects';
-    $params['topCategories'] = [];
-    foreach ([1,2,3,4,5,6] as $id) {
-        $cat = get_category($id);
-        if ( $cat ) {
-            $params['topCategories'][] = $cat;
-        } // end if
-    } // end foreach
+    $params['topCategories'] = get_top_categories();
+    $params['topLabels'] = get_top_labels();
+    
     $params['sorting'] = [
         ['magic', 'Magic'],
         ['top', 'Top score'],

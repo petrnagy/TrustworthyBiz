@@ -1,11 +1,12 @@
 <?php
 
 class OptionCrate {
-    const DEFAULT_VAL = 'Tap to set value! 🐭';
+    public static $a = ['🐭', '🐁', '🖱️', '🐀'];
+    public static function def() { return 'Tap to enter value! ' . self::$a[array_rand(self::$a)]; }
     public $empty;
     public $values = [];
     public function __construct(string $empty = null, array $values) {
-        $this->empty = $empty ? $empty : self::DEFAULT_VAL;
+        $this->empty = $empty ? $empty : self::def();
         $this->values = $values;
     } // end method
 }

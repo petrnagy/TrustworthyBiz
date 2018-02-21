@@ -1,0 +1,23 @@
+<div class="row">
+    <form class="col-lg-6 col-md-6">
+        <div class="form-group">
+            <label for="category-select">Pick a category</label>
+            <select class="form-control" id="category-select">
+                <option value="/things">All categories</option>
+                {% for oneCategory in categories %}
+                    <option {{ category is defined and category['id'] == oneCategory['id'] ? 'selected="selected"' : '' }} value="{{ oneCategory['url'] }}">{{ oneCategory['name'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </form>
+    <form class="col-lg-6 col-md-6">
+        <div class="form-group">
+            <label for="sorting-select">Sort things by</label>
+            <select class="form-control" id="sorting-select">
+                {% for sortOption in sorting %}
+                <option {{ sort is defined and sort == sortOption[0] ? 'selected="selected"' : '' }} value="{{ clear_me }}?sort={{sortOption[0]}}">{{ sortOption[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </form>
+</div>

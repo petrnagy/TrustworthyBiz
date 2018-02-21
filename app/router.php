@@ -43,13 +43,25 @@ $app->get('/categories', function () use ($app) {
     return new Response($html, 200);
 });
 
+// All labels
+$app->get('/labels', function () use ($app) {
+    $params = initialize_params($app);
+    $params['title'] = 'Labels';
+    $params['labels'] = get_labels();
+    $html = $app['twig']->render('labels.twig', $params);
+    return new Response($html, 200);
+});
+
 // All things
 $app->get('/things', function () use ($app) {
     $params = initialize_params($app);
 
+    $request = $app['request_stack']->getCurrentRequest();
+    
     $params['categories'] = get_categories();
-    $params['things'] = get_things();
-    $params['sort'] = $app->get('sort');
+    $params['things'] = get_things(null, null, $request->get('sort'), $request->get('page'));
+    $params['total_cnt'] = get_things_cnt(null, null);
+    $params['title'] = 'All things';
     $html = $app['twig']->render('things.twig', $params);
     return new Response($html, 200);
 });
@@ -88,6 +100,25 @@ $app->patch('/thing/reject/{id}', function ($id) use ($app) {
     return new Response('', 200);
 })->assert('id', '\d+');
 
+// Things filtered by label
+$app->get('/things/with-label/{slug}/{id}', function ($slug, $id) use ($app) {
+    $params = initialize_params($app);
+    $label = get_label($id);
+
+    if ( ! $label ) {
+        throw new NotFoundHttpException;
+    } // end if
+    $request = $app['request_stack']->getCurrentRequest();
+    $params['categories'] = get_categories();
+    $params['label'] = $label;
+    $params['things'] = get_things(null, $id, $request->get('sort'), $request->get('page'));
+    $params['total_cnt'] = get_things_cnt(null, $id);
+    $params['title'] = 'Things with label ' . $label['name'];
+    
+    $html = $app['twig']->render('things.twig', $params);
+    return new Response($html, 200);
+})->assert('id', '\d+');
+
 // Things filtered by category
 $app->get('/things/{slug}/{id}', function ($slug, $id) use ($app) {
     $params = initialize_params($app);
@@ -96,10 +127,13 @@ $app->get('/things/{slug}/{id}', function ($slug, $id) use ($app) {
     if ( ! $category ) {
         throw new NotFoundHttpException;
     } // end if
+    $request = $app['request_stack']->getCurrentRequest();
 
     $params['categories'] = get_categories();
     $params['category'] = $category;
-    $params['things'] = get_things($id);
+    $params['things'] = get_things($id, null, $request->get('sort'), $request->get('page'));
+    $params['total_cnt'] = get_things_cnt($id, null);
+    $params['title'] = 'Things in ' . $category['name'];
     
     $html = $app['twig']->render('things.twig', $params);
     return new Response($html, 200);
@@ -119,6 +153,13 @@ $app->get('/thing/new', function () use ($app) {
         $json[] = (object) [ 'text' => $type['name'], 'value' => $type['id'] ];
     } // end foreach
     $params['jsonTypes'] = json_encode($json);
+    $json = [];
+    foreach (get_labels() as $label) {
+        $json[] = (object) [ 'text' => $label['name'], 'value' => $label['id'] ];
+    } // end foreach
+    $params['jsonLabels'] = json_encode($json);
+
+    $params['title'] = 'New thing';
     
     $html = $app['twig']->render('new_thing.twig', $params);
     return new Response($html, 200);
@@ -148,6 +189,8 @@ $app->get('/thing/edit/{id}', function ($id) use ($app) {
     $thing = get_thing($id);
     if ( $thing['deleted_at'] ) {
         throw new NotFoundHttpException;
+    } elseif ( $thing['is_revision_of'] ) {
+        return $app->redirect( make_url('thing', $thing['is_revision_of']) );
     } // end if
     $params['thing'] = $thing;
 
@@ -172,6 +215,19 @@ $app->get('/thing/edit/{id}', function ($id) use ($app) {
         $params['jsonTypesAssigned'][] = $type['id'];
     } // end foreach
     $params['jsonTypesAssigned'] = json_encode($params['jsonTypesAssigned']);
+
+    $json = [];
+    foreach (get_labels() as $label) {
+        $json[] = (object) [ 'text' => $label['name'], 'value' => $label['id'] ];
+    } // end foreach
+    $params['jsonLabels'] = json_encode($json);
+    $params['jsonLabelsAssigned'] = [];
+    foreach ($thing['labels'] as $label) {
+        $params['jsonLabelsAssigned'][] = $label['id'];
+    } // end foreach
+    $params['jsonLabelsAssigned'] = json_encode($params['jsonLabelsAssigned']);
+
+    $params['title'] = 'Edit ' . $thing['name'];
 
     $html = $app['twig']->render('edit_thing.twig', $params);
     return new Response($html, 200);
