@@ -183,6 +183,7 @@ function start() {
                         o += '<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>'+err+'</div>';
                     }); // end foreach
                     $form.prepend(o);
+                    $("html, body").animate({scrollTop:0}, 500, 'swing');
                 } else {
                     window.location = data.url;
                 } // end if

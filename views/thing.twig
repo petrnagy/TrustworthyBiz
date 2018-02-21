@@ -99,15 +99,17 @@
                 <p>
                     Your changes are being reviewed
                     <br />to avoid any duplicate or vulgar content. <br />
-                    This should not take more than few minutes. <br /><br />
-                    If you have any questions, please <script>print_email('petr', 'trustworthy.biz', 'let me know')</script>.
+                    This should not take more than few minutes.<br /><br />
+                    If you have any questions, please <script>print_email('petr', 'trustworthy.biz', 'let me know')</script>.<br /><br />
+                    <a href="{{ helpers.make_url('thing', thing['is_revision_of']) }}">Continue to {{ thing['name'] }} <i class="fa fa-angle-double-right"></i></a>
                 </p>
                 {% else %}
                 <p>
                     This thing was added quite recently. <br />
                     To avoid any duplicate or vulgar content, it needs to be checked first. <br />
                     This should not take more than few minutes. <br /><br />
-                    If you have any questions, please <script>print_email('petr', 'trustworthy.biz', 'let me know')</script>.
+                    If you have any questions, please <script>print_email('petr', 'trustworthy.biz', 'let me know')</script>.<br /><br />
+                    <a href="/">Continue</a> or <a href="/thing/new">add another thing <i class="fa fa-angle-double-right"></i></a>
                 </p>
                 {% endif %}
             </div>

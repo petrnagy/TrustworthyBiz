@@ -262,6 +262,7 @@ function validate_thing($data) {
     if ( mb_strlen(trim(nvl($data['summary']))) < 10 ) {
         $errors[] = 'Summary must have at least 10 characters.';
     } // end if
+
     if ( ! filter_var(nvl($data['homepage']), FILTER_VALIDATE_URL) ) {
         $errors[] = 'Enter valid homepage URL address.';
     } // end if
@@ -761,6 +762,9 @@ function initialize_params($app) {
         } // end foreach
         $o .= '</select>';
         return $o;
+    };
+    $params['helpers']->make_url = function($what, $id){
+        return make_url($what, $id);
     };
 
     return $params;

@@ -12,12 +12,12 @@
             <div class="row">
                 <div class="form-group col-lg-6 col-md-6">
                     <label for="name">Name</label>
-                    <input required name="new[name]" type="text" maxlength="50" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Evernote, Spotify, Revolut, Nomad List, ..." value="{{ thing['name'] }}">
+                    <input required name="new[name]" type="text" maxlength="50" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Evernote, Spotify, Revolut, Nomad List, ..." value="{{ thing['name'] }}" autocomplete="off">
                     <small id="nameHelp" class="form-text text-muted">(<span class="red">*</span>) Enter the official full name, without any additions or modifications</small>
                 </div>
                 <div class="form-group col-lg-6 col-md-6">
                 <label for="summary">Summary</label>
-                    <input required name="new[summary]" type="text" maxlength="100" class="form-control" id="summary" aria-describedby="summaryHelp" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit." value="{{ thing['summary'] }}">
+                    <input required name="new[summary]" type="text" maxlength="100" class="form-control" id="summary" aria-describedby="summaryHelp" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit." value="{{ thing['summary'] }}" autocomplete="off">
                     <small id="summaryHelp" class="form-text text-muted">(<span class="red">*</span>) Describe the product in few words or use official claim</small>
                 </div>
                 <div class="col-lg-12 col-md-12">
@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-group col-md-6 col-lg-6">
                     <label for="homepage">Homepage</label>
-                    <input required name="new[homepage]" type="url" maxlength="100" class="form-control" id="homepage" aria-describedby="homepageHelp" placeholder="https://trustworthy.biz" value="{{ thing['homepage'] }}">
+                    <input required name="new[homepage]" type="url" maxlength="100" class="form-control" id="homepage" aria-describedby="homepageHelp" placeholder="https://trustworthy.biz" value="{{ thing['homepage'] }}" autocomplete="off">
                     <small id="homepageHelp" class="form-text text-muted">(<span class="red">*</span>) Enter the official project homepage</small>
                 </div>
                 <div class="form-group col-lg-12 col-md-12">
@@ -57,22 +57,22 @@
                 </div>
                 <div class="form-group col-md-6 col-lg-6">
                     <label for="facebook">Facebook page</label>
-                    <input name="new[facebook]" type="url" maxlength="100" class="form-control" id="facebook" aria-describedby="facebookHelp" placeholder="" value="{{ thing['facebook']|default('') }}">
+                    <input name="new[facebook]" type="url" maxlength="100" class="form-control" id="facebook" aria-describedby="facebookHelp" placeholder="" value="{{ thing['facebook']|default('') }}" autocomplete="off">
                     <small id="facebookHelp" class="form-text text-muted">Optional: Official Facebook profile url</small>
                 </div>
                 <div class="form-group col-md-6 col-lg-6">
                     <label for="twitter">Twitter page</label>
-                    <input name="new[twitter]" type="url" maxlength="100" class="form-control" id="twitter" aria-describedby="twitterHelp" placeholder="" value="{{ thing['twitter']|default('') }}">
+                    <input name="new[twitter]" type="url" maxlength="100" class="form-control" id="twitter" aria-describedby="twitterHelp" placeholder="" value="{{ thing['twitter']|default('') }}" autocomplete="off">
                     <small id="twitterHelp" class="form-text text-muted">Optional: Official Twitter profile url</small>
                 </div>
                 <div class="form-group col-md-6 col-lg-6">
                     <label for="instagram">Instagram page</label>
-                    <input name="new[instagram]" type="url" maxlength="100" class="form-control" id="instagram" aria-describedby="instagramHelp" placeholder="" value="{{ thing['instagram']|default('') }}">
+                    <input name="new[instagram]" type="url" maxlength="100" class="form-control" id="instagram" aria-describedby="instagramHelp" placeholder="" value="{{ thing['instagram']|default('') }}" autocomplete="off">
                     <small id="instagramHelp" class="form-text text-muted">Optional: Official Instagram profile url</small>
                 </div>
                 <div class="form-group col-md-6 col-lg-6">
                     <label for="linkedin">LinkedIn page</label>
-                    <input name="new[linkedin]" type="url" maxlength="100" class="form-control" id="linkedin" aria-describedby="linkedinHelp" placeholder="" value="{{ thing['linkedin']|default('') }}">
+                    <input name="new[linkedin]" type="url" maxlength="100" class="form-control" id="linkedin" aria-describedby="linkedinHelp" placeholder="" value="{{ thing['linkedin']|default('') }}" autocomplete="off">
                     <small id="linkedinHelp" class="form-text text-muted">Optional: Official LinkedIn profile url</small>
                 </div>
                 {# <div class="form-group col-lg-12">
