@@ -1,40 +1,36 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{% extends "layout.twig" %}
 
+{% block content %}
+<div class="page thing">
+    <h1>Sitemap <span class="text-secondary">of all things</span></h1>
+</div>
+
+<h2>Things</h2>
+<ul>
 {% for thing in things %}
-    <url>
-        <loc>{{ wwwroot ~ thing['url'] }}</loc>
-        <lastmod>{{ thing['updated_at'] is defined ? thing['updated_at']|date('c') : 'now'|date('c') }}</lastmod>
-        <changefreq>hourly</changefreq>
-        <priority>1.00</priority>
-    </url>
+    <li><a href="{{ wwwroot ~ thing['url'] }}">{{ thing['name'] }}</a></li>
 {% endfor %}
+</ul>
 
+<h2>Categories</h2>
+<ul>
 {% for category in categories %}
-    <url>
-        <loc>{{ wwwroot ~ category['url'] }}</loc>
-        <lastmod>{{ category['updated_at'] is defined ? category['updated_at']|date('c') : 'now'|date('c') }}</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>0.75</priority>
-    </url>
+    <li><a href="{{ wwwroot ~ category['url'] }}">{{ category['name'] }}</a></li>
 {% endfor %}
+</ul>
 
+<h2>Labels</h2>
+<ul>
 {% for label in labels %}
-    <url>
-        <loc>{{ wwwroot ~ label['url'] }}</loc>
-        <lastmod>{{ label['updated_at'] is defined ? label['updated_at']|date('c') : 'now'|date('c') }}</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>0.50</priority>
-    </url>
+    <li><a href="{{ wwwroot ~ label['url'] }}">{{ label['name'] }}</a></li>
 {% endfor %}
+</ul>
 
+<h2>Pages</h2>
+<ul>
 {% for page in pages %}
-    <url>
-        <loc>{{ wwwroot ~ page['url'] }}</loc>
-        <lastmod>{{ page['updated_at'] is defined ? page['updated_at']|date('c') : 'now'|date('c') }}</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.25</priority>
-    </url>
+    <li><a href="{{ wwwroot ~ page['url'] }}">{{ page['title'] }}</a></li>
 {% endfor %}
+</ul>
 
-</urlset>
+{% endblock %}
