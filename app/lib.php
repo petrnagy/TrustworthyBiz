@@ -544,7 +544,7 @@ function generate_thumbnail($uploadedFile) {
         throw new InvalidArgumentException('Only these extensions are allowed: jpg, jpeg, gif, png, bmp');
     } // end if
 
-    $file = "/tmp/{$hash}.$ext";
+    $file = "{$__DIR_ROOT}/tmp/uploads/{$hash}.$ext";
     if ( ! move_uploaded_file($uploadedFile['tmp_name'], $file) ) {
         throw new Exception('Could not move file to temporary location');
     } // end if
