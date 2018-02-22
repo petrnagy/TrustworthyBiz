@@ -10,12 +10,17 @@ require __DIR__ . '/../vendor/autoload.php';
 
 require __DIR__ . '/../app/bootstrap.php';
 
+$app = new \Silex\Application();
+$app['debug'] = ! PRODUCTION;
+
+$app->register(new Silex\Provider\SessionServiceProvider(), [
+    'session.storage.save_path' => $app['debug'] ? "/tmp" : "{$__DIR_ROOT}/tmp/session/"
+]);
+$app['session']->start();
+
 \Tracy\Debugger::enable( PRODUCTION ? \Tracy\Debugger::PRODUCTION : \Tracy\Debugger::DEVELOPMENT, $__DIR_ROOT . '/tmp/logs/' );
 \Tracy\Debugger::$strictMode = true;
 \Tracy\Debugger::$email = 'tracy@trustworthy.biz';
-
-$app = new \Silex\Application();
-$app['debug'] = ! PRODUCTION;
 
 $app['sql'] = new \DibiConnection([
     'driver'    => DB_DRIVER,
@@ -61,11 +66,6 @@ $app->register(new Moust\Silex\Provider\CacheServiceProvider(), array(
 $app->register(new Silex\Provider\HttpCacheServiceProvider(), array(
     'http_cache.cache_dir' => "{$__DIR_ROOT}/tmp/cache/",
 ));
-
-$app->register(new Silex\Provider\SessionServiceProvider(), [
-    'session.storage.save_path' => $app['debug'] ? "/tmp" : "{$__DIR_ROOT}/tmp/session/"
-]);
-$app['session']->start();
 
 $app->register(new Silex\Provider\CsrfServiceProvider());
 

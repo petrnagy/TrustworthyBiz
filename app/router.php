@@ -170,6 +170,7 @@ $app->post('/thing/new/', function () use ($app) {
     csrf_passed();
     $request = $app['request_stack']->getCurrentRequest();
     $new = $request->get('new');
+    
     $errors = validate_thing($new);
     if ( count($errors) ) {
         return new JsonResponse(['errors' => $errors], 200);

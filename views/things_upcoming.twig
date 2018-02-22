@@ -47,7 +47,9 @@
                                     {% if thing['instagram'] is defined %}<i class="fa fa-instagram color-primary"></i>{% endif %}
                                 {% endif %}
                                 {% if thing['is_revision_of'] is defined %}
-                                <br /><span class="badge badge-warning">Revision</span>
+                                    <br /><span class="badge badge-warning">Revision</span>
+                                {% else %}
+                                    <br /><span class="badge badge-danger">New!</span>
                                 {% endif %}
                             </p>
                         </div>

@@ -259,9 +259,9 @@ function validate_thing($data) {
     if ( mb_strlen(trim(nvl($data['name']))) < 3 ) {
         $errors[] = 'Name must have at least 3 characters.';
     } // end if
-    if ( mb_strlen(trim(nvl($data['summary']))) < 10 ) {
-        $errors[] = 'Summary must have at least 10 characters.';
-    } // end if
+    // if ( mb_strlen(trim(nvl($data['summary']))) < 10 ) {
+    //     $errors[] = 'Summary must have at least 10 characters.';
+    // } // end if
 
     if ( ! filter_var(nvl($data['homepage']), FILTER_VALIDATE_URL) ) {
         $errors[] = 'Enter valid homepage URL address.';
@@ -330,7 +330,7 @@ function sanitize_thing($data) {
 
     $ids = [];
     foreach (explode(';', $data['labels']) as $id) {
-        if ( get_label($id) ) {
+        if ( $id && get_label($id) ) {
             $ids[] = $id;
         } // end if
     } // end foreach
@@ -341,6 +341,13 @@ function sanitize_thing($data) {
 
 function new_thing($data) {
     global $app;
+
+    if ( empty($data['summary']) ) {
+        $data['summary'] = fetch_summary_from_title($data['homepage']);
+        if ( ! strlen($data['summary']) ) {
+            $data['summary'] = get_random_string(50);
+        } // end if
+    } // end if
 
     $data = sanitize_thing($data);
     $app['sql']->insert('thing', [
@@ -714,6 +721,51 @@ function get_top_labels() {
         } // end if
     } // end foreach
     return $labels;
+} // end function
+
+function fetch_summary_from_title($url) {
+    global $app;
+
+    if ( filter_var($url, FILTER_VALIDATE_URL) ) {
+        $html = load_page_content($url);
+        $matches = [];
+        preg_match('~<title>(?<summary>.+)<\/title>~us', $html, $matches);
+        if ( ! empty($matches['summary']) ) {
+            return $matches['summary'];
+        } // end if
+    } // end if
+    return null;
+} // end function
+
+function load_page_content($url) {
+    global $app;
+
+    $key = "Html from: {$url}";
+    if ( $cached = $app['cache']->fetch($key) ) return $cached;
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_POST, 0);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+        "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36",
+        // "Referer: https://www.google.com",
+        // "Origin: https://www.google.com",
+        "Content-Type: application/x-www-form-urlencoded",
+        "Accept-Language: en-US,en;q=0.5",
+    ]);
+
+    $out = curl_exec($ch);
+    curl_close($ch);
+
+    if ( strlen($out) > 0 ) {
+        $app['cache']->store($key, $out, 3600);
+    } // end if
+    
+    return $out;
 } // end function
 
 function initialize_params($app) {

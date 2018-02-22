@@ -273,6 +273,16 @@ function start() {
         } // end if
         return false;
     });
+
+    if ( $('input[name="new[homepage]"]').length ) {
+        $('input[name="new[homepage]"]').on('keydown', function(e){
+            if ( 9 == e.which ) {
+                e.preventDefault();
+                $('#new-thing-uploader .uploader').trigger('click');
+                return false;
+            } // end if
+        })
+    } // end if
 } // end function
 
 function toggle_description(el) {

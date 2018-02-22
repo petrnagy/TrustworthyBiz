@@ -130,6 +130,7 @@ p.crowdsourced small { text-transform: uppercase; }
 .page-item.active .page-link:not(:hover):not(:active):not(:focus) { background-color: #18BC9C; }
 .page-item .page-link:hover { background-color: #18BC9C; }
 .nuffin img { max-width: 400px; width: auto; padding: 10px; border: 1px dotted lightgray; margin: 20px; }
+hr.barely-visible { border-top: 1px solid rgba(0,0,0,0.025); }
 
 @media screen and (min-width: 990px) {
     .pagination { margin-top: 50px; }
