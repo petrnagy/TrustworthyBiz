@@ -94,6 +94,10 @@ function start() {
                             this.removeFile(prevFile);
                         } // end if
                         $this.find('.dz-preview').not(':last').remove();
+                        var $name = $this.find('.dz-preview .dz-filename span');
+                        if ( $name.text().length > 20 ) {
+                            $name.text( '...'+$name.text().substr(-20) );
+                        } // end if
                         $this.closest('.col-uploader').addClass('has-img');
                     });
                     this.on('success', function (file, response) {

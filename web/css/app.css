@@ -115,7 +115,7 @@ img.blend { mix-blend-mode: multiply; }
 .page.thing .list-group .name { line-height: 30px; vertical-align: middle; font-size: 1.1rem; }
 .page.thing .edit-link { position: absolute; right: 0px; top: 110px; }
 .page.thing.not-approved { pointer-events: none; }
-.outer { display: table; }
+.outer { display: table; width: 100%; table-layout: fixed; }
 .middle { display: table-cell; vertical-align: middle; }
 .inner { margin-left: auto; margin-right: auto;  }
 .crowd-col { padding: 10px 15px; height: 56px; vertical-align: text-top; line-height: 36px; }
