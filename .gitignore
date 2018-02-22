@@ -14,6 +14,7 @@
 !/web/upload/.keep
 /web/upload/logo/*
 !/web/upload/logo/.keep
+/phinx.yml
 
 # Ignore trash-files
 .idea

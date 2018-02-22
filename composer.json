@@ -7,6 +7,7 @@
         "tracy/tracy": "^2.4",
         "symfony/twig-bridge": "^3.4",
         "moust/silex-cache": "~2.0",
-        "symfony/security-csrf": "^3.4"
+        "symfony/security-csrf": "^3.4",
+        "robmorgan/phinx": "^0.9.2"
     }
 }
