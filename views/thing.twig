@@ -53,12 +53,10 @@
                 {% include 'partial/_crowdsourced.twig' %}
             </div>
             <div class="col-lg-3 col-md-12 right">
-                <a href="{{ thing['homepage'] }}">
-                    <button class="btn btn-secondary btn-full text-left">
-                        <strong>Visit website</strong>&nbsp;<i class="fa fa-globe"></i><br />
-                        <small>{{ thing['homepage']|lower|replace({'http://': '','https://': '','www.': ''}) }}&nbsp;<i class="fa fa-angle-double-right"></i></small>
-                    </button>
-                </a>
+                <button class="btn btn-secondary btn-full text-left" onclick="window.location = '{{ thing['homepage'] }}';">
+                    <strong>Visit website</strong>&nbsp;<i class="fa fa-globe"></i><br />
+                    <small>{{ thing['homepage']|lower|replace({'http://': '','https://': '','www.': ''}) }}&nbsp;<i class="fa fa-angle-double-right"></i></small>
+                </button>
                 {% if thing['facebook'] is defined or thing['twitter'] is defined or thing['linkedin'] is defined or thing['instagram'] is defined %}
                     <p class="color-secondary"><small><i class="fa fa-users"></i>&nbsp;Social</small></p>
                     {% if thing['facebook'] is defined %}

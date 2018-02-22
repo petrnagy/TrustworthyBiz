@@ -1,6 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
-    <a class="navbar-brand" href="/">trustworthy.<span class="color-info">biz</span></a>
+    <a class="navbar-brand" href="/">
+        <img src="/img/logo_v0.0.1_100x100.png" alt="Trustworthy.biz logo" id="logo">
+        <span class="logo-txt">trustworthy.<span class="color-info">biz</span></span>
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -21,8 +24,8 @@
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="main-nav-categories" href="#"><i class="fa fa-tag"></i>&nbsp;&nbsp;&nbsp;Labels</a>
-                <div class="dropdown-menu" id="main-nav-categories-dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="main-nav-labels" href="#"><i class="fa fa-tag"></i>&nbsp;&nbsp;&nbsp;Labels</a>
+                <div class="dropdown-menu" id="main-nav-labels-dropdown">
                     {% for label in topLabels %}
                     <a class="dropdown-item" href="{{ label['url'] }}">{{ label['name'] }} ({{ label['cnt'] }})</a>
                     {% endfor %}

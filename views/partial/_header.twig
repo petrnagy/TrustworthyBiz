@@ -2,7 +2,32 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>{{ title }} | {{ appName }}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="{{ description }}" />
+<meta name="description" content="{{ description|slice(0,150) }}" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="{{ wwwroot }}/img/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ wwwroot }}/img/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ wwwroot }}/img/icons/favicon-16x16.png">
+<link rel="manifest" href="{{ wwwroot }}/img/icons/site.webmanifest">
+<link rel="mask-icon" href="{{ wwwroot }}/img/icons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="{{ wwwroot }}/img/icons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="{{ wwwroot }}/img/icons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+<!-- og:tags -->
+<meta property="og:title" content="{{ title }} | {{ appName }}" />
+<meta property="og:url" content="https://rekup.to/" />
+<meta property="og:description" content="{{ description }}" />
+<meta property="og:site_name" content="REKUP.to" />
+<meta property="og:image" content="{{ wwwroot }}/img/logo_v0.0.1_500x500.png" />
+<!-- Twitter:cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ title }} | {{ appName }}">
+<meta name="twitter:site" content="@petrnagy">
+<meta name="twitter:creator" content="@petrnagy">
+<meta name="twitter:description" content="{{ description }}">
+<meta name="twitter:image" content="{{ wwwroot }}/img/logo_v0.0.1_500x500.png">
+
 <meta name="author" content="Petr Nagy" />
 <meta content="authenticity_token" name="csrf-param" />
 <meta content="{{ csrf }}" name="csrf-token" />

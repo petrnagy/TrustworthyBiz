@@ -177,6 +177,8 @@ function get_thing($id) {
     global $app;
 
     $row = $app['sql']->select('thing.*')->from('thing')->where('thing.id = %i', $id)->fetch();
+    $row['tn'] = smart_urlencode($row['tn']);
+    $row['img'] = smart_urlencode($row['img']);
     $row['url'] = make_url('thing', $id);
     $categories = $types = $labels = [];
 
@@ -782,6 +784,7 @@ function initialize_params($app) {
     $params['perPage'] = THINGS_PER_PAGE;
     $params['csrf'] = $app['csrf.token_manager']->getToken($app['session']->getId());
     $params['me'] = me();
+    $params['wwwroot'] = wwwroot();
     $params['clear_me'] = clear_me();
     $params['helpUrl'] = make_url('page', 1);
     $params['appName'] = 'Trustworthy.biz';
@@ -824,4 +827,8 @@ function initialize_params($app) {
     };
 
     return $params;
+} // end function
+
+function smart_urlencode($url) {
+    return implode('/', array_map('urlencode', explode('/', $url)));
 } // end function

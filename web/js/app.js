@@ -150,7 +150,7 @@ function start() {
                                 var lst = [];
                                 $.each(data, function (key, val) {
                                     var o = '';
-                                    o += '<a target="_blank" href="' + val.url + '">';
+                                    o += '<a target="_blank" rel="noopener" href="' + val.url + '">';
                                     o += val.name;
                                     if (val.tn) {
                                         o += '<img src="' + val.tn + '" alt="' + val.name + '">';
