@@ -9,18 +9,18 @@
                         {{ thing['grade'] }}
                     </div>
                 </div>
-                <h1><span class="img-wrapper"><img src="{{ thing['img'] }}" class="" alt="{{ thing['name'] }}"></span>{{ thing['name'] }}</h1>
+                <h1 class="color-primary"><span class="img-wrapper"><img src="{{ thing['img'] }}" class="" alt="{{ thing['name'] }}"></span>{{ thing['name'] }}</h1>
                 <p class="color-secondary">
                     {{ thing['summary'] }}
                     {# <br /><a href="{{ thing['homepage'] }}"><i class="fa fa-globe"></i>&nbsp;{{ thing['homepage']|replace({'http://': '','https://': '','www.': ''}) }}</a> #}
                 </p>
                 <p>
                     {% for type in thing['types'] %}
-                        <span class="badge badge-success"><i class="fa fa-tag"></i>&nbsp;{{ type['name'] }}</span>
+                        <span class="badge badge-success"><i class="fa fa-info"></i>&nbsp;{{ type['name'] }}</span>
                     {% endfor %}
                     <span class="color-secondary">&nbsp;|&nbsp;</span>
                     {% for category in thing['categories'] %}
-                        <a href="{{ category['url'] }}"><span class="badge badge-primary"><i class="fa fa-tag"></i>&nbsp;{{ category['name'] }}</span></a>
+                        <a href="{{ category['url'] }}"><span class="badge badge-primary"><i class="fa fa-sitemap"></i>&nbsp;{{ category['name'] }}</span></a>
                     {% endfor %}
                     {% if thing['labels']|length %}
                         <span class="color-secondary">&nbsp;|&nbsp;</span>

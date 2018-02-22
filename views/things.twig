@@ -33,11 +33,11 @@
                             </p>
                             <p class="labels">
                                 {% for type in thing['types'] %}
-                                    <span class="badge badge-success"><i class="fa fa-tag"></i>&nbsp;{{ type['name'] }}</span>
+                                    <span class="badge badge-success"><i class="fa fa-info"></i>&nbsp;{{ type['name'] }}</span>
                                 {% endfor %}
                                 <span class="color-secondary">&nbsp;|&nbsp;</span>
                                 {% for category in thing['categories'] %}
-                                    <span class="badge badge-primary"><i class="fa fa-tag"></i>&nbsp;{{ category['name'] }}</span>
+                                    <span class="badge badge-primary"><i class="fa fa-sitemap"></i>&nbsp;{{ category['name'] }}</span>
                                 {% endfor %}
                                 {% if thing['labels']|length %}
                                 <span class="color-secondary">&nbsp;|&nbsp;</span>

@@ -144,6 +144,7 @@ hr.barely-visible { border-top: 1px solid rgba(0,0,0,0.025); }
     position: absolute;
     top: 10px; }
 .navbar-brand .logo-txt { margin-left: 60px; }
+nav { z-index: 10; }
 
 @media screen and (min-width: 990px) {
     .pagination { margin-top: 50px; }
@@ -158,6 +159,8 @@ hr.barely-visible { border-top: 1px solid rgba(0,0,0,0.025); }
     .navbar-brand { border-right: none; padding-right: auto; }
     #main-nav > ul:first-child { margin-top: 10px; padding-top: 10px; border-top: 1px solid #7b8a8b; }
     #main-nav .help-item { margin-left: 0; }
+    .page.thing h1 { font-size: 2.75rem; line-height: 2.75rem; height: 3rem; }
+    .page.thing .img-wrapper img { height: 2.75rem; }
 }
 @media screen and (max-width: 768px) {
     .dz-preview { margin-bottom: 120px; }
@@ -168,10 +171,18 @@ hr.barely-visible { border-top: 1px solid rgba(0,0,0,0.025); }
     #grade { width: 70px; height: 70px; }
     #grade .inner { height: 54px; line-height: 54px; font-size: 30px; }
     .page.thing .edit-link { top: -25px; opacity: .5; }
+    .page.thing h1 { font-size: 2.5rem; line-height: 2.5rem; height: 3rem; }
+    .page.thing .img-wrapper img { height: 2.5rem; }
 }
 
 @media screen and (max-width: 576px) {
     .crowdsourced-data .col-xs-6 { width: 50%; float: left; padding: 10px 5px; font-size: 90%; }
     #index h1, h1, .h1 { font-size: 2rem; }
     .mobile-small { font-size: 90%; }
+    .page.thing h1 { height: 2.4rem; overflow: hidden; font-size: 1.2rem; line-height: 2rem; }
+    .page.thing .img-wrapper img { height: 2rem; }
+    .page.thing .img-wrapper { margin-right: 10px; padding-right: 10px; }
+    #grade { position: absolute; right: 0px; top: -26px; width: 30px; height: 30px; }
+    #grade .inner { height: 24px; line-height: 24px; font-size: 15px; margin: 2px; }
+    .page.thing .edit-link { right: 50px; }
 }

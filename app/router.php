@@ -15,7 +15,6 @@ use \Symfony\Component\HttpKernel\Exception\HttpException;
 $app->get('/', function () use ($app) {
     $params = initialize_params($app);
     $html = $app['twig']->render('index.twig', $params);
-    // $app['cache']->clear();
     return new Response($html, 200);
 });
 

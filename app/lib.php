@@ -391,7 +391,7 @@ function new_thing($data) {
         ])->execute();
     } // end foreach
 
-    // $app['cache']->clear();
+    $app['cache']->clear();
 
     return get_thing($id);
 } // end function
@@ -444,7 +444,7 @@ function update_thing($data) {
         ])->execute();
     } // end foreach
 
-    // $app['cache']->clear();
+    $app['cache']->clear();
 
     return get_thing($data['id']);
 } // end function
