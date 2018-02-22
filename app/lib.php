@@ -177,8 +177,8 @@ function get_thing($id) {
     global $app;
 
     $row = $app['sql']->select('thing.*')->from('thing')->where('thing.id = %i', $id)->fetch();
-    $row['tn'] = smart_urlencode($row['tn']);
-    $row['img'] = smart_urlencode($row['img']);
+    $row['tn'] = $row['tn'];
+    $row['img'] = $row['img'];
     $row['url'] = make_url('thing', $id);
     $categories = $types = $labels = [];
 
@@ -549,8 +549,8 @@ function generate_thumbnail($uploadedFile) {
         throw new Exception('Could not move file to temporary location');
     } // end if
 
-    $tnName = "[tn]{$hash}_{$tnSize}x{$tnSize}.{$ext}";
-    $imgName = "[logo]{$hash}_{$size}x{$size}.{$ext}";
+    $tnName = "tn--{$hash}_{$tnSize}x{$tnSize}.{$ext}";
+    $imgName = "logo--{$hash}_{$size}x{$size}.{$ext}";
     $tn = "{$__DIR_ROOT}/web/upload/logo/{$tnName}";
     $img = "{$__DIR_ROOT}/web/upload/logo/{$imgName}";
     $tnUrl = "/upload/logo/{$tnName}";

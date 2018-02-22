@@ -1,7 +1,7 @@
 {% extends "layout.twig" %}
 
 {% block content %}
-    <div class="page things">
+    <div class="page things ">
         <h1>Things
         {% if category is defined %}
         <span class="color-secondary">in {{ category['name'] }} <i class="fa fa-{{ category['fa'] }}"></i></span>
@@ -73,6 +73,6 @@
         </div>
         {% include 'partial/_pagination.twig' %}
         <hr>
-        <p class="color-secondary text-center">Missing some<span class="color-info">thing</span>? <a href="/thing/new/">Submit it</a> - everyone can.</p>
+        <p class="color-secondary text-center mobile-small">Missing some<span class="color-info">thing</span>? <a href="/thing/new/">Submit it</a> - everyone can.</p>
     </div>
 {% endblock %}

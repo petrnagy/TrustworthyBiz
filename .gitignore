@@ -4,6 +4,10 @@
 /.vscode/
 /tmp/cache/*
 !/tmp/cache/.keep
+/tmp/http/*
+!/tmp/http/.keep
+/tmp/twig/*
+!/tmp/twig/.keep
 /tmp/logs/*
 !/tmp/logs/.keep
 /app/config.php

@@ -47,7 +47,8 @@ a.no-decoration, a.no-decoration:hover { text-decoration: none; }
 .card:hover { border-color: #18BC9C !important; }
 .card a.no-decoration:hover p, .card a.no-decoration:hover .card-title { color: rgb(33, 37, 41); }
 .card:not(.category) a.no-decoration:hover .card-text { color: dimgray; }
-#index { min-height: calc(100vh - 70px - 170px); margin-left: auto; margin-right: auto; }
+#index { margin-left: auto; margin-right: auto; }
+.autoheight { min-height: calc(100vh - 70px - 170px); }
 #index h1 { font-size: 2.5rem; margin-bottom: 1.5rem; }
 #index form { margin-top: 2rem; }
 #main-nav-categories-dropdown a i { width: 15px; text-align: center; }
@@ -155,6 +156,8 @@ hr.barely-visible { border-top: 1px solid rgba(0,0,0,0.025); }
     .page.thing .right { border-left: none; }
     .page.thing .right { border-top: 10px solid rgba(0,0,0,0.03); margin-top: 10px; padding-top: 10px; }
     .navbar-brand { border-right: none; padding-right: auto; }
+    #main-nav > ul:first-child { margin-top: 10px; padding-top: 10px; border-top: 1px solid #7b8a8b; }
+    #main-nav .help-item { margin-left: 0; }
 }
 @media screen and (max-width: 768px) {
     .dz-preview { margin-bottom: 120px; }
@@ -162,4 +165,13 @@ hr.barely-visible { border-top: 1px solid rgba(0,0,0,0.025); }
     #not-approved .content h2 { font-size: 24px; }
     #not-approved .content p { font-size: 15px; }
     .nuffin img { max-width: 300px; }
+    #grade { width: 70px; height: 70px; }
+    #grade .inner { height: 54px; line-height: 54px; font-size: 30px; }
+    .page.thing .edit-link { top: -25px; opacity: .5; }
+}
+
+@media screen and (max-width: 576px) {
+    .crowdsourced-data .col-xs-6 { width: 50%; float: left; padding: 10px 5px; font-size: 90%; }
+    #index h1, h1, .h1 { font-size: 2rem; }
+    .mobile-small { font-size: 90%; }
 }

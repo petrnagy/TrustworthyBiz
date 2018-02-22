@@ -26,7 +26,7 @@
                         <span class="color-secondary">&nbsp;|&nbsp;</span>
                     {% endif %}
                     {% for label in thing['labels'] %}
-                        <span class="badge badge-secondary"><i class="fa fa-tag"></i>&nbsp;{{ label['name'] }}</span>
+                        <a href="{{ label['url'] }}"><span class="badge badge-secondary"><i class="fa fa-tag"></i>&nbsp;{{ label['name'] }}</span></a>
                     {% endfor %}
                 </p>
                 {% if thing['is_revision_of'] is not defined %}
@@ -86,7 +86,7 @@
             </div>
         </div>
         <hr>
-        <p class="color-secondary text-center">
+        <p class="color-secondary text-center mobile-small">
             Please note that these values are <strong>crowdsourced</strong> and may not reflect the project/product official info. <br />
             Page shows <strong>median</strong> from the submitted values. Newer data have greater priority.
         </p>
