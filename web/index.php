@@ -69,4 +69,8 @@ $app->register(new Silex\Provider\HttpCacheServiceProvider(), array(
 
 $app->register(new Silex\Provider\CsrfServiceProvider());
 
+$app->before(function (Request $request, Application $app) {
+    require_http_auth();
+}, Application::EARLY_EVENT);
+
 $app->run();
