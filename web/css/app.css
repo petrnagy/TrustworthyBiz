@@ -136,6 +136,7 @@ hr.barely-visible { border-top: 1px solid rgba(0,0,0,0.025); }
 .unclickable .highlight { background-color: transparent !important; } */
 .hp-cta { margin-top: 2rem; }
 #index .row.middle { padding-top: 20px; padding-bottom: 20px; }
+.navbar-brand { border-right: 1px solid #556061; padding-right: 1rem; }
 
 @media screen and (min-width: 990px) {
     .pagination { margin-top: 50px; }
@@ -147,6 +148,7 @@ hr.barely-visible { border-top: 1px solid rgba(0,0,0,0.025); }
     #logoHelp { position: absolute; top: 65px; }
     .page.thing .right { border-left: none; }
     .page.thing .right { border-top: 10px solid rgba(0,0,0,0.03); margin-top: 10px; padding-top: 10px; }
+    .navbar-brand { border-right: none; padding-right: auto; }
 }
 @media screen and (max-width: 768px) {
     .dz-preview { margin-bottom: 120px; }
