@@ -131,6 +131,11 @@ p.crowdsourced small { text-transform: uppercase; }
 .page-item .page-link:hover { background-color: #18BC9C; }
 .nuffin img { max-width: 400px; width: auto; padding: 10px; border: 1px dotted lightgray; margin: 20px; }
 hr.barely-visible { border-top: 1px solid rgba(0,0,0,0.025); }
+.working { opacity: .5; pointer-events: none; cursor: wait; }
+/* .unclickable { pointer-events: none; }
+.unclickable .highlight { background-color: transparent !important; } */
+.hp-cta { margin-top: 2rem; }
+#index .row.middle { padding-top: 20px; padding-bottom: 20px; }
 
 @media screen and (min-width: 990px) {
     .pagination { margin-top: 50px; }
@@ -140,6 +145,8 @@ hr.barely-visible { border-top: 1px solid rgba(0,0,0,0.025); }
     .dz-preview { margin-bottom: 100px; }
     .col-uploader { margin-bottom: 1.5rem; }
     #logoHelp { position: absolute; top: 65px; }
+    .page.thing .right { border-left: none; }
+    .page.thing .right { border-top: 10px solid rgba(0,0,0,0.03); margin-top: 10px; padding-top: 10px; }
 }
 @media screen and (max-width: 768px) {
     .dz-preview { margin-bottom: 120px; }

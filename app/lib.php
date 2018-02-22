@@ -562,8 +562,8 @@ function generate_thumbnail($uploadedFile) {
     $scale = (int) $tnSize / 4;
 
     $commands = [];
-    $commands[] = "convert -define jpeg:size={$doubleTnSize}x{$doubleTnSize} '{$file}' -thumbnail {$tnSize}x{$tnSize}^ -gravity center -extent {$tnSize}x{$tnSize} -scale {$scale}x{$scale} -scale {$tnSize}x{$tnSize} '{$tn}'";
-    $commands[] = "convert -define jpeg:size={$doubleSize}x{$doubleSize} '{$file}' -scale {$size}x{$size} '{$img}'";
+    $commands[] = "convert -define jpeg:size={$doubleTnSize}x{$doubleTnSize} '{$file}' -delete 1--1 -thumbnail {$tnSize}x{$tnSize}^ -gravity center -extent {$tnSize}x{$tnSize} -scale {$scale}x{$scale} -scale {$tnSize}x{$tnSize} '{$tn}'";
+    $commands[] = "convert -define jpeg:size={$doubleSize}x{$doubleSize} '{$file}' -delete 1--1 -scale {$size}x{$size} '{$img}'";
     foreach ($commands as $command) {
         exec($command);
     } // end foreach
@@ -622,10 +622,10 @@ function fulltext_search($q) {
 
     $fulltext = normalize($q);
 
-    if ( mb_strlen($fulltext) < 3 ) {
+    if ( mb_strlen($fulltext) < 2 ) {
+        // $results[] = [ 'name' => 'Write at least two characters for search', 'url' => wwwroot(), 'cls' => 'unclickable' ];
         return $results;
     } // end if
-    
 
     $thingRows = $app['sql']->select("id, MATCH(name, summary) AGAINST ('*{$fulltext}*') AS score")
          ->from('thing')
@@ -647,6 +647,10 @@ function fulltext_search($q) {
         $category['summary'] = 'Category';
         $results[] = $category;
     } // end foreach
+
+    // if ( ! count($results) ) {
+    //     $results[] = [ 'name' => 'Nothing found', 'url' => wwwroot(), 'cls' => 'unclickable' ];
+    // } // end if
 
     return $results;
 } // end function
