@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+{% for thing in things %}
+    <url>
+        <loc>{{ wwwroot ~ thing['url'] }}</loc>
+        <lastmod>{{ thing['updated_at'] is defined ? thing['updated_at']|date('c') : 'now'|date('c') }}</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>1.00</priority>
+    </url>
+{% endfor %}
+
+{% for category in categories %}
+    <url>
+        <loc>{{ wwwroot ~ category['url'] }}</loc>
+        <lastmod>{{ category['updated_at'] is defined ? category['updated_at']|date('c') : 'now'|date('c') }}</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.75</priority>
+    </url>
+{% endfor %}
+
+{% for label in labels %}
+    <url>
+        <loc>{{ wwwroot ~ label['url'] }}</loc>
+        <lastmod>{{ label['updated_at'] is defined ? label['updated_at']|date('c') : 'now'|date('c') }}</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.50</priority>
+    </url>
+{% endfor %}
+
+{% for page in pages %}
+    <url>
+        <loc>{{ wwwroot ~ page['url'] }}</loc>
+        <lastmod>{{ page['updated_at'] is defined ? page['updated_at']|date('c') : 'now'|date('c') }}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.25</priority>
+    </url>
+{% endfor %}
+
+</urlset>

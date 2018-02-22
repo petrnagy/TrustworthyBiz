@@ -34,7 +34,21 @@ function make_url($type, $id) {
 function get_page($id) {
     global $app;
 
-    return $app['sql']->select('*')->from('page')->where('id = %i', $id)->fetch();
+    $row = $app['sql']->select('*')->from('page')->where('id = %i', $id)->and('deleted_at IS NULL')->fetch();
+    $row['url'] = make_url('page', $id);
+    return $row;
+} // end function
+
+function get_pages() {
+    global $app;
+    $ids = $app['sql']->select('id')->from('page')->where('deleted_at IS NULL')->fetchPairs();
+    $pages = [];
+    foreach ($ids as $id) {
+        if ( $page = get_page($id) ) {
+            $pages[] = $page;
+        } // end if
+    } // end foreach
+    return $pages;
 } // end function
 
 function get_categories() {
@@ -207,6 +221,7 @@ function get_thing($id) {
     $row['labels'] = $labels;
 
     $row['grade'] = get_grade($row['score']);
+    $row['stars'] = get_stars($row['score']);
 
     return $row;
 } // end function
@@ -240,6 +255,17 @@ function get_grade($score) {
     elseif ( $score < 75.00 )    return 'b';
     elseif ( $score < 90.00 )    return 'a';
     else                         return 'a+';
+} // end function
+
+function get_stars($score) {
+    if ( $score == 0.00 )        return '0.00';
+    elseif ( $score < 20.00 )    return '0.50';
+    elseif ( $score < 30.00 )    return '1.00';
+    elseif ( $score < 40.00 )    return '2.00';
+    elseif ( $score < 60.00 )    return '2.50';
+    elseif ( $score < 75.00 )    return '4.00';
+    elseif ( $score < 90.00 )    return '4.50';
+    else                         return '5.00';
 } // end function
 
 function similar_things($name) {
@@ -812,7 +838,7 @@ function initialize_params($app) {
         } // end if-else
 
         $o = '';
-        $o .= '<span class="value underline-info pointer tap-to-edit" title="Tap to edit" data-toggle="tooltip">'.htmlentities($val).'</span>';
+        $o .= '<span class="value pointer tap-to-edit" title="Tap to edit" data-toggle="tooltip">'.htmlentities($val).'</span>';
         $o .= '<select class="form-control hidden pointer live-update" data-id="'.$thingId.'" data-slug="'.htmlentities($optionSlug).'">';
         $o .= '<option value="">- - -</option>';
         foreach ($crate->values as $row) {

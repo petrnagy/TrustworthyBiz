@@ -1,6 +1,6 @@
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule !\.(txt|mp3|pdf|js|ico|gif|jpg|jpeg|png|bmp|css|rar|zip|tar\.gz|xml|svg)$ index.php
+RewriteRule !\.(mp3|pdf|js|ico|gif|jpg|jpeg|png|bmp|css|rar|zip|tar\.gz|svg)$ index.php
 
 <IfModule mod_expires.c>
   ExpiresActive on

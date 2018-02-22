@@ -360,3 +360,25 @@ $app->error(function (\Exception $e) use ($app) {
     $params['code'] = $code;
     return new Response($app['twig']->render('error.twig', $params), $code);
 });
+
+// Robots
+$app->get('/robots.txt', function () use ($app) {
+    $params = initialize_params($app);
+    $html = $app['twig']->render('robots.twig', $params);
+    return new Response($html, 200, [
+        'Content-Type' => 'text/plain'
+    ]);
+});
+
+// Robots
+$app->get('/sitemap.xml', function () use ($app) {
+    $params = initialize_params($app);
+    $params['pages'] = get_pages();
+    $params['categories'] = get_categories();
+    $params['labels'] = get_labels();
+    $params['things'] = get_things();
+    $html = $app['twig']->render('sitemap.twig', $params);
+    return new Response($html, 200, [
+        'Content-Type' => 'application/xml'
+    ]);
+});

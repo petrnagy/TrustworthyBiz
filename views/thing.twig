@@ -1,7 +1,7 @@
 {% extends "layout.twig" %}
 
 {% block content %}
-    <div class="page thing {{ thing['approved_at'] is defined ? 'approved' : 'not-approved' }}">
+    <div class="page thing {{ thing['approved_at'] is defined ? 'approved' : 'not-approved' }}" itemscope itemtype="http://schema.org/Product">
         <div class="thing-header-wrapper">
             <div class="thing-header">
                 <div id="grade" class="pull-right {{ thing['grade']|replace({'+': ''}) }} text-center" title="Overall score™" data-toggle="tooltip">
@@ -9,8 +9,8 @@
                         {{ thing['grade'] }}
                     </div>
                 </div>
-                <h1 class="color-primary"><span class="img-wrapper"><img src="{{ thing['img'] }}" class="" alt="{{ thing['name'] }}"></span>{{ thing['name'] }}</h1>
-                <p class="color-secondary">
+                <h1 class="color-primary"><span class="img-wrapper"><img src="{{ thing['img'] }}" alt="{{ thing['name'] }}" itemprop="image" src="{{ thing['img'] }}"></span><span itemprop="name">{{ thing['name'] }}</span></h1>
+                <p class="color-secondary" itemprop="description">
                     {{ thing['summary'] }}
                     {# <br /><a href="{{ thing['homepage'] }}"><i class="fa fa-globe"></i>&nbsp;{{ thing['homepage']|replace({'http://': '','https://': '','www.': ''}) }}</a> #}
                 </p>
@@ -90,6 +90,12 @@
             Please note that these values are <strong>crowdsourced</strong> and may not reflect the project/product official info. <br />
             Page shows <strong>median</strong> from the submitted values. Newer data have greater priority.
         </p>
+        <span class="hidden" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+            <span itemprop="ratingValue">{{ thing['stars'] }}</span>
+            <span itemprop="reviewCount">{{ thing['edited'] }}</span>
+            <span itemprop="worstRating">0</span>
+            <span itemprop="bestRating">5</span>
+        </span>
     </div>
     {% if thing['approved_at'] is not defined %}
         <div id="not-approved">
