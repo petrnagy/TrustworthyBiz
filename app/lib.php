@@ -893,6 +893,14 @@ function initialize_params($app) {
     $params['helpers']->make_url = function($what, $id){
         return make_url($what, $id);
     };
+    $params['helpers']->clean_url = function($url){
+        $url = mb_strtolower($url);
+        $url = str_replace(['http://', 'https://', 'www.'], '', $url);
+        if ( '/' == substr($url, -1) ) {
+            $url = substr($url, 0, strrpos($url, '/'));
+        } // end if
+        return $url;
+    };
 
     return $params;
 } // end function

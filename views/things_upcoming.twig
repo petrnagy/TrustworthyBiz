@@ -25,20 +25,20 @@
                                 {{ thing['summary'] is defined ? thing['summary'] : null }}
                             </p>
                             <p class="labels">
-                                {% for type in thing['types'] %}
-                                    <span class="badge badge-success"><i class="fa fa-info"></i>&nbsp;{{ type['name'] }}</span>
-                                {% endfor %}
-                                <span class="color-secondary">&nbsp;|&nbsp;</span>
                                 {% for category in thing['categories'] %}
                                     <span class="badge badge-primary"><i class="fa fa-sitemap"></i>&nbsp;{{ category['name'] }}</span>
                                 {% endfor %}
-                                {% if thing['labels']|length %}
                                 <span class="color-secondary">&nbsp;|&nbsp;</span>
+                                {% for type in thing['types'] %}
+                                    <span class="badge badge-dark"><i class="fa fa-info"></i>&nbsp;{{ type['name'] }}</span>
+                                {% endfor %}
+                                {% if thing['labels']|length %}
+                                    <br />
                                 {% endif %}
                                 {% for label in thing['labels'] %}
-                                    <span class="badge badge-secondary"><i class="fa fa-tag"></i>&nbsp;{{ label['name'] }}</span>
+                                    <span class="badge badge-light"><i class="fa fa-tag"></i>&nbsp;{{ label['name'] }}</span>
                                 {% endfor %}
-                                <br /><i class="fa fa-globe"></i>&nbsp;{{ thing['homepage']|replace({'http://': '','https://': '','www.': ''}) }}
+                                <br /><span class="color-secondary"><small><i class="fa fa-globe"></i>&nbsp;{{ helpers.clean_url(thing['homepage']) }}</small></span>
                                 {% if thing['facebook'] is defined or thing['twitter'] is defined or thing['linkedin'] is defined or thing['instagram'] is defined %}
                                     | 
                                     {% if thing['facebook'] is defined %}<i class="fa fa-facebook-square color-primary"></i>{% endif %}
