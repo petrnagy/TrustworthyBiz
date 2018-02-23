@@ -789,6 +789,10 @@ function load_page_content($url) {
         "Content-Type: application/x-www-form-urlencoded",
         "Accept-Language: en-US,en;q=0.5",
     ]);
+    curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, function($downloadSize, $downloaded, $uploadSize, $uploaded){
+        $limit = 10 * 1024 * 1024; // 10M
+        return ($downloaded > $limit) ? 1 : 0;
+    });
 
     $out = curl_exec($ch);
     curl_close($ch);
@@ -816,6 +820,10 @@ function load_image_content($url) {
         "Content-Type: application/x-www-form-urlencoded",
         "Accept-Language: en-US,en;q=0.5",
     ]);
+    curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, function($downloadSize, $downloaded, $uploadSize, $uploaded){
+        $limit = 10 * 1024 * 1024; // 10M
+        return ($downloaded > $limit) ? 1 : 0;
+    });
 
     $out = curl_exec($ch);
     curl_close($ch);

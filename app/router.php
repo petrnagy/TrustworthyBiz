@@ -6,6 +6,7 @@
  * See readme.txt for more information
  */
 
+use \Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use \Symfony\Component\HttpFoundation\Response;
 use \Symfony\Component\HttpFoundation\JsonResponse;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -396,13 +397,21 @@ $app->get('/sitemap/', function () use ($app) {
 });
 
 $app->get('/image-relay/', function () use ($app) {
+    global $app, $__DIR_ROOT;
     $request = $app['request_stack']->getCurrentRequest();
     $imgUrl = $request->get('img');
     $data = load_image_content($imgUrl);
     if ( $data ) {
-        return new Response($data['data'], 200, [
-            'Content-Type' => $data['Content-Type']
-        ]);
+        $parts = explode('/', $data['Content-Type'], 2);
+        $name = get_random_string(20);
+        $ext = nvl($parts[1], 'jpg');
+        $path = "{$__DIR_ROOT}/tmp/uploads/{$name}.{$ext}";
+        $wrote = file_put_contents($path, $data['data']);
+        if ( $wrote ) {
+            return $app->sendFile($path)
+                       ->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, "{$name}.{$ext}")
+                       ->deleteFileAfterSend(true);
+        } // end if
     } else {
         return new Response('', 404);
     } // end if-else

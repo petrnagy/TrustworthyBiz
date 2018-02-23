@@ -111,11 +111,13 @@ function start() {
                         $this.find('.uploader').addClass('hovering');
                     }).on('drop', function (event) {
                         var myDropzone = this;
-
                         var imageUrl = event.dataTransfer.getData('URL');
                         var fileName = imageUrl.split('/').pop();
                         if ( imageUrl.length > 0 ) {
                             imageUrl = wwwroot() + '/image-relay/?img=' + encodeURIComponent(imageUrl);
+                        } // end if
+                        if ( fileName.indexOf('?') !== -1 ) {
+                            fileName = fileName.split('?').shift();
                         } // end if
 
                         // set the effectAllowed for the drag item
