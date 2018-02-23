@@ -29,14 +29,14 @@
                     </div>
                 </div>
                 <div class="form-group col-lg-6 col-md-6">
-                    <label for="types-input">Type(s)</label>
-                    <input name="new[types]" required type="text" class="form-control" id="types-input" aria-describedby="typesHelp" placeholder="Pick at least one" value="" data-json="{{ jsonTypes }}" data-assigned="{{ jsonTypesAssigned }}">
-                    <small id="typesHelp" class="form-text text-muted">(<span class="red">*</span>) Pick at least one type, 5 max</small>
-                </div>
-                <div class="form-group col-lg-6 col-md-6">
                     <label for="categories-input">Categories</label>
                     <input name="new[categories]" required type="text" class="form-control" id="categories-input" aria-describedby="categoriesHelp" placeholder="Pick at least one" value="" data-json="{{ jsonCategories }}" data-assigned="{{ jsonCategoriesAssigned }}">
                     <small id="categoriesHelp" class="form-text text-muted">(<span class="red">*</span>) Pick at least one category, 3 max</small>
+                </div>
+                <div class="form-group col-lg-6 col-md-6">
+                    <label for="types-input">What is it?</label>
+                    <input name="new[types]" required type="text" class="form-control" id="types-input" aria-describedby="typesHelp" placeholder="Pick at least one" value="" data-json="{{ jsonTypes }}" data-assigned="{{ jsonTypesAssigned }}">
+                    <small id="typesHelp" class="form-text text-muted">(<span class="red">*</span>) Pick at least one type, 5 max</small>
                 </div>
                 <div class="form-group col-md-6 col-lg-6">
                     <label for="homepage">Homepage</label>
