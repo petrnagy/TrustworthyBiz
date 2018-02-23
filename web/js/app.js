@@ -114,6 +114,9 @@ function start() {
 
                         var imageUrl = event.dataTransfer.getData('URL');
                         var fileName = imageUrl.split('/').pop();
+                        if ( imageUrl.length > 0 ) {
+                            imageUrl = wwwroot() + '/image-relay/?img=' + encodeURIComponent(imageUrl);
+                        } // end if
 
                         // set the effectAllowed for the drag item
                         // event.dataTransfer.effectAllowed = 'copy';
@@ -356,4 +359,8 @@ Dropzone.getDataUri = function (url, callback) {
 
     image.setAttribute('crossOrigin', 'anonymous');
     image.src = url;
-}
+} // end function
+
+function wwwroot() {
+    return window.location.protocol + '//' + window.location.host;
+} // end function

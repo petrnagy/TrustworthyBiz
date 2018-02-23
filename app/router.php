@@ -394,3 +394,16 @@ $app->get('/sitemap/', function () use ($app) {
     $html = $app['twig']->render('sitemap.twig', $params);
     return new Response($html, 200);
 });
+
+$app->get('/image-relay/', function () use ($app) {
+    $request = $app['request_stack']->getCurrentRequest();
+    $imgUrl = $request->get('img');
+    $data = load_image_content($imgUrl);
+    if ( $data ) {
+        return new Response($data['data'], 200, [
+            'Content-Type' => $data['Content-Type']
+        ]);
+    } else {
+        return new Response('', 404);
+    } // end if-else
+});

@@ -800,6 +800,40 @@ function load_page_content($url) {
     return $out;
 } // end function
 
+function load_image_content($url) {
+    global $app;
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    // curl_setopt($ch, CURLOPT_HEADER, 1);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_POST, 0);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+        "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36",
+        "Content-Type: application/x-www-form-urlencoded",
+        "Accept-Language: en-US,en;q=0.5",
+    ]);
+
+    $out = curl_exec($ch);
+    curl_close($ch);
+    
+    $f = finfo_open();
+    $mime = finfo_buffer($f, $out, FILEINFO_MIME_TYPE);
+    
+    if ( $out && $mime ) {
+        return [
+            'Content-Type' => $mime,
+            'data' => $out,
+        ];
+    } else {
+        return null;
+    } // end if-else
+
+} // end function
+
 function initialize_params($app) {
     global $TWIG_HELPERS;
     $request = $app['request_stack']->getCurrentRequest();
