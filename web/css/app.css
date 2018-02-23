@@ -139,13 +139,10 @@ hr.barely-visible { border-top: 1px solid rgba(0,0,0,0.025); }
 .hp-cta { margin-top: 2rem; }
 #index .row.middle { padding-top: 20px; padding-bottom: 20px; }
 .navbar-brand { border-right: 1px solid #556061; padding-right: 1rem; }
-.navbar-brand #logo {
-    height: auto;
-    max-height: 50px;
-    position: absolute;
-    top: 10px; }
+.navbar-brand #logo { height: auto; max-height: 50px; position: absolute; top: 10px; }
 .navbar-brand .logo-txt { margin-left: 60px; }
 nav { z-index: 10; }
+.page.thing .img-wrapper:hover { overflow: visible; }
 
 @media screen and (min-width: 990px) {
     .pagination { margin-top: 50px; }
