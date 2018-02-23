@@ -47,7 +47,7 @@
 a.no-decoration, a.no-decoration:hover { text-decoration: none; }
 .card:hover { border-color: #18BC9C !important; }
 .card a.no-decoration:hover p, .card a.no-decoration:hover .card-title { color: rgb(33, 37, 41); }
-.card:not(.category) a.no-decoration:hover .card-text { color: dimgray; }
+.card:not(.category) a.no-decoration:hover .card-text { color: #424242; }
 #index { margin-left: auto; margin-right: auto; }
 .autoheight { min-height: calc(100vh - 70px - 170px); }
 #index h1 { font-size: 2.5rem; margin-bottom: 1.5rem; }
