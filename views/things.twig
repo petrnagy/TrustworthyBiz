@@ -20,34 +20,17 @@
                     {# <div class="card-header">Header</div> #}
                     <a href="{{ thing['url'] }}" class="color-black no-decoration">
                         <div class="card-body">
-                            <h4 class="card-title">{{ thing['name'] }}
-                            {% if thing['tn'] is defined %}
-                            <div class="pull-right icons">
-                                {% endif %}
-                                <span class="grade {{ thing['grade']|replace({'+': ''}) }} text-center" title="Overall score™" data-toggle="tooltip">
-                                    {{ thing['grade'] }}
-                                </span>
-                                <img class="thing-tn" src="{{thing['img']}}" alt="{{ thing['name'] }}">
-                            </div>
+                            <h4 class="card-title">
+                                <span class="txt">{{ thing['name'] }}</span>
+                                <img class="thing-tn pull-right" src="{{thing['img']}}" alt="{{ thing['name'] }}">
                             </h4>
                             <p class="card-text">
                                 {{ thing['summary'] is defined ? thing['summary'] : null }}
                             </p>
                             <p class="labels">
-                                {% for category in thing['categories'] %}
-                                    <span class="badge badge-pill badge-primary"><i class="fa fa-sitemap"></i>&nbsp;{{ category['name'] }}</span>
-                                {% endfor %}
-                                <span class="color-secondary">&nbsp;|&nbsp;</span>
-                                {% for type in thing['types'] %}
-                                    <span class="badge badge-pill badge-dark"><i class="fa fa-info"></i>&nbsp;{{ type['name'] }}</span>
-                                {% endfor %}
-                                {% if thing['labels']|length %}
-                                    <br />
-                                {% endif %}
-                                {% for label in thing['labels'] %}
-                                    <span class="badge badge-pill badge-light"><i class="fa fa-tag"></i>&nbsp;{{ label['name'] }}</span>
-                                {% endfor %}
-                                <br /><span class="color-secondary"><small><i class="fa fa-globe"></i>&nbsp;{{ helpers.clean_url(thing['homepage']) }}</small></span>
+                                <span class="badge badge-pill badge-primary"><i class="fa fa-sitemap"></i>&nbsp;{{ thing['categories'][0]['name'] }}</span>
+                                <span class="badge badge-pill badge-transparent">+{{ thing['categories']|length - 1 + thing['types']|length + thing['labels']|length }} more</span>
+                                <br /><span class="color-secondary"><i class="fa fa-globe"></i></span>
                                 {% if thing['facebook'] is defined or thing['twitter'] is defined or thing['linkedin'] is defined or thing['instagram'] is defined %}
                                     | 
                                     {% if thing['facebook'] is defined %}<i class="fa fa-facebook-square color-primary"></i>{% endif %}
@@ -55,6 +38,9 @@
                                     {% if thing['linkedin'] is defined %}<i class="fa fa-linkedin-square color-primary"></i>{% endif %}
                                     {% if thing['instagram'] is defined %}<i class="fa fa-instagram color-primary"></i>{% endif %}
                                 {% endif %}
+                                <span class="grade {{ thing['grade']|replace({'+': ''}) }} text-center pull-right" title="Overall score™" data-toggle="tooltip">
+                                    {{ thing['grade'] }}
+                                </span>
                             </p>
                         </div>
                         {% if thing['img'] is defined %}

@@ -16,17 +16,17 @@
                 </p>
                 <p>
                     {% for category in thing['categories'] %}
-                        <a href="{{ category['url'] }}"><span class="badge badge-primary"><i class="fa fa-sitemap"></i>&nbsp;{{ category['name'] }}</span></a>
+                        <a href="{{ category['url'] }}"><span class="badge badge-pill badge-primary"><i class="fa fa-sitemap"></i>&nbsp;{{ category['name'] }}</span></a>
                     {% endfor %}
                     <span class="color-secondary">&nbsp;|&nbsp;</span>
                     {% for type in thing['types'] %}
-                        <span class="badge badge-dark"><i class="fa fa-info"></i>&nbsp;{{ type['name'] }}</span>
+                        <span class="badge badge-pill badge-dark"><i class="fa fa-info"></i>&nbsp;{{ type['name'] }}</span>
                     {% endfor %}
                     {% if thing['labels']|length %}
                         <br />
                     {% endif %}
                     {% for label in thing['labels'] %}
-                        <a href="{{ label['url'] }}"><span class="badge badge-light"><i class="fa fa-tag"></i>&nbsp;{{ label['name'] }}</span></a>
+                        <a href="{{ label['url'] }}"><span class="badge badge-pill badge-info"><i class="fa fa-tag"></i>&nbsp;{{ label['name'] }}</span></a>
                     {% endfor %}
                 </p>
                 {% if thing['is_revision_of'] is not defined %}
