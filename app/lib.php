@@ -590,8 +590,8 @@ function generate_thumbnail($uploadedFile) {
     $scale = (int) $tnSize / 4;
 
     $commands = [];
-    $commands[] = "convert -define jpeg:size={$doubleTnSize}x{$doubleTnSize} '{$file}' -background 'rgba(0,0,0,0)' -transparent white -delete 1--1 -thumbnail {$tnSize}x{$tnSize}^ -gravity center -extent {$tnSize}x{$tnSize} -scale {$scale}x{$scale} -scale {$tnSize}x{$tnSize} '{$tn}'";
-    $commands[] = "convert -define jpeg:size={$doubleSize}x{$doubleSize} '{$file}' -background 'rgba(0,0,0,0)' -transparent white -delete 1--1 -scale {$size}x{$size} '{$img}'";
+    $commands[] = "convert -define jpeg:size={$doubleTnSize}x{$doubleTnSize} '{$file}' -delete 1--1 -thumbnail {$tnSize}x{$tnSize}^ -gravity center -extent {$tnSize}x{$tnSize} -scale {$scale}x{$scale} -scale {$tnSize}x{$tnSize} '{$tn}'";
+    $commands[] = "convert -define jpeg:size={$doubleSize}x{$doubleSize} '{$file}' -delete 1--1 -scale {$size}x{$size} '{$img}'";
     foreach ($commands as $command) {
         exec($command);
     } // end foreach

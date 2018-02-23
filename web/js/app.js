@@ -351,7 +351,7 @@ Dropzone.getDataUri = function (url, callback) {
         // callback(canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, ''));
 
         // ... or get as Data URI
-        callback(canvas.toDataURL('image/jpeg'));
+        callback(canvas.toDataURL('image/png'));
     };
 
     image.setAttribute('crossOrigin', 'anonymous');
