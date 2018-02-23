@@ -95,8 +95,8 @@ function start() {
                         } // end if
                         $this.find('.dz-preview').not(':last').remove();
                         var $name = $this.find('.dz-preview .dz-filename span');
-                        if ( $name.text().length > 20 ) {
-                            $name.text( '...'+$name.text().substr(-20) );
+                        if ($name.text().length > 20) {
+                            $name.text('...' + $name.text().substr(-20));
                         } // end if
                         $this.closest('.col-uploader').addClass('has-img');
                     });
@@ -109,7 +109,19 @@ function start() {
                     });
                     this.on('dragenter', function () {
                         $this.find('.uploader').addClass('hovering');
-                    }).on('drop', function () {
+                    }).on('drop', function (event) {
+                        var myDropzone = this;
+
+                        var imageUrl = event.dataTransfer.getData('URL');
+                        var fileName = imageUrl.split('/').pop();
+
+                        // set the effectAllowed for the drag item
+                        // event.dataTransfer.effectAllowed = 'copy';
+                        Dropzone.getDataUri(imageUrl, function (dataUri) {
+                            var blob = Dropzone.dataURItoBlob(dataUri);
+                            blob.name = fileName;
+                            myDropzone.addFile(blob);
+                        });
                         $this.find('.uploader').removeClass('hovering');
                     }).on('dragend', function () {
                         $this.find('.uploader').removeClass('hovering');
@@ -132,6 +144,7 @@ function start() {
                 $this.trigger('click');
             });
         });
+
     } // end if
 
     var $alert = $('.new-thing .similar-thing');
@@ -323,3 +336,24 @@ function approve_thing(id, el) {
         }, // end func
     }); // end ajax
 } // end function
+
+Dropzone.getDataUri = function (url, callback) {
+    var image = new Image();
+
+    image.onload = function () {
+        var canvas = document.createElement('canvas');
+        canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
+        canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
+
+        canvas.getContext('2d').drawImage(this, 0, 0);
+
+        // Get raw image data
+        // callback(canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, ''));
+
+        // ... or get as Data URI
+        callback(canvas.toDataURL('image/jpeg'));
+    };
+
+    image.setAttribute('crossOrigin', 'anonymous');
+    image.src = url;
+}
