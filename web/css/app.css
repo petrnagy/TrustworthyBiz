@@ -162,7 +162,7 @@ nav { z-index: 10; }
 }
 @media screen and (max-width: 768px) {
     .dz-preview { margin-bottom: 120px; }
-    #not-approved .content { width: 90%; }
+    #not-approved .content { width: 90%; background-color: rgba(140, 140, 140, 0.1); }
     #not-approved .content h2 { font-size: 24px; }
     #not-approved .content p { font-size: 15px; }
     .nuffin img { max-width: 300px; }
