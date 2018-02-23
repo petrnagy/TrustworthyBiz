@@ -8,6 +8,8 @@
 !/tmp/http/.keep
 /tmp/twig/*
 !/tmp/twig/.keep
+/tmp/uploads/*
+!/tmp/uploads/.keep
 /tmp/logs/*
 !/tmp/logs/.keep
 /app/config.php
