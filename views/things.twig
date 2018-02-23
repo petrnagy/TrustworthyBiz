@@ -5,6 +5,8 @@
         <h1>Things
         {% if category is defined %}
         <span class="color-secondary">in {{ category['name'] }} <i class="fa fa-{{ category['fa'] }}"></i></span>
+        {% elseif label is defined %}
+        <span class="color-secondary">with label {{ label['name'] }}</span>
         {% else %}
         <span class="color-secondary">in all categories</span>
         {% endif %}
