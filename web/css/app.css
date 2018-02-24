@@ -184,4 +184,5 @@ nav { z-index: 10; }
     #grade { position: absolute; right: 0px; top: -26px; width: 30px; height: 30px; }
     #grade .inner { height: 24px; line-height: 24px; font-size: 15px; margin: 2px; }
     .page.thing .edit-link { right: 50px; }
+    .nuffin img { max-width: 100%; margin: 20px 0px; }
 }
