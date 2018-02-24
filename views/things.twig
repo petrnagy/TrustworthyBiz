@@ -32,7 +32,7 @@
                                 <span class="badge badge-pill badge-transparent">+{{ thing['categories']|length - 1 + thing['types']|length + thing['labels']|length }} more</span>
                                 <br /><span class="color-secondary"><i class="fa fa-globe"></i></span>
                                 {% if thing['facebook'] is defined or thing['twitter'] is defined or thing['linkedin'] is defined or thing['instagram'] is defined %}
-                                    | 
+                                    <span class="color-secondary"> | </span>
                                     {% if thing['facebook'] is defined %}<i class="fa fa-facebook-square color-secondary"></i>{% endif %}
                                     {% if thing['twitter'] is defined %}<i class="fa fa-twitter-square color-secondary"></i>{% endif %}
                                     {% if thing['linkedin'] is defined %}<i class="fa fa-linkedin-square color-secondary"></i>{% endif %}
