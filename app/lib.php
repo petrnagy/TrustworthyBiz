@@ -132,7 +132,7 @@ function get_label($id) {
 
 function get_things($category_id = null, $label_id = null, $ordering = null, $page = null, $cnt = false) {
     global $app;
-    $page = abs( intval($page) );
+    $page = abs( intval( is_null($page) ? 1 : $page ) );
 
     $stmt = $app['sql']->select($cnt ? 'COUNT(*)' : 'thing.id')->from('thing')->where('thing.deleted_at IS NULL')->and('approved_at IS NOT NULL');
     if ( $category_id ) {
@@ -158,6 +158,9 @@ function get_things($category_id = null, $label_id = null, $ordering = null, $pa
         break;
     } // end switch
     
+    $stmt->limit(THINGS_PER_PAGE);
+    $stmt->offset( (($page-1)*THINGS_PER_PAGE) );
+
     if ( $cnt ) {
         return $stmt->fetchSingle();
     } else {
