@@ -31,7 +31,7 @@
 .underline-info { border-bottom: 1px dotted  #3498DB; }
 .underline-light { border-bottom: 1px dotted  #ecf0f1; }
 .underline-dark { border-bottom: 1px dotted  #7b8a8b; }
-[data-toggle="tooltip"] { border-bottom: 1px dotted  #3498DB; }
+:not(select):not(input)[data-toggle="tooltip"] { border-bottom: 1px dotted  #3498DB; }
 
 .uploader { text-align: center; height: 36px; line-height: 30px; border: 2px dashed lightgray; border-radius: 4px; cursor: pointer; color: lightgray; font-weight: 500; }
 .uploader:hover, .uploader.hovering { background-color: #2C3E50; }

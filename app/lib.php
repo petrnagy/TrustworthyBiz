@@ -904,6 +904,9 @@ function initialize_params($app) {
         } // end if
         return $url;
     };
+    $params['helpers']->make_url = function(){
+        return call_user_func_array('make_url', func_get_args());
+    };
 
     return $params;
 } // end function
