@@ -900,12 +900,14 @@ function initialize_params($app) {
 
         if ( false === $median || null === $median ) {
             $val = $crate->empty;
+            $empty = true;
         } else {
             $val = Option::val($crate, $median)[1];
+            $empty = false;
         } // end if-else
 
         $o = '';
-        $o .= '<span class="value pointer tap-to-edit" title="Tap to edit" data-toggle="tooltip">'.htmlentities($val).'</span>';
+        $o .= '<span class="value pointer tap-to-edit '.($empty ? 'color-secondary' : 'color-primary').'" title="Tap to edit" data-toggle="tooltip">'.htmlentities($val).'</span>';
         $o .= '<select class="form-control hidden pointer live-update" data-id="'.$thingId.'" data-slug="'.htmlentities($optionSlug).'">';
         $o .= '<option value="">- - -</option>';
         foreach ($crate->values as $row) {
