@@ -15,7 +15,7 @@
         {% include 'partial/_sort.twig' %}
         <div class="row">
         {% for thing in things %}
-            <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="col-sm-12 col-md-6 col-lg-4">
                 <div class="card border-light mb-3">
                     {# <div class="card-header">Header</div> #}
                     <a href="{{ thing['url'] }}" class="color-black no-decoration">
@@ -38,7 +38,7 @@
                                     {% if thing['linkedin'] is defined %}<i class="fa fa-linkedin-square color-secondary"></i>{% endif %}
                                     {% if thing['instagram'] is defined %}<i class="fa fa-instagram color-secondary"></i>{% endif %}
                                 {% endif %}
-                                <span class="grade {{ thing['grade']|replace({'+': ''}) }} text-center pull-right" title="Overall score™" data-toggle="tooltip">
+                                <span class="grade {{ thing['grade']|replace({'+': ''}) }} text-center pull-right" title="Trustindex™" data-toggle="tooltip">
                                     {{ thing['grade'] }}
                                 </span>
                             </p>
