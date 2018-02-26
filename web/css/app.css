@@ -151,6 +151,8 @@ hr.barely-visible { border-top: 1px solid rgba(0,0,0,0.025); }
 .navbar-brand .logo-txt { margin-left: 60px; }
 nav { z-index: 10; }
 .page.thing .img-wrapper:hover { overflow: visible; }
+.crowd-col { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.crowd-col:hover { white-space: nowrap; overflow: visible; }
 
 /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
@@ -181,10 +183,12 @@ nav { z-index: 10; }
     .page.thing .edit-link { top: -25px; opacity: .5; }
     .page.thing h1 { font-size: 2.5rem; line-height: 2.5rem; height: 3rem; }
     .page.thing .img-wrapper img { height: 2.5rem; }
+    .crowd-col.bg { background-color: transparent; }
+    .crowd-col:nth-of-type(4n+1), .crowd-col:nth-of-type(4n+2) { background-color: #fbfbfb; }
 }
 
 @media screen and (max-width: 576px) {
-    .crowdsourced-data .col-xs-6 { width: 50%; float: left; padding: 10px 5px; font-size: 90%; }
+    .crowdsourced-data .col-xs-6 { width: 50%; float: left; font-size: 90%; }
     #index h1, h1, .h1 { font-size: 2rem; }
     .mobile-small { font-size: 90%; }
     .page.thing h1 { height: 2.4rem; overflow: hidden; font-size: 1.2rem; line-height: 2rem; }

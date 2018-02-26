@@ -8,7 +8,7 @@
 
 class OptionCrate {
     public static $a = ['🐭', '🐁', '🖱️', '🐀', '🐱', '😺', '🐈', '🐶', '🐾'];
-    public static function def() { return 'Tap to enter value! ' . self::$a[array_rand(self::$a)]; }
+    public static function def() { return 'Tap to edit value! ' . self::$a[array_rand(self::$a)]; }
     public $empty;
     public $values = [];
     public function __construct(string $empty = null, array $values) {
