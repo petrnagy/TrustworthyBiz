@@ -31,7 +31,7 @@
 .underline-info { border-bottom: 1px dotted  #3498DB; }
 .underline-light { border-bottom: 1px dotted  #ecf0f1; }
 .underline-dark { border-bottom: 1px dotted  #7b8a8b; }
-:not(select):not(input)[data-toggle="tooltip"] { border-bottom: 1px dotted  #3498DB; }
+:not(select):not(input):not(.grade):not(#grade)[data-toggle="tooltip"] { border-bottom: 1px dotted  #3498DB; }
 
 .underline-primary-solid { border-bottom: 1px solid  #2C3E50; }
 .underline-secondary-solid { border-bottom: 1px solid  #95a5a6; }
