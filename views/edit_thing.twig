@@ -81,7 +81,7 @@
                     <textarea rows="6" name="new[description]" type="url" class="form-control" id="description" aria-describedby="descriptionHelp" placeholder="">{{ thing['description'] is defined ? thing['description'] : '' }}</textarea>
                 </div> #}
                 <div class="form-group col-lg-12">
-                    <button onclick="window.location='{{ thing['url'] }}'; return false;" class="btn btn-secondary pull-left" type="submit"><i class="fa fa-angle-double-left"></i>&nbsp;Cancel</button>
+                    <a href="{{ thing['url'] }}" class="btn btn-secondary pull-left"><i class="fa fa-angle-double-left"></i>&nbsp;Cancel</a>
                     <button class="btn btn-primary pull-right" type="submit">Save&nbsp;<i class="fa fa-floppy-o"></i></button>
                 </div>
             </div>

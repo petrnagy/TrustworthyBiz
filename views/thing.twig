@@ -53,10 +53,10 @@
                 {% include 'partial/_crowdsourced.twig' %}
             </div>
             <div class="col-lg-3 col-md-12 right">
-                <button class="btn btn-secondary btn-full text-left" onclick="window.location = '{{ thing['homepage'] }}';">
+                <a class="btn btn-secondary btn-full text-left" href="{{ thing['homepage'] }}">
                     <strong>Visit website</strong>&nbsp;<i class="fa fa-globe"></i><br />
                     <small>{{ helpers.clean_url(thing['homepage']) }}&nbsp;<i class="fa fa-angle-double-right"></i></small>
-                </button>
+                </a>
                 {% if thing['facebook'] is defined or thing['twitter'] is defined or thing['linkedin'] is defined or thing['instagram'] is defined %}
                     <p class="color-secondary"><small><i class="fa fa-users"></i>&nbsp;Social</small></p>
                     {% if thing['facebook'] is defined %}
@@ -83,7 +83,7 @@
                     {% endfor %}
                 </div>
                 <hr>
-                <button onclick="window.location='/thing/new/';" class="btn btn-light btn-full">Add similar thing <i class="fa fa-angle-double-right"></i></button>
+                <a href="/thing/new/" class="btn btn-light btn-full">Add similar thing <i class="fa fa-angle-double-right"></i></a>
                 {% endif %}
             </div>
         </div>
