@@ -264,7 +264,10 @@ function start() {
         }
     }).change(function () {
         window.location = $(this).val();
-    }).closest('form').find('.selectize-input input[type="text"]').focus();
+    });
+    setTimeout(function(){
+        $('#index').find('.selectize-input input[type="text"]').focus()
+    }, 100);
 
     $('[data-toggle="tooltip"]').tooltip();
 
