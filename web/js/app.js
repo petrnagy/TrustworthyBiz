@@ -113,10 +113,10 @@ function start() {
                         var myDropzone = this;
                         var imageUrl = event.dataTransfer.getData('URL');
                         var fileName = imageUrl.split('/').pop();
-                        if ( imageUrl.length > 0 ) {
+                        if (imageUrl.length > 0) {
                             imageUrl = wwwroot() + '/image-relay/?img=' + encodeURIComponent(imageUrl);
                         } // end if
-                        if ( fileName.indexOf('?') !== -1 ) {
+                        if (fileName.indexOf('?') !== -1) {
                             fileName = fileName.split('?').shift();
                         } // end if
 
@@ -309,6 +309,15 @@ function start() {
             } // end if
         })
     } // end if
+
+    window.addEventListener("dragover", function (e) {
+        e = e || event;
+        e.preventDefault();
+    }, false);
+    window.addEventListener("drop", function (e) {
+        e = e || event;
+        e.preventDefault();
+    }, false);
 } // end function
 
 function toggle_description(el) {
