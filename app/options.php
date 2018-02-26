@@ -138,7 +138,7 @@ $OPTIONS = [
         ['bad', 'Bad support 😠', Grade::C],
         ['none', 'No support 🏳️', null],
     ]),
-    'other-mobile' => new OptionCrate(null, false, [
+    'other-mobile' => new OptionCrate(null, true, [
         ['great', 'Great support 😊', Grade::A_PLUS],
         ['okay', 'Okay 🙂', Grade::A],
         ['bad', 'Bad support 😠', Grade::C],
