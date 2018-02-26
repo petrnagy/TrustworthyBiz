@@ -234,8 +234,17 @@ function get_similar($id) {
     $similar = [];
 
     $categoryIds = $app['sql']->select('category_id')->from('thing_mn_category')->where('thing_id = %i', $id)->fetchPairs();
-    $ids = $app['sql']->select('thing_id')->from('thing_mn_category')->where('category_id IN %in', $categoryIds)->and('thing_id != %i', $id)->fetchPairs();
-    $filteredIds = $app['sql']->select('id')->from('thing')->where('id IN %in', $ids)->and('deleted_at IS NULL')->and('approved_at IS NOT NULL')->orderBy('score DESC, id DESC')->fetchPairs();
+    $labelIds = $app['sql']->select('label_id')->from('thing_mn_label')->where('thing_id = %i', $id)->fetchPairs();
+    
+    $categoryThingIds = $app['sql']->select('thing_id')->from('thing_mn_category')->where('category_id IN %in', $categoryIds)->and('thing_id != %i', $id)->fetchPairs();
+    $labelThingIds = $app['sql']->select('thing_id')->from('thing_mn_label')->where('label_id IN %in', $labelIds)->and('thing_id != %i', $id)->fetchPairs();
+    $combinedIds = array_unique( array_merge($categoryThingIds, $labelThingIds) );
+    $bestMatchIds = array_intersect( $categoryThingIds, $labelThingIds );
+    
+    $filteredIds = $app['sql']->select('id')->from('thing')->where('id IN %in', $combinedIds)
+                              ->and('deleted_at IS NULL')->and('approved_at IS NOT NULL')
+                              ->orderBy('CASE WHEN id IN %in THEN 1 ELSE 0 END DESC, score DESC, id DESC', $bestMatchIds)
+                              ->fetchPairs();
 
     foreach ($filteredIds as $filteredId) {
         if ( $thing = get_thing($filteredId) ) {
