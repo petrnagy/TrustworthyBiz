@@ -131,6 +131,10 @@ img.blend { mix-blend-mode: multiply; }
 .inner { margin-left: auto; margin-right: auto;  }
 .crowd-col { padding: 10px 15px; height: 56px; vertical-align: text-top; line-height: 36px; }
 .crowd-col.bg { background-color: #fbfbfb; }
+.crowd-col.good { background-color: rgba(67, 255, 67, 0.15); }
+.crowd-col.bad { background-color: rgba(255, 67, 67, 0.15); }
+.crowd-col.warn { background-color: rgba(255, 205, 67, 0.15); }
+
 .pointer { cursor: pointer; }
 p.crowdsourced { margin-top: 1rem; margin-bottom: 0; }
 p.crowdsourced small { text-transform: uppercase; }

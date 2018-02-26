@@ -929,6 +929,22 @@ function initialize_params($app) {
     $params['helpers']->make_url = function(){
         return call_user_func_array('make_url', func_get_args());
     };
+    $params['helpers']->crowd_class = function($thing, $optionSlug){
+        $median = get_option_median($thing['id'], $optionSlug);
+        if ( $median ) {
+            $crate = Option::get($optionSlug);
+            $val = Option::val($crate, $median);
+            if ( in_array($val[2], [Grade::A_PLUS, Grade::A]) ) {
+                return 'good';
+            } elseif ( in_array($val[2], [Grade::F, Grade::E, Grade::D]) ) {
+                return 'bad';
+            } elseif ( in_array($val[2], [Grade::C]) ) {
+                return 'warn';
+            } else {
+                return 'okay';
+            } // end if-else
+        } // end if
+    };
 
     return $params;
 } // end function
