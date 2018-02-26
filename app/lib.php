@@ -933,18 +933,20 @@ function initialize_params($app) {
         $median = get_option_median($thing['id'], $optionSlug);
         if ( $median ) {
             $crate = Option::get($optionSlug);
-            $val = Option::val($crate, $median);
-            if ( in_array($val[2], [Grade::A_PLUS]) ) {
-                return 'good';
-            } elseif ( in_array($val[2], [Grade::A]) ) {
-                return 'okay';
-            } elseif ( in_array($val[2], [Grade::F, Grade::E, Grade::D]) ) {
-                return 'bad';
-            } elseif ( in_array($val[2], [Grade::C]) ) {
-                return 'warn';
-            } else {
-                return '';
-            } // end if-else
+            if ( $crate->colorizable ) {
+                $val = Option::val($crate, $median);
+                if ( in_array($val[2], [Grade::A_PLUS]) ) {
+                    return 'good';
+                } elseif ( in_array($val[2], [Grade::A]) ) {
+                    return 'okay';
+                } elseif ( in_array($val[2], [Grade::F, Grade::E, Grade::D]) ) {
+                    return 'bad';
+                } elseif ( in_array($val[2], [Grade::C]) ) {
+                    return 'warn';
+                } else {
+                    return '';
+                } // end if-else
+            } // end if
         } // end if
     };
 
