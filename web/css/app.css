@@ -131,9 +131,10 @@ img.blend { mix-blend-mode: multiply; }
 .inner { margin-left: auto; margin-right: auto;  }
 .crowd-col { padding: 10px 15px; height: 56px; vertical-align: text-top; line-height: 36px; }
 .crowd-col.bg { background-color: #fbfbfb; }
-.crowd-col.good { background-color: rgba(67, 255, 67, 0.15); }
-.crowd-col.bad { background-color: rgba(255, 67, 67, 0.15); }
-.crowd-col.warn { background-color: rgba(255, 205, 67, 0.15); }
+.crowd-col.good { background-color: rgba(67, 255, 67, 0.1); }
+.crowd-col.okay { background-color: rgba(127, 255, 67, 0.05); }
+.crowd-col.bad { background-color: rgba(255, 67, 67, 0.1); }
+.crowd-col.warn { background-color: rgba(255, 205, 67, 0.1); }
 
 .pointer { cursor: pointer; }
 p.crowdsourced { margin-top: 1rem; margin-bottom: 0; }
@@ -157,6 +158,7 @@ nav { z-index: 10; }
 .page.thing .img-wrapper:hover { overflow: visible; }
 .crowd-col { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .crowd-col:hover { white-space: nowrap; overflow: visible; }
+.row.crowdsourced-data { margin-left: 0; margin-right: 0; }
 
 /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
@@ -187,8 +189,9 @@ nav { z-index: 10; }
     .page.thing .edit-link { top: -25px; opacity: .5; }
     .page.thing h1 { font-size: 2.5rem; line-height: 2.5rem; height: 3rem; }
     .page.thing .img-wrapper img { height: 2.5rem; }
-    .crowd-col.bg { background-color: transparent; }
-    .crowd-col:nth-of-type(4n+1), .crowd-col:nth-of-type(4n+2) { background-color: #fbfbfb; }
+    .crowd-col.bg:not(.good):not(.okay):not(.warn):not(.bad) { background-color: transparent; }
+    .crowd-col:nth-of-type(4n+1):not(.good):not(.okay):not(.warn):not(.bad), 
+    .crowd-col:nth-of-type(4n+2):not(.good):not(.okay):not(.warn):not(.bad) { background-color: #fbfbfb; }
 }
 
 @media screen and (max-width: 576px) {
