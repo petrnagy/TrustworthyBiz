@@ -60,7 +60,7 @@ $OPTIONS = [
         ['free-personal', 'Free for personal use 🏠', Grade::B],
         ['commercial', 'Commercial 🏦', Grade::A],
    ]),
-   'pricing-model' => new OptionCrate(null, true, [
+   'pricing-model' => new OptionCrate(null, false, [
         ['one-time', 'One time purchase 💵', Grade::B],
         ['subscription', 'Subscription 🔄', Grade::A],
         ['both', 'Both 🤔', Grade::A_PLUS],
