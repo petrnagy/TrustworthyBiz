@@ -56,22 +56,22 @@
                 </div>
                 <div class="form-group col-md-6 col-lg-6">
                     <label for="facebook">Facebook page</label>
-                    <input name="new[facebook]" type="url" maxlength="100" class="form-control" id="facebook" aria-describedby="facebookHelp" placeholder="" value="{{ thing['facebook']|default('') }}" autocomplete="off">
+                    <input name="new[facebook]" pattern="https?:\/\/(www\.)?facebook\.com\/.+" title="This does not look like Facebook URL" type="url" maxlength="100" class="form-control" id="facebook" aria-describedby="facebookHelp" placeholder="" value="{{ thing['facebook']|default('') }}" autocomplete="off">
                     <small id="facebookHelp" class="form-text text-muted">Optional: Official Facebook profile url</small>
                 </div>
                 <div class="form-group col-md-6 col-lg-6">
                     <label for="twitter">Twitter page</label>
-                    <input name="new[twitter]" type="url" maxlength="100" class="form-control" id="twitter" aria-describedby="twitterHelp" placeholder="" value="{{ thing['twitter']|default('') }}" autocomplete="off">
+                    <input name="new[twitter]" pattern="https?:\/\/(www\.)?twitter\.com\/.+" title="This does not look like Twitter URL" type="url" maxlength="100" class="form-control" id="twitter" aria-describedby="twitterHelp" placeholder="" value="{{ thing['twitter']|default('') }}" autocomplete="off">
                     <small id="twitterHelp" class="form-text text-muted">Optional: Official Twitter profile url</small>
                 </div>
                 <div class="form-group col-md-6 col-lg-6">
                     <label for="instagram">Instagram page</label>
-                    <input name="new[instagram]" type="url" maxlength="100" class="form-control" id="instagram" aria-describedby="instagramHelp" placeholder="" value="{{ thing['instagram']|default('') }}" autocomplete="off">
+                    <input name="new[instagram]" pattern="https?:\/\/(www\.)?instagram\.com\/.+" title="This does not look like Instagram URL" type="url" maxlength="100" class="form-control" id="instagram" aria-describedby="instagramHelp" placeholder="" value="{{ thing['instagram']|default('') }}" autocomplete="off">
                     <small id="instagramHelp" class="form-text text-muted">Optional: Official Instagram profile url</small>
                 </div>
                 <div class="form-group col-md-6 col-lg-6">
                     <label for="linkedin">LinkedIn page</label>
-                    <input name="new[linkedin]" type="url" maxlength="100" class="form-control" id="linkedin" aria-describedby="linkedinHelp" placeholder="" value="{{ thing['linkedin']|default('') }}" autocomplete="off">
+                    <input name="new[linkedin]" pattern="https?:\/\/(www\.)?linkedin\.com\/.+" title="This does not look like Linkedin URL" type="url" maxlength="100" class="form-control" id="linkedin" aria-describedby="linkedinHelp" placeholder="" value="{{ thing['linkedin']|default('') }}" autocomplete="off">
                     <small id="linkedinHelp" class="form-text text-muted">Optional: Official LinkedIn profile url</small>
                 </div>
                 <div class="form-group col-lg-12">
