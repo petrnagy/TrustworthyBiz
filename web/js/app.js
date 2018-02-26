@@ -375,3 +375,14 @@ Dropzone.getDataUri = function (url, callback) {
 function wwwroot() {
     return window.location.protocol + '//' + window.location.host;
 } // end function
+
+function go_back(url) {
+    if (history.length > 2) {
+        window.history.back();
+    } else if (url) {
+        window.location = url;
+    } else {
+        window.history.replaceState(null, null, '/');
+    } // end if-else
+    return false;
+} // end function

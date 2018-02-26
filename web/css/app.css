@@ -33,6 +33,15 @@
 .underline-dark { border-bottom: 1px dotted  #7b8a8b; }
 :not(select):not(input)[data-toggle="tooltip"] { border-bottom: 1px dotted  #3498DB; }
 
+.underline-primary-solid { border-bottom: 1px solid  #2C3E50; }
+.underline-secondary-solid { border-bottom: 1px solid  #95a5a6; }
+.underline-success-solid { border-bottom: 1px solid  #18BC9C; }
+.underline-danger-solid { border-bottom: 1px solid  #E74C3C; }
+.underline-warning-solid { border-bottom: 1px solid  #F39C12; }
+.underline-info-solid { border-bottom: 1px solid  #3498DB; }
+.underline-light-solid { border-bottom: 1px solid  #ecf0f1; }
+.underline-dark-solid { border-bottom: 1px solid  #7b8a8b; }
+
 .uploader { text-align: center; height: 36px; line-height: 30px; border: 2px dashed lightgray; border-radius: 4px; cursor: pointer; color: lightgray; font-weight: 500; }
 .uploader:hover, .uploader.hovering { background-color: #2C3E50; }
 .uploader-area .dz-preview { position: relative; top: 25px; }

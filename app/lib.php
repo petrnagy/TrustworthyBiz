@@ -249,7 +249,7 @@ function get_similar($id) {
     foreach ($filteredIds as $filteredId) {
         if ( $thing = get_thing($filteredId) ) {
             $similar[] = $thing;
-            if ( count($similar) == 5 ) {
+            if ( count($similar) == 6 ) {
                 break;
             } // end if
         } // end if
@@ -278,6 +278,19 @@ function get_stars($score) {
     elseif ( $score < 75.00 )    return '4.00';
     elseif ( $score < 90.00 )    return '4.50';
     else                         return '5.00';
+} // end function
+
+function grade2score($grade) {
+    switch ( $grade ) {
+        case Grade::A_PLUS: return 100;
+        case Grade::A:      return 89;
+        case Grade::B:      return 74;
+        case Grade::C:      return 59;
+        case Grade::D:      return 39;
+        case Grade::E:      return 20;
+        case Grade::F:      return 19;
+        default:            return null;
+    } // end switch
 } // end function
 
 function similar_things($name) {
@@ -896,7 +909,7 @@ function initialize_params($app) {
         $o .= '<select class="form-control hidden pointer live-update" data-id="'.$thingId.'" data-slug="'.htmlentities($optionSlug).'">';
         $o .= '<option value="">- - -</option>';
         foreach ($crate->values as $row) {
-            $selected = $row[0] == $val ? 'selected="selected"' : '';
+            $selected = $row[0] == $median ? 'selected="selected"' : '';
             $o .= '<option '.$selected.' value="'.htmlentities($row[0]).'">'.htmlentities($row[1]).'</option>';
         } // end foreach
         $o .= '</select>';

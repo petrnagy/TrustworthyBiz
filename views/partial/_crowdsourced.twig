@@ -1,44 +1,106 @@
 <form>
-    <p class="crowdsourced"><small class="color-secondary">General</small></p>
+{% set saved = '<span style="display: none;" class="saved badge badge-pill badge-success">Saved!</span>' %}
+    <p class="crowdsourced underline-primary-solid"><small class="color-primary">What people think</small></p>
     <div class="row color-primary crowdsourced-data">
-        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">Founded&nbsp;<span style="display: none;" class="saved badge badge-pill badge-success">Saved!</span></div>
+        
+        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">👍 Would recommend {{ saved|raw }}</div>
+        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            {{ helpers.print_crowdsourced_field(thing['id'], 'i-would-recommend')|raw }}
+        </div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">🕹️ Easy to use {{ saved|raw }}</div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            {{ helpers.print_crowdsourced_field(thing['id'], 'easy-to-use')|raw }}
+        </div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">⏱️ Time consuming {{ saved|raw }}</div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            {{ helpers.print_crowdsourced_field(thing['id'], 'time-consuming')|raw }}
+        </div>
+        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">💬 Tech support {{ saved|raw }}</div>
+        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            {{ helpers.print_crowdsourced_field(thing['id'], 'support')|raw }}
+        </div>
+        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">👪 Community {{ saved|raw }}</div>
+        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            {{ helpers.print_crowdsourced_field(thing['id'], 'community')|raw }}
+        </div>
+        
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">📬 Ads {{ saved|raw }}</div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            {{ helpers.print_crowdsourced_field(thing['id'], 'ads')|raw }}
+        </div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">🌴 Environment {{ saved|raw }}</div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            {{ helpers.print_crowdsourced_field(thing['id'], 'environment')|raw }}
+        </div>
+    </div>
+    <p class="crowdsourced underline-success-solid"><small class="color-success">Information</small></p>
+    <div class="row color-primary crowdsourced-data">
+        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">📅 Released {{ saved|raw }}</div>
         <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">
             {{ helpers.print_crowdsourced_field(thing['id'], 'founded')|raw }}
         </div>
-        
-        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">Pricing</div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">💻 OpenSource {{ saved|raw }}</div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            {{ helpers.print_crowdsourced_field(thing['id'], 'opensource')|raw }}
+        </div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">💰 Pricing {{ saved|raw }}</div>
         <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">
             {{ helpers.print_crowdsourced_field(thing['id'], 'pricing')|raw }}
         </div>
-        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">Pricing model</div>
+        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">💵 Pricing model {{ saved|raw }}</div>
         <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">
             {{ helpers.print_crowdsourced_field(thing['id'], 'pricing-model')|raw }}
         </div>
-        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">Is opensource</div>
+        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">💼 Who owns your content</div>
         <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">
-            <select class="form-control pointer" title="Tap to edit" data-toggle="tooltip">
-                <option>Yes</option>
-                <option>No</option>
-            </select>
+            {{ helpers.print_crowdsourced_field(thing['id'], 'who-owns-your-content')|raw }}
         </div>
-    </div>
-    <p class="crowdsourced"><small class="color-secondary">Data & security</small></p>
-    <div class="row color-primary crowdsourced-data">
-        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">Who owns your data?</div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">🌦️ Cloud features</div>
         <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">
-            <select class="form-control pointer" title="Tap to edit" data-toggle="tooltip">
-                <option>You ☺</option>
-                <option>Them 😞</option>
-                <option>Not applicable</option>
-            </select>
+            {{ helpers.print_crowdsourced_field(thing['id'], 'cloud-features')|raw }}
         </div>
-        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">Easily downloadable?</div>
-        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6"></div>
-        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">Accessible online?</div>
-        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6"></div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">📎 Terms & conditions</div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            {{ helpers.print_crowdsourced_field(thing['id'], 'terms-and-conditions')|raw }}
+        </div>
+        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">⛵ Easy migration</div>
+        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            {{ helpers.print_crowdsourced_field(thing['id'], 'easy-migration')|raw }}
+        </div>
     </div>
-    <p class="crowdsourced"><small class="color-secondary">Platforms</small></p>
+    <p class="crowdsourced underline-warning-solid"><small class="color-warning">Platforms</small></p>
     <div class="row color-primary crowdsourced-data">
-
+        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6"><i class="fa fa-windows"></i> Windows</div>
+        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            {{ helpers.print_crowdsourced_field(thing['id'], 'windows')|raw }}
+        </div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6"><i class="fa fa-apple"></i> OS X</div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            {{ helpers.print_crowdsourced_field(thing['id'], 'osx')|raw }}
+        </div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6"><i class="fa fa-linux"></i> Linux</div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            {{ helpers.print_crowdsourced_field(thing['id'], 'linux')|raw }}
+        </div>
+        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6"><i class="fa fa-apple"></i> iOS</div>
+        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            {{ helpers.print_crowdsourced_field(thing['id'], 'ios')|raw }}
+        </div>
+        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6"><i class="fa fa-android"></i> Android</div>
+        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            {{ helpers.print_crowdsourced_field(thing['id'], 'android')|raw }}
+        </div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6"><i class="fa fa-mobile"></i> Other mobile</div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            {{ helpers.print_crowdsourced_field(thing['id'], 'other-mobile')|raw }}
+        </div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6"><i class="fa fa-television"></i> Apple TV</div>
+        <div class="crowd-col col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            {{ helpers.print_crowdsourced_field(thing['id'], 'apple-tv')|raw }}
+        </div>
+        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6"><i class="fa fa-television"></i> Android TV</div>
+        <div class="crowd-col bg col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            {{ helpers.print_crowdsourced_field(thing['id'], 'android-tv')|raw }}
+        </div>
     </div>
 </form>

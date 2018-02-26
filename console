@@ -1,0 +1,34 @@
+#!/usr/bin/env php
+<?php
+
+$path = '/';
+
+if ( 'cli' !== php_sapi_name() ) {
+    die('This program only runs in CLI mode.');
+} // end if
+
+$alias = null;
+$script = null;
+
+foreach ($argv as $k => $v) {
+    if ( in_array($v, ['-f', '--force']) ) {
+        define('FORCE_RUN', true);
+    } // end if
+    if ( strpos($v, 'job:') !== false ) {
+        $job = str_replace('job:', '', $v);
+        $alias = $job;
+        $script = __DIR__ . '/jobs/' . $job . '.php';
+    } // end if
+} // end foreach
+
+require __DIR__ . '/jobs/bootstrap.php';
+
+if ( isLocked($alias) ) {
+    warning("Job {$alias} is locked.");
+    exit;
+} else {
+    lock($alias);
+    require $script;
+    unlock($alias);
+} // end if
+

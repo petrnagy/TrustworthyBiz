@@ -7,7 +7,7 @@
  */
 
 if ( 'cli' === strtolower(PHP_SAPI) ) {
-    trigger_error("This application cannot run in CLI mode", E_USER_ERROR);
+    // trigger_error("This application cannot run in CLI mode", E_USER_ERROR);
 } // end if
 
 $__DIR_ROOT = dirname(__DIR__);
