@@ -327,7 +327,7 @@ $app->get('/thing/{slug}/{id}/', function ($slug, $id) use ($app) {
     } // end if
 
     $params['thing'] = $thing;
-    $params['title'] = $thing['name'];
+    $params['title'] = $thing['name'] . ' - is it worth your time?';
     $params['similar'] = get_similar($thing['id']);
     $html = $app['twig']->render('thing.twig', $params);
     return new Response($html, 200);
