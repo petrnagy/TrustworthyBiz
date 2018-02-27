@@ -17,7 +17,7 @@ function start() {
         create: false,
         sortField: 'text',
         onChange: function (url) {
-            if (window.location.pathname != url) {
+            if (window.location.search.indexOf(url) == -1 && window.location.pathname != url) {
                 window.location = url;
             } // end if
         }
