@@ -167,7 +167,7 @@ nav { z-index: 10; }
 #main-nav .selectize-input { width: 250px; }
 #main-nav input[type="text"], #main-nav .selectize-input { background-color: #35495d; border-color: #597ea2; color: white; }
 #main-nav input[type="text"]:focus {border-color: #ced4da; }
-.btn-detail-back { margin-top: 40px; }
+.btn-detail-back { margin-top: 40px;  }
 
 /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 

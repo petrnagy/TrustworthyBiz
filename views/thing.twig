@@ -85,13 +85,11 @@
                     {% endfor %}
                 </div>
                 <hr>
-                <a href="/thing/new/" class="btn btn-light btn-full">Add similar thing <i class="fa fa-plus"></i></a>
                 {% endif %}
+                <a href="/thing/new/" class="btn btn-light btn-full">Add similar thing <i class="fa fa-plus"></i></a>
+                <a href="{{ thing['categories'][0]['url'] }}" class="btn btn-secondary btn-detail-back"><i class="fa fa-angle-double-left"></i> Back to {{ thing['categories'][0]['name'] }}</a>
             </div>
         </div>
-        <p class="text-center detail-back">
-            <a href="{{ thing['categories'][0]['url'] }}" class="btn btn-secondary btn-detail-back"><i class="fa fa-angle-double-left"></i> Back to {{ thing['categories'][0]['name'] }}</a>
-        </p>
         <hr>
         <p class="color-secondary text-center mobile-small">
             Please note that these values are <span title="Everyone can contribute" data-toggle="tooltip">crowdsourced</span> and may not reflect product official info. <br />
