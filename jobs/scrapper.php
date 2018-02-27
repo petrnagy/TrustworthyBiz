@@ -12,7 +12,7 @@ $url = null;
 foreach ($argv as $k => $arg) {
     if ( strpos($arg, 'category:') !== false ) {
         $categoryId = (int) str_replace('category:', '', $arg);
-        $category = $app['sql']->select('')
+        // $category = $app['sql']->select('')
     } // end if
 } // end foreach
 

@@ -114,6 +114,7 @@ pre.break { white-space: normal; word-break: break-all; }
 .fulltext-result img { max-height: 40px; width: auto; height: auto; max-width: 50px; float: right; }
 #main-nav .fulltext-result img { max-height: 20px; max-width: 30px; }
 #main-nav .fulltext-result small { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.btn-full small { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 img.blend { mix-blend-mode: multiply; }
 .fulltext-result .grade { float: right; }
 .page.thing .right { border-left: 1px solid rgba(0,0,0,0.1); }

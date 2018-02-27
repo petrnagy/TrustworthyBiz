@@ -3,7 +3,7 @@
         <div class="form-group">
             <label for="category-select">Pick a category</label>
             <select class="form-control" id="category-select">
-                <option value="/things" >All categories</option>
+                <option value="/things/" >All categories</option>
                 {% for oneCategory in categories %}
                     <option {{ category is defined and category['id'] == oneCategory['id'] ? 'selected="selected"' : '' }} value="{{ oneCategory['url'] }}">{{ oneCategory['name'] }} ({{ oneCategory['cnt'] }})</option>
                 {% endfor %}

@@ -13,7 +13,7 @@ function start() {
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
     });
 
-    $('#category-select').selectize({
+    var $categoriesSelect = $('#category-select').selectize({
         create: false,
         sortField: 'text',
         onChange: function (url) {
@@ -22,6 +22,10 @@ function start() {
             } // end if
         }
     });
+    // $categoriesSelect.closest('form').find('.selectize-input').on('click', function(){
+    //     $categoriesSelect[0].selectize.clear();
+    // });
+
     $('#sorting-select').selectize({
         create: false,
         sortField: 'text',
