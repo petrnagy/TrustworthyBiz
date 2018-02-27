@@ -64,6 +64,7 @@ $OPTIONS = [
         ['one-time', 'One time purchase 💵', Grade::B],
         ['subscription', 'Subscription 🔄', Grade::A],
         ['both', 'Both 🤔', Grade::A_PLUS],
+        ['ads', 'Ads 😠', Grade::C],
         
     ]),
     'i-would-recommend' => new OptionCrate(null, true, [
