@@ -63,6 +63,7 @@ a.no-decoration, a.no-decoration:hover { text-decoration: none; }
 #index form { margin-top: 2rem; }
 #main-nav-categories-dropdown a i { width: 15px; text-align: center; }
 #main-nav .help-item { margin-left: 10px; }
+#main-nav .search-item { margin-left: 20px; }
 #main-nav .help-item a:not(:hover):not(:active):not(:focus) { color: #7b8a8b !important; }
 .page { margin-top: 5vh; margin-bottom: 15vh; }
 .page h1 { margin-bottom: 1.5rem; }
@@ -174,7 +175,11 @@ nav { z-index: 10; }
 }
 
 @media screen and (max-width: 1200px) {
-    #main-nav .selectize-input { width: 150px; }
+    #main-nav .selectize-input { width: 200px; }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 990px) {
+    #main-nav .help-item { display: none; }
 }
 
 @media screen and (max-width: 991px) {
