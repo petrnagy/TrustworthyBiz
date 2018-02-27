@@ -57,8 +57,8 @@
                     <strong>Visit website</strong>&nbsp;<i class="fa fa-globe"></i><br />
                     <small>{{ helpers.clean_url(thing['homepage']) }}&nbsp;<i class="fa fa-angle-double-right"></i></small>
                 </a>
+                <p class="color-secondary"><small><i class="fa fa-users"></i>&nbsp;Social</small></p>
                 {% if thing['facebook'] is defined or thing['twitter'] is defined or thing['linkedin'] is defined or thing['instagram'] is defined %}
-                    <p class="color-secondary"><small><i class="fa fa-users"></i>&nbsp;Social</small></p>
                     {% if thing['facebook'] is defined %}
                         <a href="{{ thing['facebook'] }}" class="social-btn"><i class="fa fa-facebook-square"></i></a>
                     {% endif %}
@@ -71,6 +71,8 @@
                     {% if thing['instagram'] is defined %}
                         <a href="{{ thing['instagram'] }}" class="social-btn"><i class="fa fa-instagram"></i></a>
                     {% endif %}
+                {% else %}
+                    <a href="/thing/edit/{{ thing['id'] }}/#second" class="btn btn-sm btn-light btn-full">Add social links <i class="fa fa-angle-right"></i></a>
                 {% endif %}
                 {% if similar|length %}
                 <p class="color-secondary"><small><i class="fa fa-search"></i>&nbsp;Similar things</small></p>
@@ -87,9 +89,12 @@
                 {% endif %}
             </div>
         </div>
+        <p class="text-center detail-back">
+            <a href="{{ thing['categories'][0]['url'] }}" class="btn btn-secondary btn-detail-back"><i class="fa fa-angle-double-left"></i> Back to {{ thing['categories'][0]['name'] }}</a>
+        </p>
         <hr>
         <p class="color-secondary text-center mobile-small">
-            Please note that these values are <span title="Everyone can contribute" data-toggle="tooltip">crowdsourced</span> and may not reflect the product official info. <br />
+            Please note that these values are <span title="Everyone can contribute" data-toggle="tooltip">crowdsourced</span> and may not reflect product official info. <br />
             Page shows <span class="underline-info">median</span> from the submitted values. Newer data have greater priority.
         </p>
         <span class="hidden" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
