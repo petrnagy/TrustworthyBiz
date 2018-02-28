@@ -746,7 +746,11 @@ function get_top_categories() {
     $ids = $app['sql']->query("SELECT mn.category_id
                         FROM thing_mn_category mn
                         INNER JOIN category c ON c.id = mn.category_id
+                        INNER JOIN thing t ON t.id = mn.thing_id
                         WHERE c.deleted_at IS NULL
+                        AND t.deleted_at IS NULL
+                        AND t.approved_at IS NOT NULL
+                        AND t.is_revision_of IS NULL
                         GROUP BY mn.category_id 
                         ORDER BY COUNT(mn.category_id) DESC
                         LIMIT 6")->fetchPairs();
@@ -766,7 +770,11 @@ function get_top_labels() {
     $ids = $app['sql']->query("SELECT mn.label_id
                         FROM thing_mn_label mn
                         INNER JOIN label c ON c.id = mn.label_id
+                        INNER JOIN thing t ON t.id = mn.thing_id
                         WHERE c.deleted_at IS NULL
+                        AND t.deleted_at IS NULL
+                        AND t.approved_at IS NOT NULL
+                        AND t.is_revision_of IS NULL
                         GROUP BY mn.label_id 
                         ORDER BY COUNT(mn.label_id) DESC
                         LIMIT 6")->fetchPairs();
