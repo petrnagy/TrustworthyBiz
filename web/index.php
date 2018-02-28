@@ -70,7 +70,7 @@ $app->register(new Silex\Provider\HttpCacheServiceProvider(), array(
 $app->register(new Silex\Provider\CsrfServiceProvider());
 
 $app->before(function (\Symfony\Component\HttpFoundation\Request $request, \Silex\Application $app) {
-    require_http_auth();
+    // require_http_auth();
 }, \Silex\Application::EARLY_EVENT);
 
 $app->run();
