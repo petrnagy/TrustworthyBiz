@@ -88,7 +88,7 @@ $OPTIONS = [
     'time-consuming' => new OptionCrate(null, true, [
         ['none', 'Not at all 😊', Grade::A_PLUS],
         ['some', 'Mediocre 🤔', Grade::A],
-        ['a-lot', 'Will die using this 👎', Grade::B],
+        ['a-lot', 'Oh yeah 💤', Grade::B],
     ]),
     'support' => new OptionCrate(null, true, [
         ['awesome', 'Awesome 😍', Grade::A_PLUS],
