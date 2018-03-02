@@ -73,7 +73,7 @@ $app->get('/things/upcoming/', function () use ($app) {
     require_http_auth();
 
     $params['things'] = get_upcoming_things();
-    $params['title'] = '(' . count($params['things']) . ')' . ' ' . date('H:i') . ' Upcoming things';
+    $params['title'] = '(' . count($params['things']) . ')' . ' ' . date('H:i', time()+3600) . ' Upcoming things';
     
     $html = $app['twig']->render('things_upcoming.twig', $params);
     return new Response($html, 200);
