@@ -43,7 +43,7 @@ foreach ($thingIds as $thingId) {
 
     if ( $perc ) {
         $lastLogWrite = $app['sql']->select('created_at')->from('score_log')->where('thing_id = %i', $thingId)->orderBy('id DESC')->limit(1)->fetchSingle();
-        if ( ! $lastLogWrite || ($lastLogWrite->getTimestamp() - time()) > 3600 ) {
+        if ( ! $lastLogWrite || (time() - $lastLogWrite->getTimestamp()) > 3600 ) {
             $app['sql']->insert('score_log', [
                 'thing_id' => $thingId,
                 'created_at' => new DateTime,
