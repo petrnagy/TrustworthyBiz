@@ -38,7 +38,7 @@
                                     {% if thing['linkedin'] is defined %}<i class="fa fa-linkedin-square color-secondary"></i>{% endif %}
                                     {% if thing['instagram'] is defined %}<i class="fa fa-instagram color-secondary"></i>{% endif %}
                                 {% endif %}
-                                <span class="grade {{ thing['grade']|replace({'+': ''}) }} text-center pull-right" title="Trustindex™" data-toggle="tooltip">
+                                <span class="grade {{ thing['grade']|replace({'+': '-plus'}) }} text-center pull-right" title="Trustindex™" data-toggle="tooltip">
                                     {{ thing['grade'] }}
                                 </span>
                             </p>
