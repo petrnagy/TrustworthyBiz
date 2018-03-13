@@ -42,6 +42,7 @@
                                     {{ thing['grade'] }}
                                 </span>
                             </p>
+                            {% include 'partial/_histogram.twig' with {'histogram': thing['histogram']} only %}
                         </div>
                         {% if thing['img'] is defined %}
                             <div class="card-bg thing-bg" style="background: url('{{ thing['img'] }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;"></div>
