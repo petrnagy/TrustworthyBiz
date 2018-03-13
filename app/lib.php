@@ -225,8 +225,26 @@ function get_thing($id) {
 
     $row['grade'] = get_grade($row['score']);
     $row['stars'] = get_stars($row['score']);
+    $row['histogram'] = get_histogram($row['id']);
 
     return $row;
+} // end function
+
+function get_histogram($id) {
+    global $app;
+    $histogram = [];
+
+    $rows = $app['sql']->select('score')->from('score_log')->where('thing_id = %i', $id)->orderBy('id DESC')->limit('20')->fetchPairs();
+    for ($i = 0; $i < 20; $i++) { 
+        if ( isset($rows[$i]) ) {
+            $histogram[] = [ 'score' => $rows[$i], 'grade' => get_grade($rows[$i]) ];
+        } else {
+            $histogram[] = [ 'score' => 50, 'grade' => 'na' ];
+        } // end if-else
+    } // end for
+
+    // return $histogram;
+    return array_reverse($histogram);
 } // end function
 
 function get_similar($id) {

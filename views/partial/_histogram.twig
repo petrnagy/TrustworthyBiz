@@ -1,0 +1,5 @@
+<div class="pull-right histogram" title="Index over time" data-toggle="tooltip">
+    {% for bar in histogram %}
+        <span style="height: {{bar['score']|round(0)}}%;" class="bar {{ bar['grade']|replace({'+': '-plus'}) }}"></span>
+    {% endfor %}
+</div>
