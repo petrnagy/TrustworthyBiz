@@ -39,11 +39,6 @@ foreach ($thingIds as $thingId) {
         info("Thing '{$name}' - score: NULL");
     } // end if-else
     
-    // ~ ~ ~ MAGIC ~ ~ ~
-    if ( $perc > 10 && $perc < 95 ) {
-        $perc += rand(-5, 5);
-    } // end if
-
     $app['sql']->update('thing', ['score' => $perc])->where('id = %i', $thingId)->execute();
 
     if ( $perc ) {
